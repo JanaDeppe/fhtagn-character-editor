@@ -1,7 +1,14 @@
 {
   "name": "002-fhtagn-character-editor",
+  "description": "A character generator for the pen&paper RPG Call of Cthulhu with Vue.js",
+  "author": "Jana Deppe <janadeppe@gmail.com>",
   "version": "0.1.0",
   "private": true,
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "gitlab:Redbow/fhtagn-character-editor"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -9,8 +16,14 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "foundation-sites": "^6.5.1",
+    "html2pdf.js": "^0.9.1",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
     "vue": "^2.5.17",
+    "vue-notification": "^1.3.14",
     "vue-router": "^3.0.1",
+    "vuedraggable": "^2.17.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

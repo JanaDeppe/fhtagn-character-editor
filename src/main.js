@@ -1,7 +1,14 @@
+// CSS
+import './app.scss';
+
 import Vue from 'vue';
+import Notifications from 'vue-notification';
+
 import App from './App.vue';
 import router from './router';
 import store from './store';
+
+Vue.use(Notifications);
 
 Vue.config.productionTip = false;
 

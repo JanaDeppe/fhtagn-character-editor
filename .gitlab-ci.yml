@@ -1,0 +1,40 @@
+build site:
+  image: node:latest
+  stage: build
+  script:
+    - yarn install --silent
+    - yarn build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+
+unit test:
+  image: node:latest
+  stage: test
+  script:
+    - yarn install --silent
+    - yarn test:unit
+
+deploy production:
+  image: alpine
+  stage: deploy
+  script:
+    - apt-get update -qq && apt-get install -y -qq lftp
+    - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; mirror -Rev dist/ ./public_html/fhtagn-character-editor  --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/"
+  only: 
+    - production
+
+pages: 
+  image: node:latest
+  stage: deploy
+  script: 
+    - yarn install --silent
+    - yarn build
+    - mv public public-vue
+    - mv dist pulic
+  artifacts: 
+    paths: 
+      - public
+  only: 
+    - master
