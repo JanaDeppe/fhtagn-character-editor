@@ -6,8 +6,8 @@
   "private": true,
   "license": "ISC",
   "repository": {
-    "type" : "git",
-    "url" : "gitlab:Redbow/fhtagn-character-editor"
+    "type": "git",
+    "url": "gitlab:Redbow/fhtagn-character-editor"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
