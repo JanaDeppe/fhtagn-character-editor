@@ -32,7 +32,7 @@ pages:
     - yarn install --silent
     - yarn build
     - mv public public-vue
-    - mv dist puplic
+    - mv dist public
   artifacts: 
     paths: 
       - public
