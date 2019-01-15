@@ -13,9 +13,10 @@
 
   .cell.shrink.top-bar
     .top-bar-right
-      a: small(
+      a(
         href="https://gitlab.com/Redbow/fhtagn-character-editor/tags"
-        target="_blank") Version {{getAppVersion}}
+        target="_blank")
+       small Version {{getAppVersion}}
 
   notifications(group="default")
 //- #app
