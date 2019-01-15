@@ -2,8 +2,8 @@ build site:
   image: node:latest
   stage: build
   script:
-    - yarn install --silent
-    - yarn build
+    - npm ci
+    - npm run build
   artifacts:
     expire_in: 1 week
     paths:
@@ -13,8 +13,8 @@ unit test:
   image: node:latest
   stage: test
   script:
-    - yarn install --silent
-    - yarn test:unit
+    - npm ci
+    - npm run test:unit
 
 deploy production:
   image: alpine
@@ -29,8 +29,8 @@ pages:
   image: node:latest
   stage: deploy
   script: 
-    - yarn install --silent
-    - yarn build
+    - npm ci
+    - npm run build
     - mv public public-vue
     - mv dist public
   artifacts: 
