@@ -6,7 +6,7 @@ transition(name="modal" appear)
       .header
         slot(name="header") default header
       .body
-        slot(name="body") default body
+        slot default body
       .footer
         slot(name="footer")
           button.default-button(class="button" @click="close()") OK
@@ -28,6 +28,7 @@ export default {
   watch: {
     isVisible(current) {
       if (current) this.open();
+      else this.close();
     },
   },
   methods: {
