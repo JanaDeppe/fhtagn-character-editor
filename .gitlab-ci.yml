@@ -1,26 +1,36 @@
+image: node:latest
+
+# Cache modules in between jobs
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - node_modules/
+
+before_script:
+  - npm ci
+
 build site:
   image: node:latest
   stage: build
   script:
-    - npm ci
     - npm run build
   artifacts:
     expire_in: 1 week
     paths:
       - dist
-
+  
 unit test:
   image: node:latest
   stage: test
   script:
-    - npm ci
     - npm run test:unit
 
 deploy production:
   image: alpine
   stage: deploy
-  script:
+  before_script:
     - apt-get update -qq && apt-get install -y -qq lftp
+  script:
     - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; mirror -Rev dist/ ./public_html/fhtagn-character-editor  --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/"
   only: 
     - production
@@ -29,7 +39,6 @@ pages:
   image: node:latest
   stage: deploy
   script: 
-    - npm ci
     - npm run build
     - mv public public-vue
     - mv dist public
