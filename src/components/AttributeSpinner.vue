@@ -31,30 +31,29 @@ export default {
       type: Number,
       default: 3,
     },
-    value: {
-      type: Number,
-      default: 0,
-    },
   },
   model: {
+    prop: 'points',
     event: 'pointsUpdated',
-  },
-  computed: {
   },
   data() {
     return {
       error: false,
-      currentPoints: this.points,
       errorTypes: {
         tooLow: 'Kein Attributswert darf unter 3 bleiben.',
         tooHigh: 'Kein Attributswert darf höher als 18 sein.',
       },
     };
   },
+  computed: {
+    currentPoints: {
+      get() { return this.points; },
+      set(newValue) { this.$emit('pointsUpdated', newValue); },
+    },
+  },
   methods: {
     onInput(e) {
       this.checkForError(e.currentTarget.value);
-      this.$emit('pointsUpdated', this.currentPoints);
     },
     onIncrementalChange(e) {
       const newValue = parseInt(this.currentPoints, 10) + parseInt(e.currentTarget.textContent, 10);
@@ -62,7 +61,6 @@ export default {
 
       this.checkForError(newValue);
       this.currentPoints = newValue;
-      this.$emit('pointsUpdated', this.currentPoints);
     },
     checkForError(newValue) {
       if (newValue > 18) {

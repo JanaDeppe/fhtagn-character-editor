@@ -192,9 +192,20 @@ const mutations = {
 
 const actions = {
   [CREATE_NEW_CHARACTER]({ commit, rootGetters }) {
-    /* mutations:
-    * SET_SKILL_LIST
-    */
+    commit(SET_ATTRIBUTE_VALUES, {});
+    commit(UPDATE_PROFESSION, -1);
+    commit(SET_PROFESSION_VARIANT, '');
+    commit(UPDATE_CONNECTIONS, []);
+    commit(UPDATE_FACETTES, []);
+    commit(UPDATE_MOTIVATIONS, []);
+    commit(SET_PERSONAL_INFORMATION, {
+      Vorname: '',
+      Nachname: '',
+      Geschlecht: '',
+      Alter: '',
+      Aussehen: '',
+    });
+
     const allSkills = rootGetters.getSkillList;
     const characterSkillList = {};
 

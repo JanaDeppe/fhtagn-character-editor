@@ -2,7 +2,10 @@
 .grid-x.grid-margin-x.grid-margin-y
   .cell.medium-8.medium-cell-block-y
     keep-alive
-      component(:is="steps[currentStep]")
+      component(
+        :is="steps[currentStep]"
+        @back-to-start="resetStep"
+        )
     .grid-x
       .cell.small-6
         button.button(v-show="currentStep > 0" @click="prevStep") Vorheriger Schritt
@@ -22,6 +25,7 @@ import { mapState } from 'vuex';
 import {
   PREV_STEP,
   NEXT_STEP,
+  RESET_STEP,
   FLUSH_WARNINGS,
 } from '@/store/mutations.type';
 
@@ -80,6 +84,9 @@ export default {
         store.commit(FLUSH_WARNINGS);
       }
       store.commit(NEXT_STEP);
+    },
+    resetStep() {
+      store.commit(RESET_STEP);
     },
   },
 };
