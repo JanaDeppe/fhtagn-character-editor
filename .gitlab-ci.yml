@@ -7,7 +7,7 @@ cache:
   - node_modules/
 
 before_script:
-  - npm ci
+  - npm install
 
 build site:
   image: node:latest
