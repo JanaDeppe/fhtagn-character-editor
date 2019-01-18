@@ -28,7 +28,15 @@ import store from '@/store';
 import AttributeSpinner from '@/components/AttributeSpinner.vue';
 
 export default {
-  props: {},
+  model: {
+    prop: 'attributeValues',
+  },
+  props: {
+    attributeValues: {
+      type: Object,
+      default: () => {},
+    },
+  },
   components: {
     AttributeSpinner,
   },
@@ -58,15 +66,21 @@ export default {
     },
   },
   created() {
-    this.attributes.forEach((item) => {
-      this.$set(this.currentAttributes, item.abbr, 3);
-      this.$emit('update:attributeValues', this.currentAttributes);
-    });
+    this.setInitAttributes();
+  },
+  activated() {
+    if (Object.keys(this.attributeValues).length === 0) this.setInitAttributes();
   },
   methods: {
+    setInitAttributes() {
+      this.attributes.forEach((item) => {
+        this.$set(this.currentAttributes, item.abbr, 3);
+        this.$emit('input', this.currentAttributes);
+      });
+    },
     updateAttributeValues() {
       this.checkForError(this.remainingPoints);
-      this.$emit('update:attributeValues', this.currentAttributes);
+      this.$emit('input', this.currentAttributes);
     },
     checkForError(newValue) {
       if (newValue < 0) {

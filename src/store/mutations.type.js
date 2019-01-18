@@ -1,6 +1,7 @@
 // common
 export const PREV_STEP = 'prevStep';
 export const NEXT_STEP = 'nextStep';
+export const RESET_STEP = 'resetStep';
 export const ADD_WARNING = 'addWarning';
 export const REMOVE_WARNING = 'removeWarning';
 export const FLUSH_WARNINGS = 'flushWarnings';

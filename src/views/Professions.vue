@@ -35,6 +35,7 @@
             :index="skill.index"
             :canAddSpecialisations="false")
       optional-skill-list(
+        f-if="currProf"
         :optionalSkills="currProf.skills.optional"
         :availableSkills="currProf.skills.optionalAmount"
         :professionId="selectedProfession"

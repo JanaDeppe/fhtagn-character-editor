@@ -35,7 +35,7 @@ div
   // Point Distribution
   .grid-x(v-if="distributionMethod === 1" v-show="!isPickerVisible")
     .cell
-      point-distributor(v-bind:attributeValues.sync="attributeValues")
+      point-distributor(v-model:attributeValues="attributeValues")
 
   // List + Drag'n'Drop
   .grid-x(v-if="distributionMethod === 2" v-show="!isPickerVisible")
@@ -57,7 +57,6 @@ div
 
 <script>
 import { mapState } from 'vuex';
-import store from '@/store';
 import { SET_ATTRIBUTE_VALUES } from '@/store/mutations.type';
 
 import PointDistributor from '@/components/PointDistributor.vue';
@@ -74,7 +73,6 @@ export default {
   data() {
     return {
       distributableAttributeValues: [],
-      attributeValues: [],
       isPickerVisible: true,
       distributionMethod: 0,
     };
@@ -83,11 +81,15 @@ export default {
     ...mapState({
       attributes: state => state.rulesystem.attributes,
     }),
+    attributeValues: {
+      get() { return this.$store.state.character.attributeValues; },
+      set(newAttributeValues) { this.$store.commit(SET_ATTRIBUTE_VALUES, newAttributeValues); },
+    },
   },
   watch: {
-    attributeValues(newAttributeValues) {
-      store.commit(SET_ATTRIBUTE_VALUES, newAttributeValues);
-    },
+    // attributeValues(newAttributeValues) {
+    //   this.$store.commit(SET_ATTRIBUTE_VALUES, newAttributeValues);
+    // },
   },
   methods: {
     switchGenerationMethod(methodIndex) {

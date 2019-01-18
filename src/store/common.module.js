@@ -4,6 +4,7 @@ import {
 import {
   PREV_STEP,
   NEXT_STEP,
+  RESET_STEP,
   ADD_WARNING,
   REMOVE_WARNING,
   FLUSH_WARNINGS,
@@ -92,6 +93,9 @@ const mutations = {
   },
   [NEXT_STEP](context) {
     context.currentStepIndex += 1;
+  },
+  [RESET_STEP](context) {
+    context.currentStepIndex = 0;
   },
   [ADD_WARNING](context, payload) {
     const index = context.currentWarnings.indexOf(payload);

@@ -54,9 +54,10 @@ div
         li: h6 Motivationen:
         li(v-for="motivation in motivations" v-if="motivation.length > 0") {{motivation}}
 
-  .grid-x.text-center
-    .cell.small-12
+  .grid-x
+    .cell.small-12.button-group.align-center
       button.button(@click="generatePdf") PDF erstellen
+      button.button.hollow(@click="backToStart") Zurück zum Anfang
 
 </template>
 
@@ -100,6 +101,9 @@ export default {
   methods: {
     generatePdf() {
       HtmlToPdf(this.$refs.characterSummaryContainer);
+    },
+    backToStart() {
+      this.$emit('back-to-start');
     },
   },
 };
