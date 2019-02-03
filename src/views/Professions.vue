@@ -44,15 +44,18 @@
         @specialisation-updated="updateSpecialisation('optional', $event)"
         )
       h5 Verbindungen: {{currProf.connections}}
+  modal(
+    :isVisible="isErrorOpen"
+    @modal-closed="isErrorOpen = false")
+    h3(slot="header") Fehlende Auswahl
+    p Bitte wähle einen Beruf, bevor du weitermachst!
 
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapState, mapActions } from 'vuex';
 import {
   SET_PROFESSION_VARIANT,
-  ADD_WARNING,
-  REMOVE_WARNING,
 } from '@/store/mutations.type';
 
 import {
@@ -64,12 +67,14 @@ import store from '@/store';
 
 import OptionalSkillList from '@/components/OptionalSkillList.vue';
 import Skill from '@/components/Skill.vue';
+import Modal from '@/components/Modal.vue';
 
 export default {
   props: {},
   components: {
     OptionalSkillList,
     Skill,
+    Modal,
   },
   data() {
     return {
@@ -77,12 +82,14 @@ export default {
       optionalSkills: [],
       selectedVariant: '',
       customVariant: '',
+      isErrorOpen: false,
     };
   },
   computed: {
-    ...mapGetters([
-      'getProfessionalSkills',
-    ]),
+    ...mapGetters({
+      getProfessionalSkills: 'getProfessionalSkills',
+      editorSteps: 'common/editorSteps',
+    }),
     ...mapState({
       professions: state => state.rulesystem.professions,
       skills: state => state.rulesystem.skills,
@@ -105,7 +112,25 @@ export default {
   activated() {
     this.recommendProfessions();
   },
+  beforeRouteLeave(to, from, next) {
+    const currentRouteIndex = this.editorSteps.findIndex(record => from.name === record.name);
+    const nextRouteIndex = this.editorSteps.findIndex(record => to.name === record.name);
+    if (currentRouteIndex < nextRouteIndex) {
+      if (this.selectedProfession === -1) {
+        next(false);
+        this.isErrorOpen = true;
+      } else {
+        next();
+      }
+    } else {
+      next();
+    }
+  },
   methods: {
+    ...mapActions('common', [
+      'addWarning',
+      'removeWarning',
+    ]),
     recommendProfessions() {
 
     },
@@ -130,15 +155,15 @@ export default {
     },
     checkForError(variant) {
       if (!variant) {
-        store.commit(ADD_WARNING, 'missingVariant');
+        this.addWarning('missingVariant');
       } else {
-        store.commit(REMOVE_WARNING, 'missingVariant');
+        this.removeWarning('missingVariant');
       }
 
       if (variant === 'custom' && !this.customVariant) {
-        store.commit(ADD_WARNING, 'missingCustomVariant');
+        this.addWarning('missingCustomVariant');
       } else {
-        store.commit(REMOVE_WARNING, 'missingCustomVariant');
+        this.removeWarning('missingCustomVariant');
       }
     },
   },

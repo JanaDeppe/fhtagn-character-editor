@@ -27,16 +27,13 @@ import store from '@/store';
 import {
   CREATE_NEW_CHARACTER,
 } from '@/store/actions.type';
-import {
-  NEXT_STEP,
-} from '@/store/mutations.type';
 
 export default {
   props: '',
   methods: {
     createNewCharacter() {
       store.dispatch(CREATE_NEW_CHARACTER);
-      store.commit(NEXT_STEP);
+      this.$router.push({ name: 'attributes' });
     },
   },
 };

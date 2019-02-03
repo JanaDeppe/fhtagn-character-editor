@@ -2,18 +2,16 @@
 .grid-x.grid-margin-x.grid-margin-y
   .cell.medium-8.medium-cell-block-y
     keep-alive
-      component(
-        :is="steps[currentStep]"
-        @back-to-start="resetStep"
-        )
+      router-view
     .grid-x
       .cell.small-6
-        button.button(v-show="currentStep > 0" @click="prevStep") Vorheriger Schritt
+        router-link.button(
+          v-if="showPrevButton"
+          :to="'/editor/' + prevStep.path") Vorheriger Schritt
       .cell.small-6.text-right
-        button.button(
-            v-show="currentStep > 0 && currentStep < steps.length-1"
-            @click="nextStep"
-        ) Nächster Schritt
+        router-link.button(
+          v-if="showNextButton"
+          :to="'/editor/' + nextStep.path") Nächster Schritt
 
   .cell.medium-4.medium-cell-block-y.callout
     sidebar-summary
@@ -21,73 +19,73 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import {
-  PREV_STEP,
-  NEXT_STEP,
-  RESET_STEP,
-  FLUSH_WARNINGS,
-} from '@/store/mutations.type';
+import { mapGetters, mapActions } from 'vuex';
 
-import store from '@/store';
-
-import StartGeneration from '@/views/StartGeneration.vue';
-import Attributes from '@/views/Attributes.vue';
-import Professions from '@/views/Professions.vue';
-import BonusSkills from '@/views/BonusSkills.vue';
-import Connections from '@/views/Connections.vue';
-import Facettes from '@/views/Facettes.vue';
-import Motivations from '@/views/Motivations.vue';
-import PersonalInformation from '@/views/PersonalInformation.vue';
-import CharacterSummary from '@/views/CharacterSummary.vue';
 import Prompts from '@/components/Prompts.vue';
-
 import SidebarSummary from '@/components/SidebarSummary.vue';
 
 export default {
   components: {
-    StartGeneration,
-    Attributes,
-    Professions,
-    BonusSkills,
-    Connections,
-    Facettes,
-    Motivations,
-    PersonalInformation,
-    CharacterSummary,
     SidebarSummary,
     Prompts,
   },
   props: '',
+  data() {
+    return {
+      prevStep: false,
+      nextStep: false,
+    };
+  },
   computed: {
-    ...mapState({
-      currentStep: state => state.common.currentStepIndex,
-      steps: state => state.common.generatorSteps,
-      warnings: state => state.common.warnings,
-      currentWarnings: state => state.common.currentWarnings,
-    }),
+    ...mapGetters('common', [
+      'editorSteps',
+      'currentWarnings',
+      'warningDataByKey',
+    ]),
+    showPrevButton() { return !!(this.prevStep); },
+    showNextButton() { return !!(this.nextStep); },
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      /* eslint-disable no-param-reassign */
+      const nextRouteIndex = vm.editorSteps.findIndex(record => to.name === record.name);
+      if (nextRouteIndex === 0) vm.prevStep = false;
+      else vm.prevStep = vm.editorSteps[nextRouteIndex - 1];
+
+      if (nextRouteIndex === vm.editorSteps.length - 1) vm.nextStep = false;
+      else vm.nextStep = vm.editorSteps[nextRouteIndex + 1];
+      /* eslint-enable no-param-reassign */
+    });
+  },
+  beforeRouteUpdate(to, from, next) {
+    const nextRouteIndex = this.editorSteps.findIndex(record => to.name === record.name);
+    if (nextRouteIndex === 0) this.prevStep = false;
+    else this.prevStep = this.editorSteps[nextRouteIndex - 1];
+
+    if (nextRouteIndex === this.editorSteps.length - 1) this.nextStep = false;
+    else this.nextStep = this.editorSteps[nextRouteIndex + 1];
+
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    if (this.currentWarnings.length) {
+      this.currentWarnings.forEach((item) => {
+        const currentWarningData = this.warningDataByKey(item);
+        this.$notify({
+          group: 'default',
+          type: 'warn',
+          title: currentWarningData.title,
+          text: currentWarningData.text,
+        });
+      });
+      this.flushWarnings();
+    }
+    next();
   },
   methods: {
-    prevStep() {
-      store.commit(PREV_STEP);
-    },
-    nextStep() {
-      if (this.currentWarnings.length) {
-        this.currentWarnings.forEach((item) => {
-          this.$notify({
-            group: 'default',
-            type: 'warn',
-            title: this.warnings[item].title,
-            text: this.warnings[item].text,
-          });
-        });
-        store.commit(FLUSH_WARNINGS);
-      }
-      store.commit(NEXT_STEP);
-    },
-    resetStep() {
-      store.commit(RESET_STEP);
-    },
+    ...mapActions('common', {
+      flushWarnings: 'flushWarnings',
+    }),
   },
 };
 </script>

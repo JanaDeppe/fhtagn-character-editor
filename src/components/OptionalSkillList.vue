@@ -16,13 +16,8 @@ div
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import {
-  ADD_WARNING,
-  REMOVE_WARNING,
-} from '@/store/mutations.type';
+import { mapGetters, mapActions } from 'vuex';
 
-import store from '@/store';
 import Skill from '@/components/Skill.vue';
 
 export default {
@@ -58,16 +53,20 @@ export default {
     this.checkForError();
   },
   methods: {
+    ...mapActions('common', [
+      'addWarning',
+      'removeWarning',
+    ]),
     checkForError() {
       const currentSkillCount = this.getOptionalSkillCount;
       const availableSkills = this.getAvailableOptionalSkillCount(this.getProfessionId);
       if (currentSkillCount > availableSkills) {
-        store.commit(REMOVE_WARNING, 'optionalSkillsRemaining');
+        this.removeWarning('optionalSkillsRemaining');
         this.error = 'tooHigh';
       } else if (currentSkillCount < availableSkills) {
-        store.commit(ADD_WARNING, 'optionalSkillsRemaining');
+        this.addWarning('optionalSkillsRemaining');
       } else {
-        store.commit(REMOVE_WARNING, 'optionalSkillsRemaining');
+        this.removeWarning('optionalSkillsRemaining');
         this.error = false;
       }
     },

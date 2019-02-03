@@ -12,11 +12,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import {
   SET_PERSONAL_INFORMATION,
-  ADD_WARNING,
-  REMOVE_WARNING,
 } from '@/store/mutations.type';
 
 import store from '@/store';
@@ -38,6 +36,10 @@ export default {
     }),
   },
   methods: {
+    ...mapActions('common', [
+      'addWarning',
+      'removeWarning',
+    ]),
     updatePersonalInformation() {
       this.checkForError(this.currentInfo);
       store.commit(SET_PERSONAL_INFORMATION, this.currentInfo);
@@ -50,9 +52,9 @@ export default {
         }
       });
       if (isComplete) {
-        store.commit(REMOVE_WARNING, 'missingPersonalInformation');
+        this.removeWarning('missingPersonalInformation');
       } else {
-        store.commit(ADD_WARNING, 'missingPersonalInformation');
+        this.addWarning('missingPersonalInformation');
       }
     },
   },
