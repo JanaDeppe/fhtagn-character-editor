@@ -1,29 +1,6 @@
-import {
-// FETCH_PAGES,
-} from './actions.type';
-import {
-  PREV_STEP,
-  NEXT_STEP,
-  RESET_STEP,
-  ADD_WARNING,
-  REMOVE_WARNING,
-  FLUSH_WARNINGS,
-} from './mutations.type';
+import router from '@/router';
 
 const state = {
-  currentStepIndex: 0,
-  generatorSteps: [
-    'start-generation',
-    'attributes',
-    'professions',
-    'bonus-skills',
-    'connections',
-    'facettes',
-    'motivations',
-    'personal-information',
-    'character-summary',
-  ],
-  pageContent: [],
   currentWarnings: [],
   warnings: {
     attributePointsRemaining: {
@@ -70,50 +47,37 @@ const state = {
   version: (process.env.PACKAGE_JSON || { version: '0.1.0' }).version,
 };
 
-const getters = {
-  currentStepIndex(context) {
-    return context.currentStepIndex;
-  },
-  pages(context) {
-    return context.generatorSteps;
-  },
-  getAppVersion: context => context.version,
-};
-
-const actions = {
-  // [FETCH_PAGES]({ commit }) {
-  //   // TODO: fetch page data from JSON file
-  // },
-};
-
 /* eslint-disable no-param-reassign */
 const mutations = {
-  [PREV_STEP](context) {
-    context.currentStepIndex -= 1;
-  },
-  [NEXT_STEP](context) {
-    context.currentStepIndex += 1;
-  },
-  [RESET_STEP](context) {
-    context.currentStepIndex = 0;
-  },
-  [ADD_WARNING](context, payload) {
-    const index = context.currentWarnings.indexOf(payload);
-    if (index === -1) context.currentWarnings.push(payload);
-  },
-  [REMOVE_WARNING](context, payload) {
-    const index = context.currentWarnings.indexOf(payload);
-    if (index > -1) context.currentWarnings.splice(index, 1);
-  },
-  [FLUSH_WARNINGS](context) {
-    context.currentWarnings = [];
-  },
+  addWarning(state, payload) { state.currentWarnings.push(payload); },
+  removeWarning(state, payload) { state.currentWarnings.splice(state.currentWarnings.indexOf(payload), 1); },
+  flushWarnings(context) { context.currentWarnings = []; },
 };
 /* eslint-enable no-param-reassign */
 
+const actions = {
+  addWarning({ commit, state }, payload) {
+    const index = state.currentWarnings.indexOf(payload);
+    if (index === -1) commit('addWarning', payload);
+  },
+  removeWarning({ commit, state }, payload) {
+    const index = state.currentWarnings.indexOf(payload);
+    if (index > -1) commit('removeWarning', payload);
+  },
+  flushWarnings({ commit }) { commit('flushWarnings'); },
+};
+
+const getters = {
+  editorSteps: () => router.options.routes[2].children,
+  currentWarnings: state => state.currentWarnings,
+  warningDataByKey: state => key => state.warnings[key],
+  appVersion: context => context.version,
+};
+
 export default {
+  namespaced: true,
   state,
-  getters,
-  actions,
   mutations,
+  actions,
+  getters,
 };

@@ -16,7 +16,7 @@
       a.cell.shrink(
         href="https://gitlab.com/Redbow/fhtagn-character-editor/tags"
         target="_blank")
-        small Version {{getAppVersion}}
+        small Version {{appVersion}}
       a.cell.shrink.bug-report-link(
         @click="isBugReportOpen = true")
         small
@@ -33,18 +33,10 @@
       | , dann kümmere ich mich darum. Danke!
 
   notifications(group="default")
-//- #app
-  #nav
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-
-import store from '@/store';
-import {
-  FETCH_PAGES,
-} from '@/store/actions.type';
-
 import Modal from '@/components/Modal.vue';
 
 export default {
@@ -52,28 +44,16 @@ export default {
     Modal,
   },
   computed: {
-    ...mapGetters([
-      'common/pages',
-      'getAppVersion',
-    ]),
+    ...mapGetters({
+      appVersion: 'common/appVersion',
+    }),
   },
   data() {
     return {
-      currentPageIndex: 0,
       isBugReportOpen: false,
     };
   },
-  methods: {
-    fetchArticles() {
-      store.dispatch(FETCH_PAGES);
-    },
-    prevPage() {
-      this.currentPageIndex -= 1;
-    },
-    nextPage() {
-      this.currentPageIndex += 1;
-    },
-  },
+  methods: {},
 };
 </script>
 

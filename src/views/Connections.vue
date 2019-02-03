@@ -9,11 +9,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import {
   UPDATE_CONNECTIONS,
-  ADD_WARNING,
-  REMOVE_WARNING,
 } from '@/store/mutations.type';
 
 import store from '@/store';
@@ -53,6 +51,10 @@ export default {
     this.checkForError(this.currentConnections);
   },
   methods: {
+    ...mapActions('common', [
+      'addWarning',
+      'removeWarning',
+    ]),
     updateConnections() {
       this.checkForError(this.currentConnections);
       store.commit(UPDATE_CONNECTIONS, this.currentConnections);
@@ -65,9 +67,9 @@ export default {
         }
       });
       if (isComplete) {
-        store.commit(REMOVE_WARNING, 'missingConnections');
+        this.removeWarning('missingConnections');
       } else {
-        store.commit(ADD_WARNING, 'missingConnections');
+        this.addWarning('missingConnections');
       }
     },
   },

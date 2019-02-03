@@ -11,11 +11,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import {
   UPDATE_MOTIVATIONS,
-  ADD_WARNING,
-  REMOVE_WARNING,
 } from '@/store/mutations.type';
 
 import store from '@/store';
@@ -40,6 +38,10 @@ export default {
     this.checkForError(this.currentMotivations);
   },
   methods: {
+    ...mapActions('common', [
+      'addWarning',
+      'removeWarning',
+    ]),
     updateMotivations() {
       this.checkForError(this.currentMotivations);
       store.commit(UPDATE_MOTIVATIONS, this.currentMotivations);
@@ -52,9 +54,9 @@ export default {
         }
       });
       if (isComplete) {
-        store.commit(REMOVE_WARNING, 'missingMotivations');
+        this.removeWarning('missingMotivations');
       } else {
-        store.commit(ADD_WARNING, 'missingMotivations');
+        this.addWarning('missingMotivations');
       }
     },
   },

@@ -17,13 +17,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import {
-  ADD_WARNING,
-  REMOVE_WARNING,
-} from '@/store/mutations.type';
-
-import store from '@/store';
+import { mapState, mapActions } from 'vuex';
 
 import AttributeSpinner from '@/components/AttributeSpinner.vue';
 
@@ -72,6 +66,10 @@ export default {
     if (Object.keys(this.attributeValues).length === 0) this.setInitAttributes();
   },
   methods: {
+    ...mapActions('common', [
+      'addWarning',
+      'removeWarning',
+    ]),
     setInitAttributes() {
       this.attributes.forEach((item) => {
         this.$set(this.currentAttributes, item.abbr, 3);
@@ -85,11 +83,11 @@ export default {
     checkForError(newValue) {
       if (newValue < 0) {
         this.error = 'negative';
-        store.commit(REMOVE_WARNING, 'attributePointsRemaining');
+        this.removeWarning('attributePointsRemaining');
       } else if (newValue > 0) {
-        store.commit(ADD_WARNING, 'attributePointsRemaining');
+        this.addWarning('attributePointsRemaining');
       } else {
-        store.commit(REMOVE_WARNING, 'attributePointsRemaining');
+        this.addWarning('attributePointsRemaining');
         this.error = false;
       }
     },

@@ -29,11 +29,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import {
-  ADD_WARNING,
-  REMOVE_WARNING,
-} from '@/store/mutations.type';
+import { mapGetters, mapActions } from 'vuex';
 
 import {
   TOGGLE_SKILL,
@@ -65,6 +61,10 @@ export default {
     this.checkForError(this.currentSkills.length);
   },
   methods: {
+    ...mapActions('common', [
+      'addWarning',
+      'removeWarning',
+    ]),
     onAdd(skill, index) {
       this.currentSkills.push(skill);
       store.dispatch(TOGGLE_SKILL, {
@@ -85,9 +85,9 @@ export default {
     },
     checkForError(selectedSkillsAmount) {
       if (selectedSkillsAmount < this.availableSkills) {
-        store.commit(ADD_WARNING, 'bonusSkillsRemaining');
+        this.addWarning('bonusSkillsRemaining');
       } else {
-        store.commit(REMOVE_WARNING, 'bonusSkillsRemaining');
+        this.removeWarning('bonusSkillsRemaining');
       }
     },
   },

@@ -57,7 +57,7 @@ div
   .grid-x
     .cell.small-12.button-group.align-center
       button.button(@click="generatePdf") PDF erstellen
-      button.button.hollow(@click="backToStart") Zurück zum Anfang
+      router-link.button.hollow(:to="{ name: 'start-generation' }") Zurück zum Anfang
 
 </template>
 
@@ -101,9 +101,6 @@ export default {
   methods: {
     generatePdf() {
       HtmlToPdf(this.$refs.characterSummaryContainer);
-    },
-    backToStart() {
-      this.$emit('back-to-start');
     },
   },
 };
