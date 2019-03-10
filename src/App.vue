@@ -3,9 +3,7 @@
   .cell.shrink.top-bar
     ul.menu
       li
-        router-link(to="/") Home
-      li
-        router-link(to="/editor") Editor
+        router-link(to="/") Editor
       li
         router-link(to="/about") About
   .cell.medium-auto.medium-cell-block-container
