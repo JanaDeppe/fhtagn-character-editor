@@ -1,5 +1,6 @@
 // CSS
 import './app.scss';
+import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 import Vue from 'vue';
 import Notifications from 'vue-notification';
