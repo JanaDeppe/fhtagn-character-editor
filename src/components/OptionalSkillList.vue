@@ -1,6 +1,8 @@
 <template lang="pug">
 div
-  p Wähle zusätzlich {{getAvailableOptionalSkillCount(getProfessionId)}} aus folgenden Fertigkeiten:
+  .grid-x
+    .cell.auto: p Wähle zusätzlich {{getAvailableOptionalSkillCount(getProfessionId)}} aus folgenden Fertigkeiten:
+    .cell.auto.text-right: p Restliche, optionale Skills: {{ remainingOptionalSkillCount }}
   div(v-if="error")
     .label.warning {{errorTypes[error]}}
   ul.skill-list
@@ -48,6 +50,7 @@ export default {
       'getAvailableOptionalSkillCount',
       'getOptionalSkillCount',
     ]),
+    remainingOptionalSkillCount() { return this.getAvailableOptionalSkillCount(this.professionId) - this.getOptionalSkillCount; },
   },
   created() {
     this.checkForError();
