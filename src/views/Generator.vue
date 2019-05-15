@@ -7,11 +7,11 @@
       .cell.small-6
         router-link.button(
           v-if="showPrevButton"
-          :to="'/editor/' + prevStep.path") Vorheriger Schritt
+          :to="'/' + prevStep.path") Vorheriger Schritt
       .cell.small-6.text-right
         router-link.button(
           v-if="showNextButton"
-          :to="'/editor/' + nextStep.path") Nächster Schritt
+          :to="'/' + nextStep.path") Nächster Schritt
 
   .cell.medium-4.medium-cell-block-y.callout
     sidebar-summary

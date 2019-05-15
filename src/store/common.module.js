@@ -68,7 +68,7 @@ const actions = {
 };
 
 const getters = {
-  editorSteps: () => router.options.routes[2].children,
+  editorSteps: () => router.options.routes[0].children,
   currentWarnings: state => state.currentWarnings,
   warningDataByKey: state => key => state.warnings[key],
   appVersion: context => context.version,
