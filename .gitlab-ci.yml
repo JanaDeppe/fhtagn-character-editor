@@ -7,13 +7,17 @@ cache:
   - node_modules/
 
 before_script:
-  - npm install
+  - node --version
+  - npm --version
+  - yarn --version
+  - yarn install
+
 
 build site:
   image: node:latest
   stage: build
   script:
-    - npm run build
+    - yarn run build
   artifacts:
     expire_in: 1 week
     paths:
@@ -23,7 +27,7 @@ unit test:
   image: node:latest
   stage: test
   script:
-    - npm run test:unit
+    - yarn run test:unit
 
 deploy production:
   image: alpine
@@ -39,7 +43,7 @@ pages:
   image: node:latest
   stage: deploy
   script: 
-    - npm run build
+    - yarn run build
     - mv public public-vue
     - mv dist public
   artifacts: 
