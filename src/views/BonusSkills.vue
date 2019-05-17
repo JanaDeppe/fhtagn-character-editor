@@ -3,7 +3,7 @@
   .cell.small-12
     h2.text-center Bonusfertigkeiten
   p.cell Zieh alle Boni zu den gewünschten Fertigkeiten!
-  draggable.bonus-list.cell(:options="{group: 'skillModifications'}")
+  draggable.bonus-list.cell(:group="'skillModifications'")
     .bonus-badge.label(v-for="i in availableSkills") +20% Bonus
   ul.skill-list.cell
     li.skill-list__item(
@@ -20,7 +20,7 @@
         @optional-skill-toggled="checkForError")
       draggable.skill-list__bonus-slot(
         class="cell small-6"
-        :options="{group: 'skillModifications'}"
+        :group="'skillModifications'"
         @add="onAdd(skill.skill, skill.index, $event)"
         @remove="onRemove(skill.skill, skill.index, $event)"
         :name="skill"

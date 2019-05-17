@@ -329,10 +329,12 @@ const state = {
 };
 
 const getters = {
+  getAttributeList: state => state.attributes,
   getSkillList: state => state.skills,
   getProfessionalSkillsById: state => id => state.professions[id].skills.fixed,
   getOptionalSkillsById: state => id => state.professions[id].skills.optional,
   getAvailableOptionalSkillCount: state => id => state.professions[id].skills.optionalAmount,
+  getProfessionNameById: state => id => (id > -1 ? state.professions[id].name : ''),
 };
 
 /* eslint-disable no-param-reassign */

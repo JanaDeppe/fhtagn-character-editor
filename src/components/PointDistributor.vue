@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import AttributeSpinner from '@/components/AttributeSpinner.vue';
 
@@ -45,8 +45,8 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      attributes: state => state.rulesystem.attributes,
+    ...mapGetters({
+      attributes: 'getAttributeList',
     }),
     currentPointsTotal() {
       let total = 0;

@@ -36,13 +36,12 @@ import {
 const state = {
   attributeValues: {},
   connections: [],
-  derivedValues: {},
   facettes: [],
   motivations: [],
   personalInformation: {
     Vorname: '',
     Nachname: '',
-    Geschlecht: '',
+    Muttersprache: '',
     Alter: '',
     Aussehen: '',
   },
@@ -73,9 +72,6 @@ function reduceSkillList(skillList, filterFunction) {
 }
 
 const getters = {
-  getDerivedValues(state) {
-    return state.derivedValues;
-  },
   getProfessionId: state => state.profession,
   getProfessionalSkills(state) {
     return reduceSkillList(state.skills, item => item.isProfessional);
@@ -122,6 +118,34 @@ const getters = {
     if (currentSkill.isBonus) value += 20;
 
     return value;
+  },
+  getCharacterData: ({
+    attributeValues,
+    connections,
+    facettes,
+    motivations,
+    personalInformation,
+    profession,
+    professionVariant,
+  }) => ({
+    attributeValues,
+    connections,
+    facettes,
+    motivations,
+    personalInformation,
+    profession,
+    professionVariant,
+  }),
+  getDerivedValues: (state) => {
+    const { ST, KO, EN } = state.attributeValues;
+    const hitpoints = Math.ceil((ST + KO) / 2);
+    const willpowerPoints = EN;
+    const stabilityPoints = EN * 5;
+    const breakingPoint = stabilityPoints - EN;
+
+    return {
+      hitpoints, willpowerPoints, stabilityPoints, breakingPoint,
+    };
   },
 };
 
@@ -229,7 +253,7 @@ const actions = {
     commit(SET_SKILL_LIST, characterSkillList);
   },
   [SET_PROFESSION]({
-    commit, dispatch, state, rootGetters,
+    commit, state, rootGetters,
   }, payload) {
     /* mutations:
     * DELETE_SPECIALISATION
@@ -237,7 +261,6 @@ const actions = {
     * UPDATE_PROFESSION
     * ADD_SPECIALISATION
     */
-    dispatch(CREATE_NEW_CHARACTER);
 
     const professionalSkills = rootGetters.getProfessionalSkillsById(payload);
     const optionalSkills = rootGetters.getOptionalSkillsById(payload);

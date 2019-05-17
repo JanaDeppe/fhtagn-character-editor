@@ -33,7 +33,7 @@ div
   // Verbindungen
   ul.small-list(v-if="connections.length > 0")
     li: h6 Verbindungen:
-    li(v-for="conn in connections" v-if="conn.name.length > 0") {{conn.name}}
+    li(v-for="conn in connections" v-if="conn.length > 0") {{conn}}
 
   // Facetten
   ul.small-list(v-if="facettes.length > 0")

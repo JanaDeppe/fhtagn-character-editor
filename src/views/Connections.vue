@@ -5,7 +5,7 @@
     p Schreibe deine Verbindungen und eine kurze Beschreibung dazu!
   .cell(v-for="(connection, index) in currentConnections")
     label Verbindung \#{{index+1}}
-      input(type="text" placeholder="Name der Verbindung" v-model="currentConnections[index].name" @change="updateConnections")
+      input(type="text" placeholder="Name der Verbindung" v-model="currentConnections[index]" @change="updateConnections")
 </template>
 
 <script>
@@ -27,9 +27,7 @@ export default {
     const connectionsToAdd = this.availableConnections - this.currentConnections.length;
     if (connectionsToAdd > 0) {
       for (let i = 0; i < connectionsToAdd; i += 1) {
-        this.currentConnections.push({
-          name: '',
-        });
+        this.currentConnections.push('');
       }
     } else if (connectionsToAdd < 0) {
       for (let i = 0; i < Math.abs(connectionsToAdd); i += 1) {
@@ -62,7 +60,7 @@ export default {
     checkForError(connections) {
       let isComplete = true;
       connections.forEach((element) => {
-        if (element.name === '') {
+        if (element.trim() === '') {
           isComplete = false;
         }
       });
