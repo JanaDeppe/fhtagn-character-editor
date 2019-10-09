@@ -43,7 +43,7 @@ export default {
       'warningDataByKey',
     ]),
     showPrevButton() { return !!(this.prevStep); },
-    showNextButton() { return !!(this.nextStep); },
+    showNextButton() { return !!(this.nextStep) || this.nextStep.name === 'start-generation'; },
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {

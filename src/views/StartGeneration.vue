@@ -17,7 +17,7 @@
     .cell.medium-6.large-4.xlarge-3: .callout.primary
       .label.primary= i+1
       = ' ' + steps[i++]
-  .cell.small-12
+  .cell.small-12.text-center
     button.button(@click="createNewCharacter") Neuen Charakter starten
 
 </template>
