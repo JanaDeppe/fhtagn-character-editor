@@ -56,7 +56,6 @@ div
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import { SET_ATTRIBUTE_VALUES } from '@/store/mutations.type';
 
 import PointDistributor from '@/components/PointDistributor.vue';
@@ -78,9 +77,6 @@ export default {
     };
   },
   computed: {
-    ...mapState({
-      attributes: state => state.rulesystem.attributes,
-    }),
     attributeValues: {
       get() { return this.$store.state.character.attributeValues; },
       set(newAttributeValues) { this.$store.commit(SET_ATTRIBUTE_VALUES, newAttributeValues); },
