@@ -35,14 +35,8 @@ div.grid-x.grid-padding-x
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import {
-  TOGGLE_SKILL,
-  NEW_SPECIALISATION,
-  CHANGE_SPECIALISATION,
-  REMOVE_SPECIALISATION,
-} from '@/store/actions.type';
-import store from '@/store';
+import { mapGetters, mapActions } from 'vuex';
+import { get, act } from '@/store/type';
 
 import CalculatedSkillValue from '@/components/CalculatedSkillValue.vue';
 import SpecialisationEditor from '@/components/SpecialisationEditor.vue';
@@ -92,16 +86,22 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      'getSkillByName',
-    ]),
+    ...mapGetters({
+      skillByName: get.SKILL_BY_NAME,
+    }),
     currentSkill() {
-      return this.getSkillByName(this.skill, this.index);
+      return this.skillByName(this.skill, this.index);
     },
   },
   methods: {
+    ...mapActions({
+      toggleSkill: act.TOGGLE_SKILL,
+      newSpecialisation: act.NEW_SPECIALISATION,
+      changeSpecialisation: act.CHANGE_SPECIALISATION,
+      removeSpecialisation: act.REMOVE_SPECIALISATION,
+    }),
     selectOptionalSkill(e) {
-      store.dispatch(TOGGLE_SKILL, {
+      this.toggleSkill({
         skill: this.skill,
         index: this.index,
         type: 'optional',
@@ -114,17 +114,17 @@ export default {
         skill: this.skill,
       };
       if (this.isOptionalCheckbox) newSpecialisation.isOptional = true;
-      store.dispatch(NEW_SPECIALISATION, newSpecialisation);
+      this.newSpecialisation(newSpecialisation);
     },
     modifySpecialisation(specialisation) {
-      store.dispatch(CHANGE_SPECIALISATION, {
+      this.changeSpecialisation({
         skill: this.skill,
         specialisation,
         index: this.index,
       });
     },
     removeSpecialisation() {
-      store.dispatch(REMOVE_SPECIALISATION, {
+      this.removeSpecialisation({
         skill: this.skill,
         index: this.index,
       });

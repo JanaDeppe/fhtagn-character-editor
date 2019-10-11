@@ -20,9 +20,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import {
-  UPDATE_FACETTES,
-} from '@/store/mutations.type';
 
 import store from '@/store';
 
@@ -41,7 +38,7 @@ export default {
   },
   methods: {
     updateFacettes() {
-      store.commit(UPDATE_FACETTES, this.selectedFacettes);
+      store.commit('updateFacettes', this.selectedFacettes);
     },
   },
 };

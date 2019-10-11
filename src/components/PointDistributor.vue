@@ -18,6 +18,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { get, act } from '@/store/type';
 
 import AttributeSpinner from '@/components/AttributeSpinner.vue';
 
@@ -46,7 +47,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      attributes: 'getAttributeList',
+      attributes: get.ATTRIBUTE_LIST,
     }),
     currentPointsTotal() {
       let total = 0;
@@ -66,10 +67,10 @@ export default {
     if (Object.keys(this.attributeValues).length === 0) this.setInitAttributes();
   },
   methods: {
-    ...mapActions('common', [
-      'addWarning',
-      'removeWarning',
-    ]),
+    ...mapActions({
+      addWarning: act.ADD_WARNING,
+      removeWarning: act.REMOVE_WARNING,
+    }),
     setInitAttributes() {
       this.attributes.forEach((item) => {
         this.$set(this.currentAttributes, item.abbr, 3);

@@ -10,6 +10,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import { get } from '@/store/type';
 
 export default {
   props: {
@@ -32,9 +33,9 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters([
-      'getCalculatedSkillValueByName',
-    ]),
+    ...mapGetters({
+      getCalculatedSkillValueByName: get.CALCULATED_SKILL_VALUE_BY_NAME,
+    }),
     isANumber() {
       return Number.isInteger(this.skill.baseValue);
     },

@@ -68,6 +68,7 @@ div
 
 <script>
 import { mapGetters } from 'vuex';
+import { get } from '@/store/type';
 
 import CharacterSheetModal from '@/components/CharacterSheetModal.vue';
 import Skill from '@/components/Skill.vue';
@@ -85,11 +86,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      reducedSkills: 'getReducedSkills',
-      derivedValues: 'getDerivedValues',
-      charData: 'getCharacterData',
-      attributes: 'getAttributeList',
-      getProfessionNameById: 'getProfessionNameById',
+      reducedSkills: get.REDUCED_SKILLS,
+      derivedValues: get.DERIVED_VALUES,
+      charData: get.CHARACTER_DATA,
+      attributes: get.ATTRIBUTE_LIST,
+      getProfessionNameById: get.PROFESSION_NAME_BY_ID,
     }),
     skillList() {
       return Object.keys(this.skills).sort();

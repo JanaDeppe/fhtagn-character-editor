@@ -35,21 +35,23 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { get } from '@/store/type';
+
 import Modal from '@/components/Modal.vue';
 
 export default {
   components: {
     Modal,
   },
-  computed: {
-    ...mapGetters({
-      appVersion: 'common/appVersion',
-    }),
-  },
   data() {
     return {
       isBugReportOpen: false,
     };
+  },
+  computed: {
+    ...mapGetters({
+      appVersion: get.APP_VERSION,
+    }),
   },
   methods: {},
 };

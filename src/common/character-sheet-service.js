@@ -257,7 +257,7 @@ class CharacterSheetService {
             this.text.printSquare(currentColumn, currentLine);
             this.text.printSpecialisationName(skill, currentColumn, currentLine);
             this.text.printModifiedSkillValue(
-              this.isDummyData ? skill.value : store.getters.getCalculatedSkillValueByName(skill.skill, skill.index),
+              this.isDummyData ? skill.value : store.getters.calculatedSkillValueByName(skill.skill, skill.index),
               currentColumn,
               currentLine,
             );
@@ -288,7 +288,7 @@ class CharacterSheetService {
         this.text.printSquare(currentColumn, currentLine);
         this.text.printSkillNameAndBaseValue(skill, currentColumn, currentLine);
         this.text.printModifiedSkillValue(
-          this.isDummyData ? skill.value : store.getters.getCalculatedSkillValueByName(skill.skill, skill.index),
+          this.isDummyData ? skill.value : store.getters.calculatedSkillValueByName(skill.skill, skill.index),
           currentColumn,
           currentLine,
         );

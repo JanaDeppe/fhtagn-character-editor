@@ -12,9 +12,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import {
-  UPDATE_MOTIVATIONS,
-} from '@/store/mutations.type';
+import { act } from '@/store/type';
 
 import store from '@/store';
 
@@ -38,13 +36,13 @@ export default {
     this.checkForError(this.currentMotivations);
   },
   methods: {
-    ...mapActions('common', [
-      'addWarning',
-      'removeWarning',
-    ]),
+    ...mapActions({
+      addWarning: act.ADD_WARNING,
+      removeWarning: act.REMOVE_WARNING,
+    }),
     updateMotivations() {
       this.checkForError(this.currentMotivations);
-      store.commit(UPDATE_MOTIVATIONS, this.currentMotivations);
+      store.commit('updateMotivations', this.currentMotivations);
     },
     checkForError(motivations) {
       let isComplete = true;

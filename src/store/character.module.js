@@ -1,37 +1,6 @@
 import Vue from 'vue';
 
-import {
-  SET_ATTRIBUTE_VALUES,
-
-  UPDATE_PROFESSION,
-  SET_PROFESSION_VARIANT,
-
-  SET_SKILL_LIST,
-  SET_SKILL_VALUE,
-  SET_PROFESSIONAL_SKILL,
-  SET_OPTIONAL_SKILL,
-  SELECT_OPTIONAL_SKILL,
-  SET_BONUS_SKILL,
-
-  ADD_SPECIALISATION,
-  MODIFY_SPECIALISATION,
-  DELETE_SPECIALISATION,
-
-  UPDATE_CONNECTIONS,
-  UPDATE_FACETTES,
-  UPDATE_MOTIVATIONS,
-  SET_PERSONAL_INFORMATION,
-} from './mutations.type';
-
-import {
-  CREATE_NEW_CHARACTER,
-  SET_PROFESSION,
-  TOGGLE_SKILL,
-  NEW_SPECIALISATION,
-  CHANGE_SPECIALISATION,
-  REMOVE_SPECIALISATION,
-} from './actions.type';
-
+import { get, act } from './type';
 
 const state = {
   attributeValues: {},
@@ -72,20 +41,20 @@ function reduceSkillList(skillList, filterFunction) {
 }
 
 const getters = {
-  getProfessionId: state => state.profession,
-  getProfessionalSkills(state) {
+  [get.PROFESSION_ID]: state => state.profession,
+  [get.PROFESSIONAL_SKILLS](state) {
     return reduceSkillList(state.skills, item => item.isProfessional);
   },
-  getOptionalSkills(state) {
+  [get.OPTIONAL_SKILLS](state) {
     return reduceSkillList(state.skills, item => item.isOptional);
   },
-  getModifiedSkills(state) {
+  [get.MODIFIED_SKILLS](state) {
     return reduceSkillList(state.skills, item => item.isProfessional || item.isBonus || item.isSelected);
   },
-  getReducedSkills(state) {
+  [get.REDUCED_SKILLS](state) {
     return reduceSkillList(state.skills, () => true);
   },
-  getOptionalSkillCount(state) {
+  [get.OPTIONAL_SKILL_COUNT](state) {
     let optionalSkillCount = 0;
     Object.keys(state.skills).forEach((skill) => {
       state.skills[skill].specialisations.forEach((specialisation) => {
@@ -96,7 +65,7 @@ const getters = {
     });
     return optionalSkillCount;
   },
-  getSkillByName: state => (skill, index) => {
+  [get.SKILL_BY_NAME]: state => (skill, index) => {
     const currentSkill = state.skills[skill];
     const currentSpecialisation = currentSkill.specialisations[index];
 
@@ -111,15 +80,15 @@ const getters = {
       isBonus: currentSpecialisation.isBonus,
     };
   },
-  getCalculatedSkillValueByName: (state, getters) => (skill, index) => {
-    const currentSkill = getters.getSkillByName(skill, index);
+  [get.CALCULATED_SKILL_VALUE_BY_NAME]: (state, getters) => (skill, index) => {
+    const currentSkill = getters[get.SKILL_BY_NAME](skill, index);
     let value = currentSkill.value ? currentSkill.value : currentSkill.baseValue;
 
     if (currentSkill.isBonus) value += 20;
 
     return value;
   },
-  getCharacterData: ({
+  [get.CHARACTER_DATA]: ({
     attributeValues,
     connections,
     facettes,
@@ -136,7 +105,7 @@ const getters = {
     profession,
     professionVariant,
   }),
-  getDerivedValues: (state) => {
+  [get.DERIVED_VALUES]: (state) => {
     const { ST, KO, EN } = state.attributeValues;
     const hitpoints = Math.ceil((ST + KO) / 2);
     const willpowerPoints = EN;
@@ -150,39 +119,39 @@ const getters = {
 };
 
 const mutations = {
-  [SET_ATTRIBUTE_VALUES](context, payload) {
+  setAttributeValues(context, payload) {
     context.attributeValues = payload;
   },
-  [UPDATE_PROFESSION](context, professionIndex) {
+  updateProfession(context, professionIndex) {
     context.profession = professionIndex;
   },
-  [SET_PROFESSION_VARIANT](context, variant) {
+  setProfessionVariant(context, variant) {
     context.professionVariant = variant;
   },
-  [SET_SKILL_LIST](context, skills) {
+  setSkillList(context, skills) {
     Vue.set(context, 'skills', skills);
   },
-  [SET_SKILL_VALUE](context, { skill, index, value }) {
+  setSkillValue(context, { skill, index, value }) {
     const currentSpecialisation = context.skills[skill].specialisations[index || 0];
     Vue.set(currentSpecialisation, 'value', value);
   },
-  [SET_PROFESSIONAL_SKILL](context, { skill, index, value }) {
+  setProfessionalSkill(context, { skill, index, value }) {
     const currentSpecialisation = context.skills[skill].specialisations[index || 0];
     Vue.set(currentSpecialisation, 'isProfessional', typeof value === 'boolean' ? value : !currentSpecialisation.isProfessional);
   },
-  [SET_OPTIONAL_SKILL](context, { skill, index, value }) {
+  setOptionalSkill(context, { skill, index, value }) {
     const currentSpecialisation = context.skills[skill].specialisations[index || 0];
     Vue.set(currentSpecialisation, 'isOptional', typeof value === 'boolean' ? value : !currentSpecialisation.isOptional);
   },
-  [SELECT_OPTIONAL_SKILL](context, { skill, index, value }) {
+  selectOptionalSkill(context, { skill, index, value }) {
     const currentSpecialisation = context.skills[skill].specialisations[index || 0];
     Vue.set(currentSpecialisation, 'isSelected', typeof value === 'boolean' ? value : !currentSpecialisation.isSelected);
   },
-  [SET_BONUS_SKILL](context, { skill, index, value }) {
+  setBonusSkill(context, { skill, index, value }) {
     const currentSpecialisation = context.skills[skill].specialisations[index || 0];
     Vue.set(currentSpecialisation, 'isBonus', typeof value === 'boolean' ? value : !currentSpecialisation.isBonus);
   },
-  [ADD_SPECIALISATION](context, {
+  addSpecialisation(context, {
     skill, specialisation, value, isProfessional = false, isOptional = false, isSelected = false, isBonus = false,
   }) {
     context.skills[skill].specialisations.push({
@@ -194,35 +163,35 @@ const mutations = {
       isBonus,
     });
   },
-  [MODIFY_SPECIALISATION](context, { skill, specialisation, index }) {
+  modifySpecialisation(context, { skill, specialisation, index }) {
     Vue.set(context.skills[skill].specialisations[index || 0], 'name', specialisation);
   },
-  [DELETE_SPECIALISATION](context, { skill, index }) {
+  deleteSpecialisation(context, { skill, index }) {
     context.skills[skill].specialisations.splice(index || 0, 1);
   },
-  [UPDATE_CONNECTIONS](context, payload) {
+  updateConnections(context, payload) {
     context.connections = payload;
   },
-  [UPDATE_FACETTES](context, payload) {
+  updateFacettes(context, payload) {
     context.facettes = payload;
   },
-  [UPDATE_MOTIVATIONS](context, payload) {
+  updateMotivations(context, payload) {
     context.motivations = payload;
   },
-  [SET_PERSONAL_INFORMATION](context, payload) {
+  setPersonalInformation(context, payload) {
     context.personalInformation = Object.assign({}, payload);
   },
 };
 
 const actions = {
-  [CREATE_NEW_CHARACTER]({ commit, rootGetters }) {
-    commit(SET_ATTRIBUTE_VALUES, {});
-    commit(UPDATE_PROFESSION, -1);
-    commit(SET_PROFESSION_VARIANT, '');
-    commit(UPDATE_CONNECTIONS, []);
-    commit(UPDATE_FACETTES, []);
-    commit(UPDATE_MOTIVATIONS, []);
-    commit(SET_PERSONAL_INFORMATION, {
+  [act.CREATE_NEW_CHARACTER]({ commit, rootGetters }) {
+    commit('setAttributeValues', {});
+    commit('updateProfession', -1);
+    commit('setProfessionVariant', '');
+    commit('updateConnections', []);
+    commit('updateFacettes', []);
+    commit('updateMotivations', []);
+    commit('setPersonalInformation', {
       Vorname: '',
       Nachname: '',
       Geschlecht: '',
@@ -230,7 +199,7 @@ const actions = {
       Aussehen: '',
     });
 
-    const allSkills = rootGetters.getSkillList;
+    const allSkills = rootGetters[get.SKILL_LIST];
     const characterSkillList = {};
 
     Object.keys(allSkills).forEach((skill) => {
@@ -250,24 +219,20 @@ const actions = {
         ],
       };
     });
-    commit(SET_SKILL_LIST, characterSkillList);
+    commit('setSkillList', characterSkillList);
   },
-  [SET_PROFESSION]({
+  [act.SET_PROFESSION]({
     commit, state, rootGetters,
   }, payload) {
-    /* mutations:
-    * DELETE_SPECIALISATION
-    * TOGGLE_SKILL
-    * UPDATE_PROFESSION
-    * ADD_SPECIALISATION
-    */
+    console.log(get);
 
-    const professionalSkills = rootGetters.getProfessionalSkillsById(payload);
-    const optionalSkills = rootGetters.getOptionalSkillsById(payload);
+    const professionalSkills = rootGetters[get.PROFESSIONAL_SKILLS_BY_ID](payload);
+    const optionalSkills = rootGetters[get.OPTIONAL_SKILLS_BY_ID](payload);
+    const characterSkills = state.skills;
 
     function assignSkills(skillsObject, toggleMethod) {
       Object.keys(skillsObject).forEach((skill) => {
-        const currSkill = state.skills[skill];
+        const currSkill = characterSkills[skill];
         const value = skillsObject[skill];
         const isSpecialisationPredefined = typeof value === 'object';
         const professionalSkillIndex = currSkill.specialisations.findIndex(specialisation => specialisation.isProfessional);
@@ -280,67 +245,56 @@ const actions = {
             value: true,
           });
 
-          commit(SET_SKILL_VALUE, {
+          commit('setSkillValue', {
             skill,
             index: 0,
             value: isSpecialisationPredefined ? value.value : value,
           });
 
           if (isSpecialisationPredefined) {
-            commit(MODIFY_SPECIALISATION, {
+            commit('modifySpecialisation', {
               skill,
               index: 0,
               specialisation: value.specialisation,
             });
           }
         } else {
-          commit(ADD_SPECIALISATION, {
+          commit('addSpecialisation', {
             skill,
             specialisation: isSpecialisationPredefined ? value.specialisation : undefined,
             value: isSpecialisationPredefined ? value.value : value,
-            [toggleMethod === SET_PROFESSIONAL_SKILL ? 'isProfessional' : 'isOptional']: true,
+            [toggleMethod === 'setProfessionalSkill' ? 'isProfessional' : 'isOptional']: true,
           });
         }
       });
     }
 
-    assignSkills(professionalSkills, SET_PROFESSIONAL_SKILL);
-    assignSkills(optionalSkills, SET_OPTIONAL_SKILL);
+    assignSkills(professionalSkills, 'setProfessionalSkill');
+    assignSkills(optionalSkills, 'setOptionalSkill');
 
-    commit(UPDATE_PROFESSION, payload);
-    commit(SET_PROFESSION_VARIANT, '');
+    commit('updateProfession', payload);
+    commit('setProfessionVariant', '');
   },
-  [TOGGLE_SKILL]({ commit }, {
+  [act.TOGGLE_SKILL]({ commit }, {
     skill, index, type, value,
   }) {
-    /* mutations:
-    * SET_PROFESSIONAL_SKILL
-    * SET_OPTIONAL_SKILL
-    * SELECT_OPTIONAL_SKILL
-    * SET_BONUS_SKILL
-    */
     let mutationName;
     switch (type) {
     case 'optional':
-      mutationName = SELECT_OPTIONAL_SKILL;
+      mutationName = 'selectOptionalSkill';
       break;
     case 'bonus':
-      mutationName = SET_BONUS_SKILL;
+      mutationName = 'setBonusSkill';
       break;
     default:
       mutationName = '';
     }
     commit(mutationName, { skill, index, value });
   },
-  [NEW_SPECIALISATION]({ commit }, {
+  [act.NEW_SPECIALISATION]({ commit }, {
     skill, specialisation, isProfessional, isOptional, isSelected, isBonus,
   }) {
-    /* mutations:
-    * ADD_SPECIALISATION
-    * TOGGLE_SKILL
-    */
-    // TODO: change this action to use the mutations for toggling sill states
-    commit(ADD_SPECIALISATION, {
+    commit('addSpecialisation', {
       skill,
       specialisation,
       isProfessional,
@@ -349,21 +303,15 @@ const actions = {
       isBonus,
     });
   },
-  [CHANGE_SPECIALISATION]({ commit }, { skill, specialisation, index }) {
-    /* mutations:
-    * MODIFY_SPECIALISATION
-    */
-    commit(MODIFY_SPECIALISATION, {
+  [act.CHANGE_SPECIALISATION]({ commit }, { skill, specialisation, index }) {
+    commit('modifySpecialisation', {
       skill,
       specialisation,
       index,
     });
   },
-  [REMOVE_SPECIALISATION]({ commit }, { skill, index }) {
-    /* mutations:
-    * DELETE_SPECIALISATION
-    */
-    commit(DELETE_SPECIALISATION, {
+  [act.REMOVE_SPECIALISATION]({ commit }, { skill, index }) {
+    commit('deleteSpecialisation', {
       skill,
       index,
     });

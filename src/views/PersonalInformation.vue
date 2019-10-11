@@ -13,9 +13,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import {
-  SET_PERSONAL_INFORMATION,
-} from '@/store/mutations.type';
+import { act } from '@/store/type';
 
 import store from '@/store';
 
@@ -36,13 +34,13 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('common', [
-      'addWarning',
-      'removeWarning',
-    ]),
+    ...mapActions({
+      addWarning: act.ADD_WARNING,
+      removeWarning: act.REMOVE_WARNING,
+    }),
     updatePersonalInformation() {
       this.checkForError(this.currentInfo);
-      store.commit(SET_PERSONAL_INFORMATION, this.currentInfo);
+      store.commit('setPersonalInformation', this.currentInfo);
     },
     checkForError(personalInfo) {
       let isComplete = true;
