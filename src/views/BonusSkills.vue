@@ -7,7 +7,7 @@
     .bonus-badge.label(v-for="i in availableSkills") +20% Bonus
   ul.skill-list.cell
     li.skill-list__item(
-      v-for="(skill, index) in getReducedSkills"
+      v-for="(skill, index) in reducedSkills"
       class="grid-x"
       :key="skill.skill+skill.index")
       //- :class="{'is-mythos': !Number.isInteger(skill.value)}")
@@ -30,12 +30,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-
-import {
-  TOGGLE_SKILL,
-} from '@/store/actions.type';
-
-import store from '@/store';
+import { get, act } from '@/store/type';
 
 import Draggable from 'vuedraggable';
 import Skill from '@/components/Skill.vue';
@@ -53,21 +48,22 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      'getReducedSkills',
-    ]),
+    ...mapGetters({
+      reducedSkills: get.REDUCED_SKILLS,
+    }),
   },
   created() {
     this.checkForError(this.currentSkills.length);
   },
   methods: {
-    ...mapActions('common', [
-      'addWarning',
-      'removeWarning',
-    ]),
+    ...mapActions({
+      addWarning: act.ADD_WARNING,
+      removeWarning: act.REMOVE_WARNING,
+      toggleSkill: act.TOGGLE_SKILL,
+    }),
     onAdd(skill, index) {
       this.currentSkills.push(skill);
-      store.dispatch(TOGGLE_SKILL, {
+      this.toggleSkill({
         skill,
         index,
         type: 'bonus',
@@ -76,7 +72,7 @@ export default {
     },
     onRemove(skill, index) {
       this.currentSkills.splice(this.currentSkills.indexOf(skill), 1);
-      store.dispatch(TOGGLE_SKILL, {
+      this.toggleSkill({
         skill,
         index,
         type: 'bonus',

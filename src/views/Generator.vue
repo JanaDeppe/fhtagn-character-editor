@@ -20,6 +20,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { get, act } from '@/store/type';
 
 import Prompts from '@/components/Prompts.vue';
 import SidebarSummary from '@/components/SidebarSummary.vue';
@@ -37,11 +38,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('common', [
-      'editorSteps',
-      'currentWarnings',
-      'warningDataByKey',
-    ]),
+    ...mapGetters({
+      editorSteps: get.EDITOR_STEPS,
+      currentWarnings: get.CURRENT_WARNINGS,
+      warningDataByKey: get.WARNING_DATA_BY_KEY,
+    }),
     showPrevButton() { return !!(this.prevStep); },
     showNextButton() { return !!(this.nextStep) && this.nextStep.name !== 'attributes'; },
   },
@@ -83,8 +84,8 @@ export default {
     next();
   },
   methods: {
-    ...mapActions('common', {
-      flushWarnings: 'flushWarnings',
+    ...mapActions({
+      flushWarnings: act.FLUSH_WARNINGS,
     }),
   },
 };

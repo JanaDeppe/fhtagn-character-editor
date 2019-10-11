@@ -40,7 +40,6 @@
         :availableSkills="currProf.skills.optionalAmount"
         :professionId="selectedProfession"
         v-model="optionalSkills"
-        @skills-updated="updateSkills"
         @specialisation-updated="updateSpecialisation('optional', $event)"
         )
       h5 Verbindungen: {{currProf.connections}}
@@ -54,14 +53,7 @@
 
 <script>
 import { mapGetters, mapState, mapActions } from 'vuex';
-import {
-  SET_PROFESSION_VARIANT,
-} from '@/store/mutations.type';
-
-import {
-  SET_PROFESSION,
-  CHANGE_SPECIALISATION,
-} from '@/store/actions.type';
+import { act, get } from '@/store/type';
 
 import store from '@/store';
 
@@ -87,8 +79,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getProfessionalSkills: 'getProfessionalSkills',
-      editorSteps: 'common/editorSteps',
+      getProfessionalSkills: get.PROFESSIONAL_SKILLS,
+      editorSteps: get.EDITOR_STEPS,
     }),
     ...mapState({
       professions: state => state.rulesystem.professions,
@@ -127,26 +119,25 @@ export default {
     }
   },
   methods: {
-    ...mapActions('common', [
-      'addWarning',
-      'removeWarning',
-    ]),
+    ...mapActions({
+      dispatchSetProfession: act.SET_PROFESSION,
+      changeSpecialisation: act.CHANGE_SPECIALISATION,
+      addWarning: act.ADD_WARNING,
+      removeWarning: act.REMOVE_WARNING,
+    }),
     recommendProfessions() {
 
     },
     setProfession(index) {
       this.selectedProfession = index;
-      store.dispatch(SET_PROFESSION, this.selectedProfession);
-    },
-    updateSkills() {
-      // store.commit(UPDATE_OPTIONAL_SKILLS, this.optionalSkills);
+      this.dispatchSetProfession(this.selectedProfession);
     },
     updateVariant() {
       this.checkForError(this.currentVariant);
-      store.commit(SET_PROFESSION_VARIANT, this.currentVariant);
+      store.commit('setProfessionVariant', this.currentVariant);
     },
     updateSpecialisation(data) {
-      store.dispatch(CHANGE_SPECIALISATION, {
+      this.changeSpecialisation({
         skill: data.skill,
         index: this.index,
         specialisation: data.name,

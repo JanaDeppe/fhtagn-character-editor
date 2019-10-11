@@ -1,13 +1,13 @@
 <template lang="pug">
 div
   .grid-x
-    .cell.auto: p Wähle zusätzlich {{getAvailableOptionalSkillCount(getProfessionId)}} aus folgenden Fertigkeiten:
+    .cell.auto: p Wähle zusätzlich {{getAvailableOptionalSkillCount(professionId)}} aus folgenden Fertigkeiten:
     .cell.auto.text-right: p Restliche, optionale Skills: {{ remainingOptionalSkillCount }}
   div(v-if="error")
     .label.warning {{errorTypes[error]}}
   ul.skill-list
     li(
-      v-for="(skill, index) in getOptionalSkills"
+      v-for="(skill, index) in optionalSkills"
       :key="skill.skill+skill.index")
       skill(
         :skill="skill.skill"
@@ -19,6 +19,7 @@ div
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { get, act } from '@/store/type';
 
 import Skill from '@/components/Skill.vue';
 
@@ -44,25 +45,24 @@ export default {
     };
   },
   computed: {
-    ...mapGetters([
-      'getProfessionId',
-      'getOptionalSkills',
-      'getAvailableOptionalSkillCount',
-      'getOptionalSkillCount',
-    ]),
-    remainingOptionalSkillCount() { return this.getAvailableOptionalSkillCount(this.professionId) - this.getOptionalSkillCount; },
+    ...mapGetters({
+      optionalSkills: get.OPTIONAL_SKILLS,
+      optionalSkillCount: get.OPTIONAL_SKILL_COUNT,
+      getAvailableOptionalSkillCount: get.AVAILABLE_OPTIONAL_SKILL_COUNT,
+    }),
+    remainingOptionalSkillCount() { return this.getAvailableOptionalSkillCount(this.professionId) - this.optionalSkillCount; },
   },
   created() {
     this.checkForError();
   },
   methods: {
-    ...mapActions('common', [
-      'addWarning',
-      'removeWarning',
-    ]),
+    ...mapActions({
+      addWarning: act.ADD_WARNING,
+      removeWarning: act.REMOVE_WARNING,
+    }),
     checkForError() {
-      const currentSkillCount = this.getOptionalSkillCount;
-      const availableSkills = this.getAvailableOptionalSkillCount(this.getProfessionId);
+      const currentSkillCount = this.optionalSkillCount;
+      const availableSkills = this.getAvailableOptionalSkillCount(this.professionId);
       if (currentSkillCount > availableSkills) {
         this.removeWarning('optionalSkillsRemaining');
         this.error = 'tooHigh';

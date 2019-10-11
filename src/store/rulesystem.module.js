@@ -1,13 +1,4 @@
-import {
-// LOAD_RULESYSTEM_DATA,
-} from './actions.type';
-
-import {
-// UPDATE_ATTRIBUTES,
-// UPDATE_PROFESSIONS,
-// UPDATE_SKILLS,
-// UPDATE_FACETTES,
-} from './mutations.type';
+import { get } from './type';
 
 const state = {
   attributes: [
@@ -329,50 +320,19 @@ const state = {
 };
 
 const getters = {
-  getAttributeList: state => state.attributes,
-  getSkillList: state => state.skills,
-  getProfessionalSkillsById: state => id => state.professions[id].skills.fixed,
-  getOptionalSkillsById: state => id => state.professions[id].skills.optional,
-  getAvailableOptionalSkillCount: state => id => state.professions[id].skills.optionalAmount,
-  getProfessionNameById: state => id => (id > -1 ? state.professions[id].name : ''),
+  [get.ATTRIBUTE_LIST]: state => state.attributes,
+  [get.SKILL_LIST]: state => state.skills,
+  [get.PROFESSIONAL_SKILLS_BY_ID]: state => id => state.professions[id].skills.fixed,
+  [get.OPTIONAL_SKILLS_BY_ID]: state => id => state.professions[id].skills.optional,
+  [get.AVAILABLE_OPTIONAL_SKILL_COUNT]: state => id => state.professions[id].skills.optionalAmount,
+  [get.PROFESSION_NAME_BY_ID]: state => id => (id > -1 ? state.professions[id].name : ''),
 };
 
 /* eslint-disable no-param-reassign */
-const mutations = {
-  // [UPDATE_ATTRIBUTES](context, payload) {
-  //   context.attributes = payload.attributes;
-  // },
-  // [UPDATE_PROFESSIONS](context, payload) {
-  //   context.attributes = payload.professions;
-  // },
-  // [UPDATE_SKILLS](context, payload) {
-  //   context.attributes = payload.skills;
-  // },
-  // [UPDATE_FACETTES](context, payload) {
-  //   context.attributes = payload.facettes;
-  // },
-};
+const mutations = { };
 /* eslint-enable no-param-reassign */
 
-const actions = {
-  // [LOAD_RULESYSTEM_DATA]({ commit }) {
-  //   const data = {
-  //     attributes: {},
-  //     professions: {},
-  //     skills: {},
-  //     facettes: {},
-  //   };
-
-  //   return new Promise((resolve, reject) => {
-  //     commit(UPDATE_ATTRIBUTES, data.attributes);
-  //     commit(UPDATE_PROFESSIONS, data.professions);
-  //     commit(UPDATE_SKILLS, data.skills);
-  //     commit(UPDATE_FACETTES, data.facettes);
-  //     resolve();
-  //     reject();
-  //   });
-  // },
-};
+const actions = { };
 
 export default {
   state,

@@ -1,4 +1,5 @@
 import router from '@/router';
+import { get, act } from './type';
 
 const state = {
   currentWarnings: [],
@@ -56,26 +57,25 @@ const mutations = {
 /* eslint-enable no-param-reassign */
 
 const actions = {
-  addWarning({ commit, state }, payload) {
+  [act.ADD_WARNING]({ commit, state }, payload) {
     const index = state.currentWarnings.indexOf(payload);
     if (index === -1) commit('addWarning', payload);
   },
-  removeWarning({ commit, state }, payload) {
+  [act.REMOVE_WARNING]({ commit, state }, payload) {
     const index = state.currentWarnings.indexOf(payload);
     if (index > -1) commit('removeWarning', payload);
   },
-  flushWarnings({ commit }) { commit('flushWarnings'); },
+  [act.FLUSH_WARNINGS]({ commit }) { commit('flushWarnings'); },
 };
 
 const getters = {
-  editorSteps: () => router.options.routes[0].children,
-  currentWarnings: state => state.currentWarnings,
-  warningDataByKey: state => key => state.warnings[key],
-  appVersion: context => context.version,
+  [get.EDITOR_STEPS]: () => router.options.routes[0].children,
+  [get.CURRENT_WARNINGS]: state => state.currentWarnings,
+  [get.WARNING_DATA_BY_KEY]: state => key => state.warnings[key],
+  [get.APP_VERSION]: context => context.version,
 };
 
 export default {
-  namespaced: true,
   state,
   mutations,
   actions,

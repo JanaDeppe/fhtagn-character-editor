@@ -22,7 +22,7 @@ div
   // Skills
   ul.skill-list.small-list(v-if="profession > -1")
     li: h6 Fertigkeiten:
-    li(v-for="skill in getModifiedSkills")
+    li(v-for="skill in modifiedSkills")
       skill(
         :canAddSpecialisations="false"
         :canRemoveSpecialisation="false"
@@ -49,8 +49,7 @@ div
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-
-// import store from '@/store';
+import { get } from '@/store/type';
 
 import Skill from '@/components/Skill.vue';
 
@@ -73,9 +72,9 @@ export default {
       profession: state => state.character.profession,
       professionVariant: state => state.character.professionVariant,
     }),
-    ...mapGetters([
-      'getModifiedSkills',
-    ]),
+    ...mapGetters({
+      modifiedSkills: get.MODIFIED_SKILLS,
+    }),
     currProf() {
       return this.professions[this.profession];
     },

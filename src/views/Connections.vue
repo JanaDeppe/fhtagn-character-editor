@@ -10,9 +10,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import {
-  UPDATE_CONNECTIONS,
-} from '@/store/mutations.type';
+import { act } from '@/store/type';
 
 import store from '@/store';
 
@@ -49,13 +47,13 @@ export default {
     this.checkForError(this.currentConnections);
   },
   methods: {
-    ...mapActions('common', [
-      'addWarning',
-      'removeWarning',
-    ]),
+    ...mapActions({
+      addWarning: act.ADD_WARNING,
+      removeWarning: act.REMOVE_WARNING,
+    }),
     updateConnections() {
       this.checkForError(this.currentConnections);
-      store.commit(UPDATE_CONNECTIONS, this.currentConnections);
+      store.commit('updateConnections', this.currentConnections);
     },
     checkForError(connections) {
       let isComplete = true;

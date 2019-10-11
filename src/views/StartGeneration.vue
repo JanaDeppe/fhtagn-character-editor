@@ -23,16 +23,17 @@
 </template>
 
 <script>
-import store from '@/store';
-import {
-  CREATE_NEW_CHARACTER,
-} from '@/store/actions.type';
+import { mapActions } from 'vuex';
+import { act } from '@/store/type';
 
 export default {
   props: '',
   methods: {
+    ...mapActions({
+      dispatchCreateNewCharacter: act.CREATE_NEW_CHARACTER,
+    }),
     createNewCharacter() {
-      store.dispatch(CREATE_NEW_CHARACTER);
+      this.dispatchCreateNewCharacter();
       this.$router.push({ name: 'attributes' });
     },
   },

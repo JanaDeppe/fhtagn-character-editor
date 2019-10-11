@@ -56,8 +56,6 @@ div
 </template>
 
 <script>
-import { SET_ATTRIBUTE_VALUES } from '@/store/mutations.type';
-
 import PointDistributor from '@/components/PointDistributor.vue';
 import DiceRoller from '@/components/DiceRoller.vue';
 import DragnDropAttributes from '@/components/DragnDropAttributes.vue';
@@ -79,13 +77,8 @@ export default {
   computed: {
     attributeValues: {
       get() { return this.$store.state.character.attributeValues; },
-      set(newAttributeValues) { this.$store.commit(SET_ATTRIBUTE_VALUES, newAttributeValues); },
+      set(newAttributeValues) { this.$store.commit('setAttributeValues', newAttributeValues); },
     },
-  },
-  watch: {
-    // attributeValues(newAttributeValues) {
-    //   this.$store.commit(SET_ATTRIBUTE_VALUES, newAttributeValues);
-    // },
   },
   methods: {
     switchGenerationMethod(methodIndex) {
