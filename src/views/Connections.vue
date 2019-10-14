@@ -5,14 +5,12 @@
     p Schreibe deine Verbindungen und eine kurze Beschreibung dazu!
   .cell(v-for="(connection, index) in currentConnections")
     label Verbindung \#{{index+1}}
-      input(type="text" placeholder="Name der Verbindung" v-model="currentConnections[index]" @change="updateConnections")
+      input(type="text" placeholder="Name der Verbindung" v-model="currentConnections[index]" @change="handleConnectionsChange")
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import { act } from '@/store/type';
-
-import store from '@/store';
 
 export default {
   props: '',
@@ -50,10 +48,11 @@ export default {
     ...mapActions({
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
+      updateConnections: act.UPDATE_CONNECTIONS,
     }),
-    updateConnections() {
+    handleConnectionsChange() {
       this.checkForError(this.currentConnections);
-      store.commit('updateConnections', this.currentConnections);
+      this.updateConnections(this.currentConnections);
     },
     checkForError(connections) {
       let isComplete = true;

@@ -56,6 +56,9 @@ div
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+import { get, act } from '@/store/type';
+
 import PointDistributor from '@/components/PointDistributor.vue';
 import DiceRoller from '@/components/DiceRoller.vue';
 import DragnDropAttributes from '@/components/DragnDropAttributes.vue';
@@ -75,12 +78,18 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      getAttributeValues: get.ATTRIBUTE_VALUES,
+    }),
     attributeValues: {
-      get() { return this.$store.state.character.attributeValues; },
-      set(newAttributeValues) { this.$store.commit('setAttributeValues', newAttributeValues); },
+      get() { return this.getAttributeValues; },
+      set(newAttributeValues) { this.setAttributeValues(newAttributeValues); },
     },
   },
   methods: {
+    ...mapActions({
+      setAttributeValues: act.SET_ATTRIBUTE_VALUES,
+    }),
     switchGenerationMethod(methodIndex) {
       this.isPickerVisible = false;
       this.distributionMethod = methodIndex;
