@@ -6,15 +6,13 @@
 
   .cell(v-for="(motivation, index) in availableMotivations")
     label Motivation \#{{index+1}}
-      input(type="text" placeholder="Beschreibung der Motivation" v-model="currentMotivations[index]" @change="updateMotivations")
+      input(type="text" placeholder="Beschreibung der Motivation" v-model="currentMotivations[index]" @change="handleMotivationsChange")
 
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import { act } from '@/store/type';
-
-import store from '@/store';
 
 export default {
   props: '',
@@ -37,12 +35,13 @@ export default {
   },
   methods: {
     ...mapActions({
+      updateMotivations: act.UPDATE_MOTIVATIONS,
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
     }),
-    updateMotivations() {
+    handleMotivationsChange() {
       this.checkForError(this.currentMotivations);
-      store.commit('updateMotivations', this.currentMotivations);
+      this.updateMotivations(this.currentMotivations);
     },
     checkForError(motivations) {
       let isComplete = true;

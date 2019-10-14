@@ -18,6 +18,7 @@ const state = {
 
 const getters = {
   [get.PROFESSION_ID]: state => state.profession,
+  [get.ATTRIBUTE_VALUES]: state => state.attributeValues,
   [get.CHARACTER_DATA]: ({
     attributeValues,
     connections,
@@ -58,13 +59,13 @@ const mutations = {
   setProfessionVariant(context, variant) {
     context.professionVariant = variant;
   },
-  updateConnections(context, payload) {
+  setConnections(context, payload) {
     context.connections = payload;
   },
-  updateFacettes(context, payload) {
+  setFacettes(context, payload) {
     context.facettes = payload;
   },
-  updateMotivations(context, payload) {
+  setMotivations(context, payload) {
     context.motivations = payload;
   },
   setPersonalInformation(context, payload) {
@@ -77,9 +78,9 @@ const actions = {
     commit('setAttributeValues', {});
     commit('updateProfession', -1);
     commit('setProfessionVariant', '');
-    commit('updateConnections', []);
-    commit('updateFacettes', []);
-    commit('updateMotivations', []);
+    commit('setConnections', []);
+    commit('setFacettes', []);
+    commit('setMotivations', []);
     commit('setPersonalInformation', {
       Vorname: '',
       Nachname: '',
@@ -109,6 +110,24 @@ const actions = {
       };
     });
     commit('setSkillList', characterSkillList);
+  },
+  [act.SET_ATTRIBUTE_VALUES]({ commit }, payload) {
+    commit('setAttributeValues', payload);
+  },
+  [act.UPDATE_PROFESSION_VARIANT]({ commit }, payload) {
+    commit('setProfessionVariant', payload);
+  },
+  [act.UPDATE_CONNECTIONS]({ commit }, payload) {
+    commit('setConnections', payload);
+  },
+  [act.UPDATE_FACETTES]({ commit }, payload) {
+    commit('setFacettes', payload);
+  },
+  [act.UPDATE_MOTIVATIONS]({ commit }, payload) {
+    commit('setMotivations', payload);
+  },
+  [act.UPDATE_PERSONAL_INFORMATION]({ commit }, payload) {
+    commit('setPersonalInformation', payload);
   },
   [act.SET_PROFESSION]({
     commit, rootGetters, rootState,

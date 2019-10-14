@@ -7,15 +7,13 @@
     .grid-x.grid-padding-x
       .cell.medium-6(v-for="(data, key) in currentInfo")
         label {{key}}
-          input(type="text" v-model="currentInfo[key]" @change="updatePersonalInformation")
+          input(type="text" v-model="currentInfo[key]" @change="handlePersonalInformationChange")
 
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import { act } from '@/store/type';
-
-import store from '@/store';
 
 export default {
   props: '',
@@ -35,12 +33,13 @@ export default {
   },
   methods: {
     ...mapActions({
+      updatePersonalInformation: act.UPDATE_PERSONAL_INFORMATION,
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
     }),
-    updatePersonalInformation() {
+    handlePersonalInformationChange() {
       this.checkForError(this.currentInfo);
-      store.commit('setPersonalInformation', this.currentInfo);
+      this.updatePersonalInformation(this.currentInfo);
     },
     checkForError(personalInfo) {
       let isComplete = true;

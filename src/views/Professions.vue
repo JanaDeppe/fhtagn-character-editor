@@ -55,8 +55,6 @@
 import { mapGetters, mapState, mapActions } from 'vuex';
 import { act, get } from '@/store/type';
 
-import store from '@/store';
-
 import OptionalSkillList from '@/components/OptionalSkillList.vue';
 import Skill from '@/components/Skill.vue';
 import Modal from '@/components/Modal.vue';
@@ -121,6 +119,7 @@ export default {
   methods: {
     ...mapActions({
       dispatchSetProfession: act.SET_PROFESSION,
+      updateProfessionVariant: act.UPDATE_PROFESSION_VARIANT,
       changeSpecialisation: act.CHANGE_SPECIALISATION,
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
@@ -134,7 +133,7 @@ export default {
     },
     updateVariant() {
       this.checkForError(this.currentVariant);
-      store.commit('setProfessionVariant', this.currentVariant);
+      this.updateProfessionVariant(this.currentVariant);
     },
     updateSpecialisation(data) {
       this.changeSpecialisation({
