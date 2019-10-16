@@ -5,19 +5,37 @@
     p Schreibe deine Verbindungen und eine kurze Beschreibung dazu!
   .cell(v-for="(connection, index) in currentConnections")
     label Verbindung \#{{index+1}}
-      input(type="text" placeholder="Name der Verbindung" v-model="currentConnections[index]" @change="handleConnectionsChange")
+      input(
+        type="text"
+        placeholder="Name der Verbindung"
+        v-model="currentConnections[index]")
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { act } from '@/store/type';
+import { mapGetters, mapActions } from 'vuex';
+import { get, act } from '@/store/type';
 
 export default {
   props: '',
-  data() {
-    return {
-      currentConnections: [],
-    };
+  computed: {
+    ...mapGetters({
+      getAvailableConnectionsCount: get.AVAILABLE_CONNECTIONS_COUNT_BY_ID,
+      professionId: get.PROFESSION_ID,
+      connections: get.CONNECTIONS,
+    }),
+    availableConnections() {
+      return this.getAvailableConnectionsCount(this.professionId);
+    },
+    currentConnections: {
+      get() { return this.connections; },
+      set(newValue) {
+        this.checkForError(newValue);
+        this.updateConnections(newValue);
+      },
+    },
+  },
+  created() {
+    this.checkForError(this.currentConnections);
   },
   activated() {
     const connectionsToAdd = this.availableConnections - this.currentConnections.length;
@@ -31,29 +49,12 @@ export default {
       }
     }
   },
-  computed: {
-    availableConnections() {
-      return this.professions[this.characterProfession].connections;
-    },
-    ...mapState({
-      professions: state => state.rulesystem.professions,
-      characterProfession: state => state.character.profession,
-      connections: state => state.character.connections,
-    }),
-  },
-  created() {
-    this.checkForError(this.currentConnections);
-  },
   methods: {
     ...mapActions({
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
       updateConnections: act.UPDATE_CONNECTIONS,
     }),
-    handleConnectionsChange() {
-      this.checkForError(this.currentConnections);
-      this.updateConnections(this.currentConnections);
-    },
     checkForError(connections) {
       let isComplete = true;
       connections.forEach((element) => {

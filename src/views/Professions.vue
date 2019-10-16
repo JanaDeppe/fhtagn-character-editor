@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { act, get } from '@/store/type';
 
 import OptionalSkillList from '@/components/OptionalSkillList.vue';
@@ -79,12 +79,7 @@ export default {
     ...mapGetters({
       getProfessionalSkills: get.PROFESSIONAL_SKILLS,
       editorSteps: get.EDITOR_STEPS,
-    }),
-    ...mapState({
-      professions: state => state.rulesystem.professions,
-      skills: state => state.rulesystem.skills,
-      characterAttributes: state => state.character.attributeValues,
-      professionalSpecialisations: state => state.character.skills.professionalSpecialisations,
+      professions: get.PROFESSIONS_LIST,
     }),
     currProf() {
       return this.professions[this.selectedProfession];
@@ -98,9 +93,6 @@ export default {
   },
   created() {
     this.checkForError(this.currentVariant);
-  },
-  activated() {
-    this.recommendProfessions();
   },
   beforeRouteLeave(to, from, next) {
     const currentRouteIndex = this.editorSteps.findIndex(record => from.name === record.name);
@@ -124,9 +116,6 @@ export default {
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
     }),
-    recommendProfessions() {
-
-    },
     setProfession(index) {
       this.selectedProfession = index;
       this.dispatchSetProfession(this.selectedProfession);

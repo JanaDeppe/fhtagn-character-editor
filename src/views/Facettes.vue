@@ -3,10 +3,13 @@
   .cell.small-12
     h2.text-center Facetten
     p Füge, wenn du möchtest, deinem Charakter Facetten hinzu!
-  .cell(v-for="(facette, name) in facettes").callout
+  .cell(v-for="(facette, name) in facettesList").callout
     .grid-x.grid-padding-x
       .cell.shrink
-        input(type="checkbox" v-model="selectedFacettes" v-bind:value="name" @change="handleFacettesChange")
+        input(
+          type="checkbox"
+          v-model="selectedFacettes"
+          :value="name")
       .cell.auto
         h4 {{name}}
         p {{facette.description}}
@@ -19,29 +22,25 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { act } from '@/store/type';
+import { mapGetters, mapActions } from 'vuex';
+import { get, act } from '@/store/type';
 
 export default {
   props: '',
-  data() {
-    return {
-      selectedFacettes: [],
-    };
-  },
   computed: {
-    ...mapState({
-      facettes: state => state.rulesystem.facettes,
-      characterFacettes: state => state.character.facettes,
+    ...mapGetters({
+      facettes: get.FACETTES,
+      facettesList: get.FACETTES_LIST,
     }),
+    selectedFacettes: {
+      get() { return this.facettes; },
+      set(newValue) { this.updateFacettes(newValue); },
+    },
   },
   methods: {
     ...mapActions({
       updateFacettes: act.UPDATE_FACETTES,
     }),
-    handleFacettesChange() {
-      this.updateFacettes(this.selectedFacettes);
-    },
   },
 };
 </script>

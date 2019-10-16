@@ -28,6 +28,10 @@ const get = {
   ATTRIBUTE_VALUES: 'attributeValues',
   CHARACTER_DATA: 'characterData',
   DERIVED_VALUES: 'derivedValues',
+  CONNECTIONS: 'connections',
+  FACETTES: 'facettes',
+  MOTIVATIONS: 'motivations',
+  PERSONAL_INFORMATION: 'personalInformation',
 
   // common
   EDITOR_STEPS: 'editorSteps',
@@ -37,10 +41,13 @@ const get = {
 
   // rulesystem
   ATTRIBUTE_LIST: 'attributeList',
+  PROFESSIONS_LIST: 'professionsList',
   SKILL_LIST: 'skillList',
+  FACETTES_LIST: 'facettesList',
   PROFESSIONAL_SKILLS_BY_ID: 'professionalSkillsById',
   OPTIONAL_SKILLS_BY_ID: 'optionalSkillsById',
   AVAILABLE_OPTIONAL_SKILL_COUNT: 'availableOptionalSkillCount',
+  AVAILABLE_CONNECTIONS_COUNT_BY_ID: 'availableConnectionsCountById',
   PROFESSION_NAME_BY_ID: 'professionNameById',
 
   // skills

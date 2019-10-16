@@ -3,12 +3,11 @@ p DragnDropAttributes
 </template>
 
 <script>
-import { mapState } from 'vuex';
-// import store from '@/store';
+import { mapGetters } from 'vuex';
+import { get } from '@/store/type';
 
 export default {
   props: {
-
     distributableAttributeValues: {
       type: Array,
       default() {
@@ -23,8 +22,8 @@ export default {
     },
   },
   computed: {
-    ...mapState({
-      attributes: state => state.rulesystem.attributes,
+    ...mapGetters({
+      attributeList: get.ATTRIBUTE_LIST,
     }),
   },
   method: {

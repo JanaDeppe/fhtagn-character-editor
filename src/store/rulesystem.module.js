@@ -321,10 +321,13 @@ const state = {
 
 const getters = {
   [get.ATTRIBUTE_LIST]: state => state.attributes,
+  [get.PROFESSIONS_LIST]: state => state.professions,
   [get.SKILL_LIST]: state => state.skills,
+  [get.FACETTES_LIST]: state => state.facettes,
   [get.PROFESSIONAL_SKILLS_BY_ID]: state => id => state.professions[id].skills.fixed,
   [get.OPTIONAL_SKILLS_BY_ID]: state => id => state.professions[id].skills.optional,
   [get.AVAILABLE_OPTIONAL_SKILL_COUNT]: state => id => state.professions[id].skills.optionalAmount,
+  [get.AVAILABLE_CONNECTIONS_COUNT_BY_ID]: state => id => state.professions[id].connections,
   [get.PROFESSION_NAME_BY_ID]: state => id => (id > -1 ? state.professions[id].name : ''),
 };
 
