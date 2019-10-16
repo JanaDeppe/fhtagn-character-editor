@@ -47,6 +47,10 @@ const getters = {
       hitpoints, willpowerPoints, stabilityPoints, breakingPoint,
     };
   },
+  [get.CONNECTIONS]: state => state.connections,
+  [get.FACETTES]: state => state.facettes,
+  [get.MOTIVATIONS]: state => state.motivations,
+  [get.PERSONAL_INFORMATION]: state => state.personalInformation,
 };
 
 const mutations = {
@@ -84,7 +88,7 @@ const actions = {
     commit('setPersonalInformation', {
       Vorname: '',
       Nachname: '',
-      Geschlecht: '',
+      Muttersprache: '',
       Alter: '',
       Aussehen: '',
     });

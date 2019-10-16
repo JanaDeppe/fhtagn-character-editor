@@ -16,8 +16,8 @@ div
 
   // Beruf
   h6(v-if="profession > -1") Beruf:&nbsp;
-    span(v-if="professionVariant") {{professionVariant}} ({{currProf.name}})
-    span(v-else) {{currProf.name}}
+    span(v-if="professionVariant") {{professionVariant}} ({{professionName}})
+    span(v-else) {{professionName}}
 
   // Skills
   ul.skill-list.small-list(v-if="profession > -1")
@@ -48,7 +48,7 @@ div
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import { get } from '@/store/type';
 
 import Skill from '@/components/Skill.vue';
@@ -59,25 +59,22 @@ export default {
     Skill,
   },
   computed: {
-    ...mapState({
-      attributes: state => state.rulesystem.attributes,
-      professions: state => state.rulesystem.professions,
-
-      attributeValues: state => state.character.attributeValues,
-      connections: state => state.character.connections,
-      derivedValues: state => state.character.derivedValues,
-      facettes: state => state.character.facettes,
-      motivations: state => state.character.motivations,
-      personalInformation: state => state.character.personalInformation,
-      profession: state => state.character.profession,
-      professionVariant: state => state.character.professionVariant,
-    }),
     ...mapGetters({
+      attributes: get.ATTRIBUTE_LIST,
       modifiedSkills: get.MODIFIED_SKILLS,
+      characterData: get.CHARACTER_DATA,
+      professionNameById: get.PROFESSION_NAME_BY_ID,
     }),
-    currProf() {
-      return this.professions[this.profession];
+    attributeValues() {
+      return this.characterData.attributeValues;
     },
+    connections() { return this.characterData.connections; },
+    facettes() { return this.characterData.facettes; },
+    motivations() { return this.characterData.motivations; },
+    personalInformation() { return this.characterData.personalInformation; },
+    profession() { return this.characterData.profession; },
+    professionVariant() { return this.characterData.professionVariant; },
+    professionName() { return this.professionNameById(this.profession); },
   },
 };
 </script>

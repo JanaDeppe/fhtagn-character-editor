@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import { get } from '@/store/type';
 
 export default {
@@ -39,11 +39,6 @@ export default {
     isANumber() {
       return Number.isInteger(this.skill.baseValue);
     },
-    ...mapState({
-      skills: state => state.rulesystem.skills,
-      charSkills: state => state.character.skills,
-      charBonusSkills: state => state.character.bonusSkills,
-    }),
   },
 };
 </script>
