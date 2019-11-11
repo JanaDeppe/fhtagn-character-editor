@@ -17,16 +17,17 @@ module.exports = {
     }],
     'indent': ['warn', 2],
     'no-shadow': [
-      'error', 
+      'error',
       {'allow': [ 'state', 'getters' ]}
     ],
     'no-param-reassign': [
-      'error', 
+      'error',
       {
-        'props': true, 
+        'props': true,
         'ignorePropertyModificationsFor': ['state', 'context']
       }
-    ]
+    ],
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
   },
   parserOptions: {
     parser: 'babel-eslint',

@@ -86,6 +86,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      // TODO: rewrite to use get.SKILL_LIST and get.SKILL_BY_ID/NAME
       reducedSkills: get.REDUCED_SKILLS,
       derivedValues: get.DERIVED_VALUES,
       charData: get.CHARACTER_DATA,

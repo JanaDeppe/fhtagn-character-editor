@@ -16,10 +16,16 @@ const act = {
   FLUSH_WARNINGS: 'flushWarnings',
 
   // skills
-  TOGGLE_SKILL: 'toggleOptionalSkill',
-  NEW_SPECIALISATION: 'newSpecialisation',
-  CHANGE_SPECIALISATION: 'changeSpecialisation',
+  INIT_CHARACTERSKILLS: 'initCharacterSkills',
+  NEW_CHARACTER_SKILL: 'newCharacterSkill',
+  NEW_SKILL_MODIFICATION: 'newSkillModification',
+  TOGGLE_BONUS_SKILL: 'toggleBonusSkill',
+  TOGGLE_OPTIONAL_SKILL: 'toggleOptionalSkill',
+  ADD_SPECIALISATION: 'addSpecialisation',
+  MODIFY_SPECIALISATION: 'modifySpecialisation',
   REMOVE_SPECIALISATION: 'removeSpecialisation',
+  SET_PROFESSION_SKILLS: 'setProfessionSkills',
+  REMOVE_PROFESSION_SKILLS: 'removeProfessionSkills',
 };
 
 const get = {
@@ -49,6 +55,9 @@ const get = {
   AVAILABLE_OPTIONAL_SKILL_COUNT: 'availableOptionalSkillCount',
   AVAILABLE_CONNECTIONS_COUNT_BY_ID: 'availableConnectionsCountById',
   PROFESSION_NAME_BY_ID: 'professionNameById',
+  HAS_SPECIALISATION_BY_SKILLNAME: 'hasSpecialisationBySkillname',
+  SKILL_BY_NAME: 'skillByName',
+  BASE_SKILL_VALUE_BY_NAME: 'baseSkillValueByName',
 
   // skills
   PROFESSIONAL_SKILLS: 'professionalSkills',
@@ -56,8 +65,8 @@ const get = {
   MODIFIED_SKILLS: 'modifiedSkills',
   REDUCED_SKILLS: 'reducedSkills',
   OPTIONAL_SKILL_COUNT: 'optionalSkillCount',
-  SKILL_BY_NAME: 'skillByName',
-  CALCULATED_SKILL_VALUE_BY_NAME: 'calculatedSkillValueByName',
+  SKILL_BY_ID: 'skillByName',
+  CALCULATED_SKILL_VALUE_BY_ID: 'calculatedSkillValueByName',
 };
 
 export { get, act };

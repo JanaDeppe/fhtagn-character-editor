@@ -46,6 +46,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      // TODO: rewrite to use get.PROFESSIONAL_SKILLS_BY_ID
       optionalSkills: get.OPTIONAL_SKILLS,
       optionalSkillCount: get.OPTIONAL_SKILL_COUNT,
       getAvailableOptionalSkillCount: get.AVAILABLE_OPTIONAL_SKILL_COUNT,

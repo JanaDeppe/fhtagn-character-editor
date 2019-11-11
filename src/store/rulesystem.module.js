@@ -329,6 +329,22 @@ const getters = {
   [get.AVAILABLE_OPTIONAL_SKILL_COUNT]: state => id => state.professions[id].skills.optionalAmount,
   [get.AVAILABLE_CONNECTIONS_COUNT_BY_ID]: state => id => state.professions[id].connections,
   [get.PROFESSION_NAME_BY_ID]: state => id => (id > -1 ? state.professions[id].name : ''),
+  [get.HAS_SPECIALISATION_BY_SKILLNAME]: state => skillname => !!(state.skills[skillname].specialisation),
+  [get.SKILL_BY_NAME]: state => (skillname) => {
+    const skillRuleset = state.skills[skillname];
+
+    return {
+      skillname,
+      specialisationname: undefined,
+      hasSpecialisation: !!(skillRuleset.specialisation),
+      baseValue: skillRuleset.value,
+      professionalValue: undefined,
+      isProfessional: false,
+      isOptional: false,
+      bonusCount: 0,
+    };
+  },
+  [get.BASE_SKILL_VALUE_BY_NAME]: state => skillname => state.skills[skillname].value,
 };
 
 /* eslint-disable no-param-reassign */

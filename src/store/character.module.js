@@ -1,20 +1,24 @@
 import { get, act } from './type';
 
-const state = {
-  attributeValues: {},
-  connections: [],
-  facettes: [],
-  motivations: [],
-  personalInformation: {
-    Vorname: '',
-    Nachname: '',
-    Muttersprache: '',
-    Alter: '',
-    Aussehen: '',
-  },
-  profession: -1,
-  professionVariant: '',
-};
+function initState() {
+  return {
+    attributeValues: {},
+    connections: [],
+    facettes: [],
+    motivations: [],
+    personalInformation: {
+      Vorname: '',
+      Nachname: '',
+      Muttersprache: '',
+      Alter: '',
+      Aussehen: '',
+    },
+    profession: -1,
+    professionVariant: '',
+  };
+}
+
+const state = initState();
 
 const getters = {
   [get.PROFESSION_ID]: state => state.profession,
@@ -54,6 +58,12 @@ const getters = {
 };
 
 const mutations = {
+  resetCharacterState: (context) => {
+    const s = initState();
+    Object.keys(s).forEach((key) => {
+      context[key] = s[key];
+    });
+  },
   setAttributeValues(context, payload) {
     context.attributeValues = payload;
   },
@@ -78,42 +88,9 @@ const mutations = {
 };
 
 const actions = {
-  [act.CREATE_NEW_CHARACTER]({ commit, rootGetters }) {
-    commit('setAttributeValues', {});
-    commit('updateProfession', -1);
-    commit('setProfessionVariant', '');
-    commit('setConnections', []);
-    commit('setFacettes', []);
-    commit('setMotivations', []);
-    commit('setPersonalInformation', {
-      Vorname: '',
-      Nachname: '',
-      Muttersprache: '',
-      Alter: '',
-      Aussehen: '',
-    });
-
-    const allSkills = rootGetters[get.SKILL_LIST];
-    const characterSkillList = {};
-
-    Object.keys(allSkills).forEach((skill) => {
-      characterSkillList[skill] = {
-        type: allSkills[skill].type,
-        baseValue: allSkills[skill].value,
-        hasSpecialisation: !!(allSkills[skill].specialisation),
-        specialisations: [
-          {
-            name: undefined,
-            value: undefined,
-            isProfessional: false,
-            isOptional: false,
-            isSelected: false,
-            isBonus: false,
-          },
-        ],
-      };
-    });
-    commit('setSkillList', characterSkillList);
+  [act.CREATE_NEW_CHARACTER]({ commit, dispatch }) {
+    commit('resetCharacterState');
+    dispatch(act.INIT_CHARACTER_SKILLS);
   },
   [act.SET_ATTRIBUTE_VALUES]({ commit }, payload) {
     commit('setAttributeValues', payload);

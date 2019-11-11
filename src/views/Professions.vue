@@ -77,6 +77,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      // TODO: rewrite to use get.PROFESSIONAL_SKILLS_BY_ID
       getProfessionalSkills: get.PROFESSIONAL_SKILLS,
       editorSteps: get.EDITOR_STEPS,
       professions: get.PROFESSIONS_LIST,
