@@ -11,7 +11,7 @@ span
     )
       span.material-icons create
     button.button(
-      v-if="canRemoveSpecialisation"
+      v-if="canRemoveSpecialisations"
       @click="remove"
     )
       span.material-icons remove
@@ -27,7 +27,7 @@ span
           .body
             slot(name="body") Bitte bezeichne diese Fertigkeit genauer:
             p
-              label {{skill}}:
+              label {{skillname}}:
                 input(type="text" v-model="specialisationName")
           .footer
             slot(name="footer")
@@ -40,7 +40,7 @@ import Modal from '@/components/Modal.vue';
 export default {
   extends: Modal,
   props: {
-    skill: {
+    skillname: {
       type: String,
       default: '',
     },
@@ -52,7 +52,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    canRemoveSpecialisation: {
+    canRemoveSpecialisations: {
       type: Boolean,
       default: true,
     },

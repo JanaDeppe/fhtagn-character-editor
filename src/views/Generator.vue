@@ -42,7 +42,6 @@ export default {
       editorSteps: get.EDITOR_STEPS,
       currentWarnings: get.CURRENT_WARNINGS,
       warningDataByKey: get.WARNING_DATA_BY_KEY,
-      createNewCharacter: get.CREATE_NEW_CHARACTER,
     }),
     showPrevButton() { return !!(this.prevStep); },
     showNextButton() { return !!(this.nextStep) && this.nextStep.name !== 'attributes'; },
@@ -90,6 +89,7 @@ export default {
   methods: {
     ...mapActions({
       flushWarnings: act.FLUSH_WARNINGS,
+      createNewCharacter: act.CREATE_NEW_CHARACTER,
     }),
   },
 };

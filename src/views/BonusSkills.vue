@@ -3,27 +3,27 @@
   .cell.small-12
     h2.text-center Bonusfertigkeiten
   p.cell Zieh alle Boni zu den gewünschten Fertigkeiten!
-  draggable.bonus-list.cell(:group="'skillModifications'")
+  draggable.bonus-list.cell(group="skillModifications")
     .bonus-badge.label(v-for="i in availableSkills") +20% Bonus
   ul.skill-list.cell
     li.skill-list__item(
-      v-for="(skill, index) in reducedSkills"
+      v-for="skill in skills"
       class="grid-x"
-      :key="skill.skill+skill.index")
+      :key="skill.skillname")
       //- :class="{'is-mythos': !Number.isInteger(skill.value)}")
       skill(
         class="cell auto"
-        :skill="skill.skill"
-        :index="skill.index"
+        :skillname="skill.skillname"
+        :skillId="skill.skillId"
         :showBaseValue="true"
         :showCalculatedValue="true"
         @optional-skill-toggled="checkForError")
       draggable.skill-list__bonus-slot(
         class="cell small-6"
-        :group="'skillModifications'"
-        @add="onAdd(skill.skill, skill.index, $event)"
-        @remove="onRemove(skill.skill, skill.index, $event)"
-        :name="skill"
+        group="skillModifications"
+        @add="onAdd(skill.skillname, skill.skillId, $event)"
+        @remove="onRemove(skill.skillname, skill.skillId, $event)"
+        :name="skill.skillname"
         )
 
 </template>
@@ -49,35 +49,26 @@ export default {
   },
   computed: {
     ...mapGetters({
-      reducedSkills: get.REDUCED_SKILLS,
+      skills: get.SKILL_MAP,
     }),
   },
   created() {
-    this.checkForError(this.currentSkills.length);
+    // this.checkForError(this.currentSkills.length);
   },
   methods: {
     ...mapActions({
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
-      toggleSkill: act.TOGGLE_SKILL,
+      addBonusSkill: act.ADD_BONUS_SKILL,
+      removeBonusSkill: act.REMOVE_BONUS_SKILL,
     }),
-    onAdd(skill, index) {
-      this.currentSkills.push(skill);
-      this.toggleSkill({
-        skill,
-        index,
-        type: 'bonus',
-        value: true,
-      });
+    onAdd(skillname, skillId) {
+      this.currentSkills.push(skillname);
+      this.addBonusSkill({ skillname, skillId });
     },
-    onRemove(skill, index) {
-      this.currentSkills.splice(this.currentSkills.indexOf(skill), 1);
-      this.toggleSkill({
-        skill,
-        index,
-        type: 'bonus',
-        value: false,
-      });
+    onRemove(skillname, skillId) {
+      this.currentSkills.splice(this.currentSkills.indexOf(skillname), 1);
+      this.removeBonusSkill({ skillId });
     },
     checkForError(selectedSkillsAmount) {
       if (selectedSkillsAmount < this.availableSkills) {

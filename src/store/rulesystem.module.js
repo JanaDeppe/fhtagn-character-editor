@@ -341,6 +341,7 @@ const getters = {
       professionalValue: undefined,
       isProfessional: false,
       isOptional: false,
+      isSelected: false,
       bonusCount: 0,
     };
   },

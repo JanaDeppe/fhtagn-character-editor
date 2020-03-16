@@ -27,22 +27,23 @@
             .cell.auto
               input(type="text" v-model="customVariant" placeholder="Eigene Ausprägung" @input="updateVariant")
       blockquote {{currProf.background}}
-      h5 Berufsfertigkeiten:
-      ul.skill-list
-        li.skill-list__item(v-for="skill in getProfessionalSkills")
-          skill(
-            :skill="skill.skill"
-            :index="skill.index"
-            :canAddSpecialisations="false")
-      optional-skill-list(
-        f-if="currProf"
-        :optionalSkills="currProf.skills.optional"
-        :availableSkills="currProf.skills.optionalAmount"
-        :professionId="selectedProfession"
-        v-model="optionalSkills"
-        @specialisation-updated="updateSpecialisation('optional', $event)"
-        )
-      h5 Verbindungen: {{currProf.connections}}
+      div(v-if="!isProfessionLoading")
+        h5 Berufsfertigkeiten:
+        ul.skill-list
+          li.skill-list__item(v-for="skill in professionalSkills")
+            skill(
+              :skillId="skill.skillId"
+              :canAddSpecialisations="false"
+              :canRemoveSpecialisations="false")
+        optional-skill-list(
+          f-if="currProf"
+          :optionalSkills="currProf.skills.optional"
+          :availableSkills="currProf.skills.optionalAmount"
+          :professionId="selectedProfession"
+          v-model="optionalSkills"
+          @specialisation-updated="updateSpecialisation('optional', $event)"
+          )
+        h5 Verbindungen: {{currProf.connections}}
   modal(
     :isVisible="isErrorOpen"
     @modal-closed="isErrorOpen = false")
@@ -77,10 +78,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      // TODO: rewrite to use get.PROFESSIONAL_SKILLS_BY_ID
-      getProfessionalSkills: get.PROFESSIONAL_SKILLS,
+      professionalSkills: get.PROFESSIONAL_SKILLS,
       editorSteps: get.EDITOR_STEPS,
       professions: get.PROFESSIONS_LIST,
+      isProfessionLoading: get.IS_PROFESSION_LOADING,
     }),
     currProf() {
       return this.professions[this.selectedProfession];
@@ -113,7 +114,7 @@ export default {
     ...mapActions({
       dispatchSetProfession: act.SET_PROFESSION,
       updateProfessionVariant: act.UPDATE_PROFESSION_VARIANT,
-      changeSpecialisation: act.CHANGE_SPECIALISATION,
+      modifySpecialisation: act.MODIFY_SPECIALISATION,
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
     }),
@@ -125,7 +126,7 @@ export default {
       this.checkForError(this.currentVariant);
       this.updateProfessionVariant(this.currentVariant);
     },
-    updateSpecialisation(data) {
+    modifySpecialisation(data) {
       this.changeSpecialisation({
         skill: data.skill,
         index: this.index,

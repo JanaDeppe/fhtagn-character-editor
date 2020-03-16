@@ -9,17 +9,17 @@ div.grid-x.grid-padding-x
     )
 
   //- Skill name
-  span.cell.shrink {{skill}}
-    span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.name}}
+  span.cell.shrink {{skillname || currentSkill.skillname}}
+    span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisation}}
     small(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
 
   //- Specialisation editor
   specialisation-editor(
     v-if="currentSkill.hasSpecialisation && enableSpecialisationEditing"
-    :skill="skill"
-    :specialisation="currentSkill.name"
+    :skillname="skillname"
+    :specialisation="currentSkill.specialisation"
     :can-add-specialisations="canAddSpecialisations"
-    :can-remove-specialisation="canRemoveSpecialisation ? index > 0 : false"
+    :can-remove-specialisations="canRemoveSpecialisations"
     @modify-specialisation="modifySpecialisation"
     @add-specialisation="addSpecialisation"
     @remove-specialisation="removeSpecialisation"
@@ -28,10 +28,9 @@ div.grid-x.grid-padding-x
   //- Calculated skill value
   calculated-skill-value(
     v-if="showCalculatedValue"
-    :skillName="skill"
-    :index="index"
+    :skillId="skillId"
     :skill="currentSkill")
-  span.padding-horizontal-1(v-else) ({{currentSkill.value || currentSkill.baseValue}}%)
+  span.padding-horizontal-1(v-else) ({{currentSkill.professionalValue || currentSkill.baseValue}}%)
 </template>
 
 <script>
@@ -47,13 +46,13 @@ export default {
     CalculatedSkillValue,
   },
   props: {
-    skill: {
+    skillname: {
       type: String,
       default: '',
     },
-    index: {
-      type: Number,
-      default: 0,
+    skillId: {
+      type: String,
+      default: '',
     },
     isOptionalCheckbox: {
       type: Boolean,
@@ -71,7 +70,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    canRemoveSpecialisation: {
+    canRemoveSpecialisations: {
       type: Boolean,
       default: true,
     },
@@ -88,45 +87,41 @@ export default {
   computed: {
     ...mapGetters({
       skillByName: get.SKILL_BY_NAME,
+      skillById: get.SKILL_BY_ID,
     }),
     currentSkill() {
-      return this.skillByName(this.skill, this.index);
+      return this.skillId
+        ? this.skillById(this.skillId)
+        : this.skillByName(this.skillname);
     },
   },
   methods: {
     ...mapActions({
-      toggleSkill: act.TOGGLE_SKILL,
-      newSpecialisation: act.NEW_SPECIALISATION,
-      changeSpecialisation: act.CHANGE_SPECIALISATION,
-      removeSpecialisation: act.REMOVE_SPECIALISATION,
+      toggleOptionalSkill: act.TOGGLE_OPTIONAL_SKILL,
+      dispatchAddSpecialisation: act.ADD_SPECIALISATION,
+      dispatchModifySpecialisation: act.MODIFY_SPECIALISATION,
+      dispatchRemoveSpecialisation: act.REMOVE_SPECIALISATION,
     }),
-    selectOptionalSkill(e) {
-      this.toggleSkill({
-        skill: this.skill,
-        index: this.index,
-        type: 'optional',
-        value: e.currentTarget.value,
+    selectOptionalSkill() {
+      this.toggleOptionalSkill({
+        skillname: this.skillname,
+        skillId: this.skillId,
+      }).then(() => {
+        this.$emit('optional-skill-toggled');
       });
-      this.$emit('optional-skill-toggled');
     },
     addSpecialisation() {
-      const newSpecialisation = {
-        skill: this.skill,
-      };
-      if (this.isOptionalCheckbox) newSpecialisation.isOptional = true;
-      this.newSpecialisation(newSpecialisation);
+      this.dispatchAddSpecialisation(this.skillname);
     },
     modifySpecialisation(specialisation) {
-      this.changeSpecialisation({
-        skill: this.skill,
+      this.dispatchModifySpecialisation({
+        skillId: this.skillId,
         specialisation,
-        index: this.index,
       });
     },
     removeSpecialisation() {
-      this.removeSpecialisation({
-        skill: this.skill,
-        index: this.index,
+      this.dispatchRemoveSpecialisation({
+        skillId: this.skillId,
       });
     },
   },

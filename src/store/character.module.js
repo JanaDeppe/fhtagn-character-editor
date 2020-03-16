@@ -15,6 +15,9 @@ function initState() {
     },
     profession: -1,
     professionVariant: '',
+    loadingState: {
+      isProfessionLoading: true,
+    },
   };
 }
 
@@ -55,6 +58,7 @@ const getters = {
   [get.FACETTES]: state => state.facettes,
   [get.MOTIVATIONS]: state => state.motivations,
   [get.PERSONAL_INFORMATION]: state => state.personalInformation,
+  [get.IS_PROFESSION_LOADING]: state => state.loadingState.isProfessionLoading,
 };
 
 const mutations = {
@@ -85,6 +89,9 @@ const mutations = {
   setPersonalInformation(context, payload) {
     context.personalInformation = Object.assign({}, payload);
   },
+  toggleProfessionLoading(context) {
+    context.loadingState.isProfessionLoading = !(context.loadingState.isProfessionLoading);
+  },
 };
 
 const actions = {
@@ -110,57 +117,19 @@ const actions = {
   [act.UPDATE_PERSONAL_INFORMATION]({ commit }, payload) {
     commit('setPersonalInformation', payload);
   },
-  [act.SET_PROFESSION]({
-    commit, rootGetters, rootState,
+  async [act.SET_PROFESSION]({
+    commit, dispatch,
   }, payload) {
-    const professionalSkills = rootGetters[get.PROFESSIONAL_SKILLS_BY_ID](payload);
-    const optionalSkills = rootGetters[get.OPTIONAL_SKILLS_BY_ID](payload);
-    const characterSkills = rootState.skills.skills;
-
-    function assignSkills(skillsObject, toggleMethod) {
-      Object.keys(skillsObject).forEach((skill) => {
-        const currSkill = characterSkills[skill];
-        const value = skillsObject[skill];
-        const isSpecialisationPredefined = typeof value === 'object';
-        const professionalSkillIndex = currSkill.specialisations.findIndex(specialisation => specialisation.isProfessional);
-
-        // If there's no professional specialisation defined, just toggle the first specialisation
-        if (professionalSkillIndex === -1) {
-          commit(toggleMethod, {
-            skill,
-            index: 0,
-            value: true,
-          });
-
-          commit('setSkillValue', {
-            skill,
-            index: 0,
-            value: isSpecialisationPredefined ? value.value : value,
-          });
-
-          if (isSpecialisationPredefined) {
-            commit('modifySpecialisation', {
-              skill,
-              index: 0,
-              specialisation: value.specialisation,
-            });
-          }
-        } else {
-          commit('addSpecialisation', {
-            skill,
-            specialisation: isSpecialisationPredefined ? value.specialisation : undefined,
-            value: isSpecialisationPredefined ? value.value : value,
-            [toggleMethod === 'setProfessionalSkill' ? 'isProfessional' : 'isOptional']: true,
-          });
-        }
-      });
+    if (state.profession > -1) {
+      commit('toggleProfessionLoading');
+      await dispatch(act.REMOVE_PROFESSION_SKILLS);
     }
-
-    assignSkills(professionalSkills, 'setProfessionalSkill');
-    assignSkills(optionalSkills, 'setOptionalSkill');
 
     commit('updateProfession', payload);
     commit('setProfessionVariant', '');
+
+    await dispatch(act.SET_PROFESSION_SKILLS, payload);
+    commit('toggleProfessionLoading');
   },
 
 };
