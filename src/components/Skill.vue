@@ -1,5 +1,5 @@
 <template lang="pug">
-div.grid-x.grid-padding-x
+div.grid-x.grid-margin-x.max-width-100
   //- Optional skill checkbox
   div.cell.shrink(v-if="isOptionalCheckbox")
     input(
@@ -10,14 +10,14 @@ div.grid-x.grid-padding-x
 
   //- Skill name
   span.cell.shrink {{skillname || currentSkill.skillname}}
-    span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisation}}
+    span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisationName}}
     small(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
 
   //- Specialisation editor
   specialisation-editor(
     v-if="currentSkill.hasSpecialisation && enableSpecialisationEditing"
-    :skillname="skillname"
-    :specialisation="currentSkill.specialisation"
+    :skillname="currentSkill.skillname"
+    :specialisation="currentSkill.specialisationName"
     :can-add-specialisations="canAddSpecialisations"
     :can-remove-specialisations="canRemoveSpecialisations"
     @modify-specialisation="modifySpecialisation"
@@ -31,19 +31,28 @@ div.grid-x.grid-padding-x
     :skillId="skillId"
     :skill="currentSkill")
   span.padding-horizontal-1(v-else) ({{currentSkill.professionalValue || currentSkill.baseValue}}%)
+
+  //- Bonus Draggable
+  bonusSkillDraggable(
+    v-if="showDraggable"
+    v-model="currentBonusCount"
+    class="cell small-3")
+
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { get, act } from '@/store/type';
 
+import BonusSkillDraggable from '@/components/BonusSkillDraggable.vue';
 import CalculatedSkillValue from '@/components/CalculatedSkillValue.vue';
 import SpecialisationEditor from '@/components/SpecialisationEditor.vue';
 
 export default {
   components: {
-    SpecialisationEditor,
+    BonusSkillDraggable,
     CalculatedSkillValue,
+    SpecialisationEditor,
   },
   props: {
     skillname: {
@@ -67,6 +76,10 @@ export default {
       default: false,
     },
     showBaseValue: {
+      type: Boolean,
+      default: false,
+    },
+    showDraggable: {
       type: Boolean,
       default: false,
     },
@@ -94,6 +107,19 @@ export default {
         ? this.skillById(this.skillId)
         : this.skillByName(this.skillname);
     },
+    currentBonusCount: {
+      get() {
+        return new Array(this.currentSkill.bonusCount);
+      },
+      set(newValue) {
+        if (newValue === 'add') {
+          this.dispatchAddBonusSkill({ skillname: this.skillname, skillId: this.skillId });
+        }
+        if (newValue === 'remove') {
+          this.dispatchRemoveBonusSkill({ skillId: this.skillId });
+        }
+      },
+    },
   },
   methods: {
     ...mapActions({
@@ -101,6 +127,8 @@ export default {
       dispatchAddSpecialisation: act.ADD_SPECIALISATION,
       dispatchModifySpecialisation: act.MODIFY_SPECIALISATION,
       dispatchRemoveSpecialisation: act.REMOVE_SPECIALISATION,
+      dispatchAddBonusSkill: act.ADD_BONUS_SKILL,
+      dispatchRemoveBonusSkill: act.REMOVE_BONUS_SKILL,
     }),
     selectOptionalSkill() {
       this.toggleOptionalSkill({
@@ -111,7 +139,10 @@ export default {
       });
     },
     addSpecialisation() {
-      this.dispatchAddSpecialisation(this.skillname);
+      this.dispatchAddSpecialisation({
+        skillname: this.currentSkill.skillname,
+        isOptional: this.currentSkill.isOptional,
+      });
     },
     modifySpecialisation(specialisation) {
       this.dispatchModifySpecialisation({
@@ -127,3 +158,9 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+
+@import '../common/settings';
+
+</style>

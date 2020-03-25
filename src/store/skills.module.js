@@ -11,20 +11,23 @@ const getters = {
   [get.MODIFIED_SKILLS](state) {
     const skillIds = Object.keys(state.characterSkills)
       .filter((id) => {
-        const mods = state.characterSkills[id].modIds.map(modId => state.skillModifications[modId]);
+        const mods = state.characterSkills[id].modIds.map((modId) => state.skillModifications[modId]);
 
         // Filter out all skills which do not have modifications
         if (!mods.length) return false;
 
         // Filter out all optional skills which are not selected
-        if (mods.find(mod => mod.type === 'optional')) {
-          if (mods.find(mod => mod.type === 'selected')) return true;
+        if (mods.find((mod) => mod.type === 'optional')) {
+          if (mods.find((mod) => mod.type === 'selected')) return true;
+
+          // unless they have other modifications
+          if (mods.length > 1) return true;
           return false;
         }
 
         return true;
       });
-    const modSkillArray = skillIds.map(id => ({ skillId: id, ...state.characterSkills[id] }));
+    const modSkillArray = skillIds.map((id) => ({ skillId: id, ...state.characterSkills[id] }));
 
     return modSkillArray.sort((a, b) => a.skillname.localeCompare(b.skillname, 'de'));
   },
@@ -33,7 +36,7 @@ const getters = {
     const reducedSkillArray = [];
     skillArray.forEach((skillname) => {
       if (state.skillMap[skillname].length) {
-        state.skillMap[skillname].forEach(skillId => reducedSkillArray.push({ skillId, skillname }));
+        state.skillMap[skillname].forEach((skillId) => reducedSkillArray.push({ skillId, skillname }));
       } else {
         reducedSkillArray.push({ skillname });
       }
@@ -43,9 +46,9 @@ const getters = {
   [get.PROFESSIONAL_SKILLS]: (state) => {
     const profModIds = Object
       .keys(state.skillModifications)
-      .filter(mod => state.skillModifications[mod].type === 'professional');
+      .filter((mod) => state.skillModifications[mod].type === 'professional');
 
-    const profSkillArray = profModIds.map(mod => ({
+    const profSkillArray = profModIds.map((mod) => ({
       skillId: state.skillModifications[mod].skillId,
       ...state.characterSkills[state.skillModifications[mod].skillId],
     }));
@@ -54,23 +57,23 @@ const getters = {
   [get.OPTIONAL_SKILLS]: (state) => {
     const profModIds = Object
       .keys(state.skillModifications)
-      .filter(mod => state.skillModifications[mod].type === 'optional');
+      .filter((mod) => state.skillModifications[mod].type === 'optional');
 
-    const profSkillArray = profModIds.map(mod => ({
+    const profSkillArray = profModIds.map((mod) => ({
       skillId: state.skillModifications[mod].skillId,
       ...state.characterSkills[state.skillModifications[mod].skillId],
     }));
     return profSkillArray.sort((a, b) => a.skillname.localeCompare(b.skillname, 'de'));
   },
   [get.OPTIONAL_SKILL_COUNT](state) {
-    return Object.keys(state.skillModifications).filter(mod => state.skillModifications[mod].type === 'selected').length;
+    return Object.keys(state.skillModifications).filter((mod) => state.skillModifications[mod].type === 'selected').length;
   },
   [get.SKILL_BY_ID]: (state, getters, rootState) => (skillId) => {
     const skill = state.characterSkills[skillId];
     const skillRuleset = rootState.rulesystem.skills[skill.skillname];
-    const isProfessional = !!(skill.modIds.find(modId => state.skillModifications[modId].type === 'professional'));
-    const isOptional = !!(skill.modIds.find(modId => state.skillModifications[modId].type === 'optional'));
-    const isSelected = !!(skill.modIds.find(modId => state.skillModifications[modId].type === 'selected'));
+    const isProfessional = !!(skill.modIds.find((modId) => state.skillModifications[modId].type === 'professional'));
+    const isOptional = !!(skill.modIds.find((modId) => state.skillModifications[modId].type === 'optional'));
+    const isSelected = !!(skill.modIds.find((modId) => state.skillModifications[modId].type === 'selected'));
     let professionalSkill;
     let professionalValue;
 
@@ -81,24 +84,24 @@ const getters = {
 
     return {
       skillname: skill.skillname,
-      specialisationname: skill.specialisation,
+      specialisationName: skill.specialisation,
       hasSpecialisation: !!(skillRuleset.specialisation),
       baseValue: skillRuleset.value,
       professionalValue: professionalValue || null,
       isProfessional,
       isOptional,
       isSelected,
-      bonusCount: skill.modIds.filter(modId => state.skillModifications[modId].type === 'bonus').length,
+      bonusCount: skill.modIds.filter((modId) => state.skillModifications[modId].type === 'bonus').length,
     };
   },
 };
 
 const mutations = {
   resetSkillsState(context) {
-    Object.keys(context).forEach(stateObject => Object.assign(stateObject, {}));
+    Object.keys(context).forEach((stateObject) => Object.assign(stateObject, {}));
   },
   initSkillMap(context, payload) {
-    Object.keys(payload).forEach(skill => Vue.set(context.skillMap, skill, []));
+    Object.keys(payload).forEach((skill) => Vue.set(context.skillMap, skill, []));
   },
   newCharacterSkill(context, { skillname, specialisation, id }) {
     Vue.set(context.characterSkills, id, {
@@ -119,7 +122,7 @@ const mutations = {
   removeCharacterSkill(context, { skillId }) {
     const { skillname } = context.characterSkills[skillId];
     Vue.delete(context.characterSkills, skillId);
-    Vue.delete(context.skillMap[skillname], context.skillMap[skillname].findIndex(id => id === skillId));
+    Vue.delete(context.skillMap[skillname], context.skillMap[skillname].findIndex((id) => id === skillId));
   },
   modIdToSkill(context, { skillId, modId }) {
     context.characterSkills[skillId].modIds.push(modId);
@@ -132,7 +135,7 @@ const mutations = {
     modIds.splice(modIds.indexOf(modId), 1);
   },
   changeSpecialisation(context, { skillId, specialisation }) {
-    context.characterSkills[skillId].specialisation = specialisation;
+    Vue.set(context.characterSkills[skillId], 'specialisation', specialisation);
   },
 };
 
@@ -157,15 +160,19 @@ const actions = {
     commit('newSkillModification', { id: newID, type, skillId });
     return newID;
   },
-  async setProfessionalSkill({ commit, dispatch, state }, { skillname, skill, type }) {
+  async setProfessionalSkill({
+    commit, dispatch, state, rootGetters,
+  }, { skillname, skill, type }) {
     const currentCharacterSkills = state.skillMap[skillname];
+    const skillRuleset = rootGetters[get.SKILL_BY_NAME](skillname);
     const isSpecialisationPredefined = typeof skill === 'object';
 
-    // If specialisation is predefined or this skill does not exist yet,
+    // If a specialisation is possible OR this skill does not exist yet,
     // always add a new skill and a new modification
-    // If not, add the new modification to the existing skill
-    const isNewSkillNeeded = isSpecialisationPredefined || currentCharacterSkills.length === 0;
+    // If notskillname, isOptional, add the new modification to the existing skill
+    const isNewSkillNeeded = skillRuleset.hasSpecialisation || currentCharacterSkills.length === 0;
     const specialisation = isSpecialisationPredefined ? skill.specialisation : '';
+
     const skillId = isNewSkillNeeded
       ? await dispatch(act.NEW_CHARACTER_SKILL, { skillname, specialisation })
       : currentCharacterSkills[0];
@@ -213,7 +220,7 @@ const actions = {
   },
   [act.REMOVE_BONUS_SKILL]({ commit, state }, { skillId }) {
     const skill = state.characterSkills[skillId];
-    const modId = skill.modIds.find(id => state.skillModifications[id].type === 'bonus');
+    const modId = skill.modIds.find((id) => state.skillModifications[id].type === 'bonus');
 
     commit('removeModification', { modId });
     commit('removeModificationFromSkill', { skillId, modId });
@@ -225,7 +232,7 @@ const actions = {
   async [act.TOGGLE_OPTIONAL_SKILL]({ commit, state, dispatch }, { skillId }) {
     // Check if this skill is already selected
     const { modIds } = state.characterSkills[skillId];
-    const modId = modIds.find(id => state.skillModifications[id].type === 'selected');
+    const modId = modIds.find((id) => state.skillModifications[id].type === 'selected');
 
     if (modId) {
       // Remove the modification
@@ -237,8 +244,13 @@ const actions = {
       commit('modIdToSkill', { skillId, modId: newModId });
     }
   },
-  [act.ADD_SPECIALISATION]({ dispatch }, skillname) {
-    dispatch(act.NEW_CHARACTER_SKILL, { skillname, specialisation: '' });
+  async [act.ADD_SPECIALISATION]({ commit, dispatch }, { skillname, isOptional }) {
+    const newSkillId = await dispatch(act.NEW_CHARACTER_SKILL, { skillname, specialisation: '' });
+
+    if (isOptional) {
+      const newModId = await dispatch(act.NEW_SKILL_MODIFICATION, { type: 'optional', skillId: newSkillId });
+      commit('modIdToSkill', { skillId: newSkillId, modId: newModId });
+    }
   },
   [act.MODIFY_SPECIALISATION]({ commit }, { skillId, specialisation }) {
     commit('changeSpecialisation', { skillId, specialisation });
@@ -246,10 +258,6 @@ const actions = {
   [act.REMOVE_SPECIALISATION]({ commit, dispatch }, { skillId }) {
     commit('removeCharacterSkill', { skillId });
     dispatch(act.REMOVE_SKILL_FROM_MODIFICATIONS, { skillId });
-
-    if (!state.characterSkills[skillId].modIds.length && !state.characterSkills[skillId].name) {
-      commit('removeCharacterSkill', { skillId });
-    }
   },
   [act.REMOVE_SKILL_FROM_MODIFICATIONS]({ commit, state }, { skillId }) {
     Object.keys(state.skillModifications).forEach((modId) => {

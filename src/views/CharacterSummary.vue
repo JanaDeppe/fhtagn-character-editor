@@ -29,13 +29,13 @@ div
     .cell.small-12
       ul.skill-list.small-list(v-if="charData.profession > -1")
         li: h6 Fertigkeiten:
-        li(v-for="skill in reducedSkills")
+        li(v-for="skill in skillMap")
           skill(
             :canAddSpecialisations="false"
             :canRemoveSpecialisation="false"
             :showCalculatedValue="true"
-            :skill="skill.skill"
-            :index="skill.index")
+            :skillname="skill.skillname"
+            :skillId="skill.skillId")
 
     // Verbindungen
     .cell.medium-6
@@ -86,8 +86,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      // TODO: rewrite to use get.SKILL_LIST and get.SKILL_BY_ID/NAME
-      reducedSkills: get.REDUCED_SKILLS,
+      skillMap: get.SKILL_MAP,
       derivedValues: get.DERIVED_VALUES,
       charData: get.CHARACTER_DATA,
       attributes: get.ATTRIBUTE_LIST,
@@ -101,7 +100,7 @@ export default {
     },
     aggregatedCharacterData() {
       return {
-        reducedSkills: this.reducedSkills,
+        skillMap: this.skillMap,
         derivedValues: this.derivedValues,
         characterData: this.charData,
         professionName: this.currentProfessionName,

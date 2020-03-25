@@ -31,7 +31,7 @@ span
                 input(type="text" v-model="specialisationName")
           .footer
             slot(name="footer")
-              button.default-button(class="button" @click="modify") OK
+              button.default-button(class="button" @click="close") OK
 
 </template>
 <script>
@@ -58,15 +58,17 @@ export default {
     },
   },
   data() {
-    return {
-      specialisationName: this.specialisation,
-    };
+    return {};
+  },
+  computed: {
+    specialisationName: {
+      get() { return this.specialisation; },
+      set(newValue) {
+        this.$emit('modify-specialisation', newValue);
+      },
+    },
   },
   methods: {
-    modify() {
-      this.$emit('modify-specialisation', this.specialisationName);
-      this.close();
-    },
     add() {
       this.$emit('add-specialisation');
     },

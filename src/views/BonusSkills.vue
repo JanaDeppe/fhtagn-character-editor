@@ -1,30 +1,27 @@
 <template lang="pug">
-.grid-x.grid-margin-x
+.grid-x
   .cell.small-12
     h2.text-center Bonusfertigkeiten
   p.cell Zieh alle Boni zu den gewünschten Fertigkeiten!
-  draggable.bonus-list.cell(group="skillModifications")
+  draggable.bonus-list.cell(
+    group="bonusSkills"
+    @add="onReturnSkill"
+    @remove="onUseSkill")
     .bonus-badge.label(v-for="i in availableSkills") +20% Bonus
   ul.skill-list.cell
     li.skill-list__item(
       v-for="skill in skills"
-      class="grid-x"
-      :key="skill.skillname")
-      //- :class="{'is-mythos': !Number.isInteger(skill.value)}")
+      class="grid-x padding-bottom-1"
+      :key="skill.skillId || skill.skillname")
       skill(
         class="cell auto"
         :skillname="skill.skillname"
         :skillId="skill.skillId"
         :showBaseValue="true"
         :showCalculatedValue="true"
+        :showDraggable="true"
         @optional-skill-toggled="checkForError")
-      draggable.skill-list__bonus-slot(
-        class="cell small-6"
-        group="skillModifications"
-        @add="onAdd(skill.skillname, skill.skillId, $event)"
-        @remove="onRemove(skill.skillname, skill.skillId, $event)"
-        :name="skill.skillname"
-        )
+
 
 </template>
 
@@ -32,8 +29,8 @@
 import { mapGetters, mapActions } from 'vuex';
 import { get, act } from '@/store/type';
 
-import Draggable from 'vuedraggable';
 import Skill from '@/components/Skill.vue';
+import Draggable from 'vuedraggable';
 
 export default {
   props: {},
@@ -43,7 +40,8 @@ export default {
   },
   data() {
     return {
-      availableSkills: 8,
+      availableSkills: new Array(8),
+      usedSkills: 0,
       currentSkills: [],
     };
   },
@@ -59,23 +57,23 @@ export default {
     ...mapActions({
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
-      addBonusSkill: act.ADD_BONUS_SKILL,
-      removeBonusSkill: act.REMOVE_BONUS_SKILL,
     }),
-    onAdd(skillname, skillId) {
-      this.currentSkills.push(skillname);
-      this.addBonusSkill({ skillname, skillId });
-    },
-    onRemove(skillname, skillId) {
-      this.currentSkills.splice(this.currentSkills.indexOf(skillname), 1);
-      this.removeBonusSkill({ skillId });
-    },
+
     checkForError(selectedSkillsAmount) {
       if (selectedSkillsAmount < this.availableSkills) {
         this.addWarning('bonusSkillsRemaining');
       } else {
         this.removeWarning('bonusSkillsRemaining');
       }
+    },
+    getKey(skillname) {
+      const key = `${skillname}-${Math.floor(Math.random() * 50000)}`;
+      return key;
+    },
+    onUseSkill() { this.usedSkills += 1; },
+    onReturnSkill() {
+      this.availableSkills.push(undefined);
+      this.usedSkills -= 1;
     },
   },
 };
@@ -107,15 +105,20 @@ export default {
       width: $badge-width;
       text-align: center;
       line-height: 1.2;
+
+      &[draggable="false"] {
+        display: none;
+      }
   }
 
   .skill-list {
       list-style: none;
       padding: 0;
+      margin: 0;
 
-      @include breakpoint(xlarge) {
-          column-count: 2;
-      }
+      // @include breakpoint(xlarge) {
+      //     column-count: 2;
+      // }
 
       &__item {
           display: flex;
@@ -136,12 +139,6 @@ export default {
           flex-grow: 1;
       }
 
-      &__bonus-slot {
-          min-height: 1rem;
-          background: $light-gray;
-          flex-basis: $badge-width;
-          border-radius: $global-radius;
-      }
 
       &__value {
         flex-basis: 10rem;
