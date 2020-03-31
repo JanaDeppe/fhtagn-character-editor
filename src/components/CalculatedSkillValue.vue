@@ -2,26 +2,17 @@
 .cell.auto.grid-x.align-right
   .cell.shrink.label.secondary(v-if="skill.isProfessional") Beruf
   .cell.shrink.label(v-if="skill.isSelected") Optional
-  .cell.shrink.label.success(v-if="skill.isBonus") Bonus
-  | &nbsp;{{ getCalculatedSkillValueByName(skillName, index) }}
+  .cell.shrink.label.success(v-if="skill.bonusCount") Bonus
+    span(v-if="skill.bonusCount > 1") (x{{ skill.bonusCount }})
+  | &nbsp;{{ calculatedValue }}
   span(v-if="isANumber") %
 
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { get } from '@/store/type';
 
 export default {
   props: {
-    skillName: {
-      type: String,
-      default: '',
-    },
-    index: {
-      type: Number,
-      default: 0,
-    },
     skill: {
       type: Object,
       default() {
@@ -33,18 +24,29 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters({
-      getCalculatedSkillValueByName: get.CALCULATED_SKILL_VALUE_BY_NAME,
-    }),
     isANumber() {
       return Number.isInteger(this.skill.baseValue);
+    },
+    calculatedValue() {
+      const {
+        baseValue, professionalValue, isProfessional, isSelected, bonusCount,
+      } = this.skill;
+
+      let value = baseValue;
+
+      if (isProfessional || isSelected) {
+        value = professionalValue;
+      }
+
+      for (let i = 0; i < bonusCount; i++) value += 20;
+
+      return value;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
-  @import '../common/settings';
+@import '../common/settings';
 
 </style>

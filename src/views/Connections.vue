@@ -57,7 +57,7 @@ export default {
     }),
     checkForError(connections) {
       let isComplete = true;
-      connections.forEach((element) => {
+      connections.forEach(element => {
         if (element.trim() === '') {
           isComplete = false;
         }

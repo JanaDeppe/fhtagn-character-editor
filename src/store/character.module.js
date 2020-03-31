@@ -1,20 +1,27 @@
 import { get, act } from './type';
 
-const state = {
-  attributeValues: {},
-  connections: [],
-  facettes: [],
-  motivations: [],
-  personalInformation: {
-    Vorname: '',
-    Nachname: '',
-    Muttersprache: '',
-    Alter: '',
-    Aussehen: '',
-  },
-  profession: -1,
-  professionVariant: '',
-};
+function initState() {
+  return {
+    attributeValues: {},
+    connections: [],
+    facettes: [],
+    motivations: [],
+    personalInformation: {
+      Vorname: '',
+      Nachname: '',
+      Muttersprache: '',
+      Alter: '',
+      Aussehen: '',
+    },
+    profession: -1,
+    professionVariant: '',
+    loadingState: {
+      isProfessionLoading: true,
+    },
+  };
+}
+
+const state = initState();
 
 const getters = {
   [get.PROFESSION_ID]: state => state.profession,
@@ -36,7 +43,7 @@ const getters = {
     profession,
     professionVariant,
   }),
-  [get.DERIVED_VALUES]: (state) => {
+  [get.DERIVED_VALUES]: state => {
     const { ST, KO, EN } = state.attributeValues;
     const hitpoints = Math.ceil((ST + KO) / 2);
     const willpowerPoints = EN;
@@ -51,9 +58,16 @@ const getters = {
   [get.FACETTES]: state => state.facettes,
   [get.MOTIVATIONS]: state => state.motivations,
   [get.PERSONAL_INFORMATION]: state => state.personalInformation,
+  [get.IS_PROFESSION_LOADING]: state => state.loadingState.isProfessionLoading,
 };
 
 const mutations = {
+  resetCharacterState: context => {
+    const s = initState();
+    Object.keys(s).forEach(key => {
+      context[key] = s[key];
+    });
+  },
   setAttributeValues(context, payload) {
     context.attributeValues = payload;
   },
@@ -73,47 +87,17 @@ const mutations = {
     context.motivations = payload;
   },
   setPersonalInformation(context, payload) {
-    context.personalInformation = Object.assign({}, payload);
+    context.personalInformation = { ...payload };
+  },
+  toggleProfessionLoading(context) {
+    context.loadingState.isProfessionLoading = !(context.loadingState.isProfessionLoading);
   },
 };
 
 const actions = {
-  [act.CREATE_NEW_CHARACTER]({ commit, rootGetters }) {
-    commit('setAttributeValues', {});
-    commit('updateProfession', -1);
-    commit('setProfessionVariant', '');
-    commit('setConnections', []);
-    commit('setFacettes', []);
-    commit('setMotivations', []);
-    commit('setPersonalInformation', {
-      Vorname: '',
-      Nachname: '',
-      Muttersprache: '',
-      Alter: '',
-      Aussehen: '',
-    });
-
-    const allSkills = rootGetters[get.SKILL_LIST];
-    const characterSkillList = {};
-
-    Object.keys(allSkills).forEach((skill) => {
-      characterSkillList[skill] = {
-        type: allSkills[skill].type,
-        baseValue: allSkills[skill].value,
-        hasSpecialisation: !!(allSkills[skill].specialisation),
-        specialisations: [
-          {
-            name: undefined,
-            value: undefined,
-            isProfessional: false,
-            isOptional: false,
-            isSelected: false,
-            isBonus: false,
-          },
-        ],
-      };
-    });
-    commit('setSkillList', characterSkillList);
+  [act.CREATE_NEW_CHARACTER]({ commit, dispatch }) {
+    commit('resetCharacterState');
+    dispatch(act.INIT_CHARACTER_SKILLS);
   },
   [act.SET_ATTRIBUTE_VALUES]({ commit }, payload) {
     commit('setAttributeValues', payload);
@@ -133,57 +117,19 @@ const actions = {
   [act.UPDATE_PERSONAL_INFORMATION]({ commit }, payload) {
     commit('setPersonalInformation', payload);
   },
-  [act.SET_PROFESSION]({
-    commit, rootGetters, rootState,
+  async [act.SET_PROFESSION]({
+    commit, dispatch,
   }, payload) {
-    const professionalSkills = rootGetters[get.PROFESSIONAL_SKILLS_BY_ID](payload);
-    const optionalSkills = rootGetters[get.OPTIONAL_SKILLS_BY_ID](payload);
-    const characterSkills = rootState.skills.skills;
-
-    function assignSkills(skillsObject, toggleMethod) {
-      Object.keys(skillsObject).forEach((skill) => {
-        const currSkill = characterSkills[skill];
-        const value = skillsObject[skill];
-        const isSpecialisationPredefined = typeof value === 'object';
-        const professionalSkillIndex = currSkill.specialisations.findIndex(specialisation => specialisation.isProfessional);
-
-        // If there's no professional specialisation defined, just toggle the first specialisation
-        if (professionalSkillIndex === -1) {
-          commit(toggleMethod, {
-            skill,
-            index: 0,
-            value: true,
-          });
-
-          commit('setSkillValue', {
-            skill,
-            index: 0,
-            value: isSpecialisationPredefined ? value.value : value,
-          });
-
-          if (isSpecialisationPredefined) {
-            commit('modifySpecialisation', {
-              skill,
-              index: 0,
-              specialisation: value.specialisation,
-            });
-          }
-        } else {
-          commit('addSpecialisation', {
-            skill,
-            specialisation: isSpecialisationPredefined ? value.specialisation : undefined,
-            value: isSpecialisationPredefined ? value.value : value,
-            [toggleMethod === 'setProfessionalSkill' ? 'isProfessional' : 'isOptional']: true,
-          });
-        }
-      });
+    if (state.profession > -1) {
+      commit('toggleProfessionLoading');
+      await dispatch(act.REMOVE_PROFESSION_SKILLS);
     }
-
-    assignSkills(professionalSkills, 'setProfessionalSkill');
-    assignSkills(optionalSkills, 'setOptionalSkill');
 
     commit('updateProfession', payload);
     commit('setProfessionVariant', '');
+
+    await dispatch(act.SET_PROFESSION_SKILLS, payload);
+    commit('toggleProfessionLoading');
   },
 
 };

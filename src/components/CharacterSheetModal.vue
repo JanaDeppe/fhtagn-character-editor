@@ -45,7 +45,7 @@ export default {
     createPDFDocument() {
       this.characterSheetService
         .generateDocumentURL()
-        .then((url) => {
+        .then(url => {
           this.$refs.pdfDocumentViewer.src = url;
         });
     },

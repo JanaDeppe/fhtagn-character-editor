@@ -7,11 +7,10 @@ div
     .label.warning {{errorTypes[error]}}
   ul.skill-list
     li(
-      v-for="(skill, index) in optionalSkills"
-      :key="skill.skill+skill.index")
+      v-for="skill in optionalSkills"
+      :key="skill.skillId")
       skill(
-        :skill="skill.skill"
-        :index="skill.index"
+        :skillId="skill.skillId"
         :isOptionalCheckbox="true"
         @optional-skill-toggled="checkForError")
 

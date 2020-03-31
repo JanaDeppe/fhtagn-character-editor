@@ -1,37 +1,38 @@
 <template lang="pug">
 span
   .button-group.tiny.display-inline-block.margin-0
-    button.button(
+    button.button.add-specialisation(
       v-if="canAddSpecialisations"
       @click="add"
     )
       span.material-icons add
     button.button(
+      v-if="canModifySpecialisations"
       @click="open"
     )
       span.material-icons create
     button.button(
-      v-if="canRemoveSpecialisation"
+      v-if="canRemoveSpecialisations"
       @click="remove"
     )
       span.material-icons remove
   transition(name="modal" appear)
-      .overlay(v-if="isActive")
-        .container
-          button.material-icons.close-button(
-            v-if="hasCloseButton"
-            @click="close()"
-          ) close
-          .header
-            slot(name="header") default header
-          .body
-            slot(name="body") Bitte bezeichne diese Fertigkeit genauer:
-            p
-              label {{skill}}:
-                input(type="text" v-model="specialisationName")
-          .footer
-            slot(name="footer")
-              button.default-button(class="button" @click="modify") OK
+    .overlay(v-if="isActive")
+      .container
+        button.material-icons.close-button(
+          v-if="hasCloseButton"
+          @click="close()"
+        ) close
+        .header
+          slot(name="header") default header
+        .body
+          slot(name="body") Bitte bezeichne diese Fertigkeit genauer:
+          p
+            label {{skillname}}:
+              input(type="text" v-model="specialisationName")
+        .footer
+          slot(name="footer")
+            button.default-button(class="button" @click="close") OK
 
 </template>
 <script>
@@ -40,7 +41,7 @@ import Modal from '@/components/Modal.vue';
 export default {
   extends: Modal,
   props: {
-    skill: {
+    skillname: {
       type: String,
       default: '',
     },
@@ -52,26 +53,35 @@ export default {
       type: Boolean,
       default: true,
     },
-    canRemoveSpecialisation: {
+    canModifySpecialisations: {
+      type: Boolean,
+      default: true,
+    },
+    canRemoveSpecialisations: {
       type: Boolean,
       default: true,
     },
   },
   data() {
-    return {
-      specialisationName: this.specialisation,
-    };
+    return {};
+  },
+  computed: {
+    specialisationName: {
+      get() { return this.specialisation; },
+      set(newValue) {
+        this.$emit('modify-specialisation', newValue);
+      },
+    },
   },
   methods: {
-    modify() {
-      this.$emit('modify-specialisation', this.specialisationName);
-      this.close();
-    },
     add() {
       this.$emit('add-specialisation');
     },
     remove() {
       this.$emit('remove-specialisation');
+    },
+    onEditorOpen() {
+      this.$emit('editor-opened');
     },
   },
 };

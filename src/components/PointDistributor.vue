@@ -51,7 +51,7 @@ export default {
     }),
     currentPointsTotal() {
       let total = 0;
-      Object.keys(this.currentAttributes).forEach((item) => {
+      Object.keys(this.currentAttributes).forEach(item => {
         total += parseInt(this.currentAttributes[item], 10);
       });
       return total;
@@ -72,7 +72,7 @@ export default {
       removeWarning: act.REMOVE_WARNING,
     }),
     setInitAttributes() {
-      this.attributes.forEach((item) => {
+      this.attributes.forEach(item => {
         this.$set(this.currentAttributes, item.abbr, 3);
         this.$emit('input', this.currentAttributes);
       });

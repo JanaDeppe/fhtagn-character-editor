@@ -20,15 +20,14 @@ div
     span(v-else) {{professionName}}
 
   // Skills
-  ul.skill-list.small-list(v-if="profession > -1")
+  ul.skill-list.small-list(v-if="!isProfessionLoading")
     li: h6 Fertigkeiten:
     li(v-for="skill in modifiedSkills")
       skill(
         :canAddSpecialisations="false"
         :canRemoveSpecialisation="false"
         :showCalculatedValue="true"
-        :skill="skill.skill"
-        :index="skill.index")
+        :skillId="skill.skillId")
 
   // Verbindungen
   ul.small-list(v-if="connections.length > 0")
@@ -64,6 +63,7 @@ export default {
       modifiedSkills: get.MODIFIED_SKILLS,
       characterData: get.CHARACTER_DATA,
       professionNameById: get.PROFESSION_NAME_BY_ID,
+      isProfessionLoading: get.IS_PROFESSION_LOADING,
     }),
     attributeValues() {
       return this.characterData.attributeValues;

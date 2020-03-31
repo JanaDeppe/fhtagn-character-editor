@@ -31,7 +31,7 @@ class TextInPdfService {
 
     list.forEach((headers, page) => {
       this.doc.switchToPage(page);
-      headers.forEach((header) => {
+      headers.forEach(header => {
         this.doc
           .fontSize(fontSize)
           .fillColor(color)
@@ -45,7 +45,7 @@ class TextInPdfService {
     });
   }
 
-  printSkillNameAndBaseValue({ skill, baseValue, hasSpecialisation }, currentColumn, currentLine) {
+  printSkillNameAndBaseValue({ skillname, baseValue, hasSpecialisation }, currentColumn, currentLine) {
     const {
       tableIndex,
       fontSize,
@@ -55,20 +55,20 @@ class TextInPdfService {
       indentWithSquare,
     } = this.skillsSettings;
 
-    const hasBaseValue = skill !== 'Traumlandwissen' && skill !== 'Unnatürliches Wissen';
+    const hasBaseValue = skillname !== 'Traumlandwissen' && skillname !== 'Unnatürliches Wissen';
 
     this.doc.font(this.labelFont)
       .fontSize(fontSize)
       .fillColor(color)
       .text(
-        hasBaseValue ? `${skill} (${baseValue}%)` : `${skill}`,
+        hasBaseValue ? `${skillname} (${baseValue}%)` : `${skillname}`,
         (hasSpecialisation ? this.defaultLineIndent : indentWithSquare) + currentColumn * columnWidth,
         TextInPdfService.convertLineToPixel(uppermostLine + currentLine, tableIndex),
         { width: 95 },
       );
   }
 
-  printSpecialisationName({ name }, currentColumn, currentLine) {
+  printSpecialisationName({ specialisationName }, currentColumn, currentLine) {
     const {
       tableIndex,
       fontSize,
@@ -82,7 +82,7 @@ class TextInPdfService {
       .fontSize(fontSize)
       .fillColor(color)
       .text(
-        `${name}`,
+        `${specialisationName}`,
         indentWithSquare + currentColumn * columnWidth,
         TextInPdfService.convertLineToPixel(uppermostLine + currentLine, tableIndex),
         { width: 95 },
