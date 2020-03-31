@@ -47,7 +47,7 @@ export default {
     showNextButton() { return !!(this.nextStep) && this.nextStep.name !== 'attributes'; },
   },
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
+    next(vm => {
       /* eslint-disable no-param-reassign */
       const nextRouteIndex = vm.editorSteps.findIndex(record => to.name === record.name);
       if (nextRouteIndex === 0) vm.prevStep = false;
@@ -70,7 +70,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     if (this.currentWarnings.length) {
-      this.currentWarnings.forEach((item) => {
+      this.currentWarnings.forEach(item => {
         const currentWarningData = this.warningDataByKey(item);
         this.$notify({
           group: 'default',

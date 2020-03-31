@@ -43,7 +43,7 @@ const getters = {
     profession,
     professionVariant,
   }),
-  [get.DERIVED_VALUES]: (state) => {
+  [get.DERIVED_VALUES]: state => {
     const { ST, KO, EN } = state.attributeValues;
     const hitpoints = Math.ceil((ST + KO) / 2);
     const willpowerPoints = EN;
@@ -62,9 +62,9 @@ const getters = {
 };
 
 const mutations = {
-  resetCharacterState: (context) => {
+  resetCharacterState: context => {
     const s = initState();
-    Object.keys(s).forEach((key) => {
+    Object.keys(s).forEach(key => {
       context[key] = s[key];
     });
   },
@@ -87,7 +87,7 @@ const mutations = {
     context.motivations = payload;
   },
   setPersonalInformation(context, payload) {
-    context.personalInformation = Object.assign({}, payload);
+    context.personalInformation = { ...payload };
   },
   toggleProfessionLoading(context) {
     context.loadingState.isProfessionLoading = !(context.loadingState.isProfessionLoading);

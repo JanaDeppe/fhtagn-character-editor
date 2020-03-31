@@ -78,6 +78,7 @@ class CharacterSheetService {
           self.pdfDocument.registerFont(name, self.fontCollection[name]);
           resolve();
         } else {
+          // eslint-disable-next-line no-console
           console.log(`Error downloading font resource from ${src}`);
           reject();
         }
@@ -88,7 +89,7 @@ class CharacterSheetService {
   }
 
   generateDocumentURL() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.fillPDFDocument();
       this.stream.on('finish', () => {
         resolve(this.stream.toBlobURL('application/pdf'));
@@ -113,7 +114,7 @@ class CharacterSheetService {
   }
 
   addLabels() {
-    Object.keys(this.labels).forEach((listName) => {
+    Object.keys(this.labels).forEach(listName => {
       const { fontSize, color, font } = this.labels[listName].settings;
       this.text.printTextList({
         list: this.labels[listName].texts,
@@ -127,7 +128,7 @@ class CharacterSheetService {
   addCharacterData() {
     const doc = this.pdfDocument;
 
-    Object.keys(this.characterDataSettings.types).forEach((typeKey) => {
+    Object.keys(this.characterDataSettings.types).forEach(typeKey => {
       const values = this.characterSettingsDataMap[typeKey];
       const { items, typeSettings } = this.characterDataSettings.types[typeKey];
       const {
@@ -141,7 +142,7 @@ class CharacterSheetService {
       let iterableObject = isArray ? values : Object.keys(items);
 
       // Remove empty strings from Arrays:
-      if (isArray) iterableObject = iterableObject.filter((item) => item.trim() !== '');
+      if (isArray) iterableObject = iterableObject.filter(item => item.trim() !== '');
 
       iterableObject.forEach((key, index) => {
         const itemSettings = isArray ? items[typeKey] : items[key];
@@ -161,7 +162,7 @@ class CharacterSheetService {
 
       // Special cases
       if (typeKey === 'attributeValues') {
-        Object.keys(items).forEach((key) => {
+        Object.keys(items).forEach(key => {
           doc
             .fontSize(fontSize)
             .fillColor(color)

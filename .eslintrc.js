@@ -28,6 +28,7 @@ module.exports = {
       }
     ],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "arrow-parens": ["error", "as-needed"],
   },
   parserOptions: {
     parser: 'babel-eslint',

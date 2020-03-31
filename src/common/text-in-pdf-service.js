@@ -31,7 +31,7 @@ class TextInPdfService {
 
     list.forEach((headers, page) => {
       this.doc.switchToPage(page);
-      headers.forEach((header) => {
+      headers.forEach(header => {
         this.doc
           .fontSize(fontSize)
           .fillColor(color)

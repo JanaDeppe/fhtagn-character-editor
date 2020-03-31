@@ -39,7 +39,7 @@ export default {
     }),
     checkForError(personalInfo) {
       let isComplete = true;
-      Object.values(personalInfo).forEach((element) => {
+      Object.values(personalInfo).forEach(element => {
         if (element === '') {
           isComplete = false;
         }

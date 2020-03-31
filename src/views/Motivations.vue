@@ -50,7 +50,7 @@ export default {
     }),
     checkForError(motivations) {
       let isComplete = true;
-      motivations.forEach((element) => {
+      motivations.forEach(element => {
         if (element === '') {
           isComplete = false;
         }
