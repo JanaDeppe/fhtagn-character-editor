@@ -1,5 +1,7 @@
 <template lang="pug">
-div.grid-x.grid-margin-x.max-width-100
+div.grid-x.grid-margin-x.max-width-100(
+  :class="{'is-nonexisting-specialisation': !skillId && currentSkill.hasSpecialisation}"
+)
   //- Optional skill checkbox
   div.cell.shrink(v-if="isOptionalCheckbox")
     input(
@@ -9,7 +11,7 @@ div.grid-x.grid-margin-x.max-width-100
     )
 
   //- Skill name
-  span.cell.shrink {{skillname || currentSkill.skillname}}
+  span.cell.shrink.skill-name {{skillname || currentSkill.skillname}}
     span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisationName}}
     small(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
 
@@ -19,7 +21,8 @@ div.grid-x.grid-margin-x.max-width-100
     :skillname="currentSkill.skillname"
     :specialisation="currentSkill.specialisationName"
     :can-add-specialisations="canAddSpecialisations"
-    :can-remove-specialisations="canRemoveSpecialisations"
+    :can-modify-specialisations="!!(skillId)"
+    :can-remove-specialisations="canRemoveSpecialisations && !!(skillId)"
     @modify-specialisation="modifySpecialisation"
     @add-specialisation="addSpecialisation"
     @remove-specialisation="removeSpecialisation"
@@ -160,7 +163,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 @import '../common/settings';
+
+.is-nonexisting-specialisation {
+
+  .skill-name {
+    opacity: .5;
+  }
+
+  .add-specialisation {
+    opacity: 1;
+  }
+}
 
 </style>
