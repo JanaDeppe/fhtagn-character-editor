@@ -45,9 +45,6 @@ export default {
     onRemove() {
       this.$emit('input', 'remove');
     },
-    log(e) {
-      console.log(e);
-    },
   },
 };
 </script>
