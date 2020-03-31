@@ -32,7 +32,7 @@ div
         li(v-for="skill in skillMap")
           skill(
             :canAddSpecialisations="false"
-            :canRemoveSpecialisation="false"
+            :canRemoveSpecialisations="false"
             :showCalculatedValue="true"
             :skillname="skill.skillname"
             :skillId="skill.skillId")
