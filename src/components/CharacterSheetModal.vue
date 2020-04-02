@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../common/settings';
+@import "../common/settings";
 
 .container {
   width: 95%;

@@ -86,10 +86,10 @@ export default {
   margin: 0 0 $paragraph-margin-bottom;
   line-height: 37px;
 
-  @include breakpoint(large) {
+  @include media-breakpoint-up(lg) {
     column-count: 2;
   }
-  @include breakpoint(xlarge) {
+  @include media-breakpoint-up(xl) {
     colummn-count: 3;
   }
 }

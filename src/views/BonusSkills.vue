@@ -80,69 +80,68 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../common/settings";
 
-  @import '../common/settings';
+$badge-width: 95px;
 
-  $badge-width: 95px;
+.bonus-list,
+.skill-list {
+  margin-bottom: $paragraph-margin-bottom;
+}
 
-  .bonus-list,
-  .skill-list {
-      margin-bottom: $paragraph-margin-bottom;
-  }
-
-  .bonus-list {
-      padding: .2rem 0 0 .2rem;
-      background: $light-gray;
-      min-height: 2rem;
-
-      .bonus-badge {
-          margin-right: .2rem;
-          margin-bottom: .2rem;
-      }
-  }
+.bonus-list {
+  padding: .2rem 0 0 .2rem;
+  background: theme-color("light");
+  min-height: 2rem;
 
   .bonus-badge {
-      width: $badge-width;
-      text-align: center;
-      line-height: 1.2;
+    margin-right: .2rem;
+    margin-bottom: .2rem;
+  }
+}
 
-      &[draggable="false"] {
+.bonus-badge {
+  width: $badge-width;
+  text-align: center;
+  line-height: 1.2;
+
+  &[draggable="false"] {
+    display: none;
+  }
+}
+
+.skill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  // @include breakpoint(xlarge) {
+  //     column-count: 2;
+  // }
+
+  &__item {
+    display: flex;
+    align-items: stretch;
+    margin: 0 0 .2rem;
+
+    &.is-mythos {
+      .skill-list__bonus-slot {
         display: none;
       }
-  }
-
-  .skill-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-
-      // @include breakpoint(xlarge) {
-      //     column-count: 2;
-      // }
-
-      &__item {
-          display: flex;
-          align-items: stretch;
-          margin: 0 0 .2rem;
-
-          &.is-mythos {
-            .skill-list__bonus-slot {
-              display: none;
-            }
-            .skill-list__value {
-              flex-basis: 10rem;
-            }
-          }
-      }
-
-      &__label {
-          flex-grow: 1;
-      }
-
-
-      &__value {
+      .skill-list__value {
         flex-basis: 10rem;
-        text-align: right;
       }
+    }
   }
+
+  &__label {
+    flex-grow: 1;
+  }
+
+
+  &__value {
+    flex-basis: 10rem;
+    text-align: right;
+  }
+}
 </style>

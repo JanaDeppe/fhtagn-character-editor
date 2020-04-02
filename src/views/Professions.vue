@@ -165,23 +165,23 @@ export default {
 .profession-list {
   height: 30vh;
   overflow-x: scroll;
-  border: $hr-border;
-  margin: 0 0 map_get($grid-column-gutter, small);
+  border: $hr-border-width solid $hr-border-color;
+  margin: 0 0 $grid-gutter-width;
 
   &__profession {
-    padding: map_get($grid-column-gutter, small)/2;
+    padding: $grid-gutter-width/2;
     cursor: pointer;
 
-    @include breakpoint(medium) {
-      padding: map_get($grid-column-gutter, medium)/4;
+    @include media-breakpoint-up(md) {
+      padding: $grid-gutter-width/4;
     }
 
     &:hover {
-      background: $light-gray;
+      background: theme-color("light");
     }
 
     &.is-active {
-      background: $primary-transparent;
+      background: transparentize(theme-color("light"), .5);
     }
   }
 }
@@ -191,10 +191,10 @@ export default {
   margin: 0 0 $paragraph-margin-bottom;
   line-height: 37px;
 
-  @include breakpoint(large) {
+  @include media-breakpoint-up(lg) {
     column-count: 2;
   }
-  @include breakpoint(xlarge) {
+  @include media-breakpoint-up(xl) {
     colummn-count: 3;
   }
 }

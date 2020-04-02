@@ -50,14 +50,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../common/settings';
+@import "../common/settings";
 
 $badge-width: 95px;
 
 .bonus-draggable {
   min-height: 1rem;
-  background: $light-gray;
+  background: theme-color("light");
   flex-basis: $badge-width;
-  border-radius: $global-radius;
+  border-radius: $border-radius;
 }
 </style>

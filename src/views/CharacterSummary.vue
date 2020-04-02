@@ -116,7 +116,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../common/settings';
+@import "../common/settings";
 
 .small-list {
   list-style: none;
@@ -130,7 +130,7 @@ export default {
 }
 
 .skill-list {
-  @include breakpoint(medium) {
+  @include media-breakpoint-up(md) {
     column-count: 2;
   }
   li {
