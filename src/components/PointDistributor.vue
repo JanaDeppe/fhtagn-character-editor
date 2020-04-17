@@ -1,13 +1,14 @@
 <template lang="pug">
-.grid-y
-  .cell.align-self-bottom.text-right.label.primary
-    .h6.margin-vertical-0 Restliche Punkte: {{remainingPoints}}
-  .cell.label.warning(v-if="error") {{errorTypes[error]}}
-  .cell(v-for="attribute in attributes")
-    .grid-x.grid-padding-x.field-container
-      .cell.medium-4
-        label.text-right.middle(:for="attribute.abbr") {{attribute.name}}
-      .cell.medium-8.large-6
+.d-flex.flex-column
+  .row.text-right
+    .col-10.h4 Restliche Punkte: {{remainingPoints}}
+  .h4
+    .d-block.badge.badge-warning(v-if="error") {{errorTypes[error]}}
+  .mb-3(v-for="attribute in attributes")
+    .row.form-group
+      .col-12.col-md-4.text-right.align-self-center
+        label(:for="attribute.abbr") {{attribute.name}}
+      .col-12.col-md-8.col-lg-6
         attribute-spinner(
           :input-id="attribute.abbr"
           v-model="currentAttributes[attribute.abbr]"

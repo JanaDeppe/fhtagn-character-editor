@@ -1,35 +1,35 @@
 <template lang="pug">
 div
-  .grid-x.grid-padding-x.grid-padding-y(ref="characterSummaryContainer")
-    .cell.small-12
+  .row(ref="characterSummaryContainer")
+    .col-12.mb-3
       h4.text-center Zusammenfassung&nbsp;<br>
         span(v-if="charData.personalInformation.Vorname || charData.personalInformation.Nachname")
           | "{{charData.personalInformation.Vorname}} {{charData.personalInformation.Nachname}}"
-    .cell.small-12
-      .grid-x
-        .cell.small-6(v-if="charData.personalInformation.Geschlecht") {{charData.personalInformation.Geschlecht}}
-        .cell.small-6(v-if="charData.personalInformation.Alter") {{charData.personalInformation.Alter}}
-        .cell.small-12(v-if="charData.personalInformation.Aussehen") {{charData.personalInformation.Aussehen}}
+    .col-12.mb-3
+      .row
+        .col-6(v-if="charData.personalInformation.Alter") Alter: {{charData.personalInformation.Alter}}
+        .col-6(v-if="charData.personalInformation.Muttersprache") Muttersprache: {{charData.personalInformation.Muttersprache}}
+        .col-12(v-if="charData.personalInformation.Aussehen") Aussehen: {{charData.personalInformation.Aussehen}}
 
     // Attribute
-    .cell.small-12
+    .col-12.mb-5
       h5(v-if="Object.keys(charData.attributeValues).length") Attribute:
-      ul.small-list.attribute-list(v-if="charData.attributeValues")
-        li(v-for="(value, abbr) in charData.attributeValues").grid-x
-          .cell.small-4 {{abbr}}:
-          .cell.small-8 {{value}}
+      ul.list-unstyled.attribute-list(v-if="charData.attributeValues")
+        li(v-for="(value, abbr) in charData.attributeValues").row
+          .col-2 {{abbr}}:
+          .col-10 {{value}}
 
     // Beruf
-    .cell.small-12
+    .col-12.mb-3
       h5(v-if="charData.profession > -1") Beruf:
         span(v-if="charData.professionVariant") {{charData.professionVariant}} ({{currentProfessionName}})
         span(v-else) {{currentProfessionName}}
 
     // Skills
-    .cell.small-12
-      ul.skill-list.small-list(v-if="charData.profession > -1")
-        li: h6 Fertigkeiten:
-        li(v-for="skill in skillMap")
+    .col-12.mb-5
+      h6 Fertigkeiten:
+      ul.skill-list.list-unstyled(v-if="charData.profession > -1")
+        li.mb-2(v-for="skill in skillMap")
           skill(
             :canAddSpecialisations="false"
             :canRemoveSpecialisations="false"
@@ -38,25 +38,27 @@ div
             :skillId="skill.skillId")
 
     // Verbindungen
-    .cell.medium-6
-      ul.small-list(v-if="charData.connections.length")
+    .col-12.col-md-6.mb-3(v-if="charData.connections.length")
+      ul.list-unstyled
         li: h6 Verbindungen:
         li(v-for="conn in charData.connections" v-if="conn.length > 0") {{conn}}
-    .cell.medium-6
-      // Facetten
-      ul.small-list(v-if="charData.facettes.length")
+
+    // Facetten
+    .col-12.col-md-6.mb-3(v-if="charData.facettes.length")
+      ul.list-unstyled
         li: h6 Facetten:
         li(v-for="facette in charData.facettes") {{facette}}
-    .cell.medium-6
-      // Motivationen
-      ul.small-list(v-if="charData.motivations.length")
+
+    // Motivationen
+    .col-12.col-md-6.mb-3(v-if="charData.motivations.length")
+      ul.list-unstyled
         li: h6 Motivationen:
         li(v-for="motivation in charData.motivations" v-if="motivation.length > 0") {{motivation}}
 
-  .grid-x
-    .cell.small-12.button-group.align-center
-      button.button(@click="openCharacterSheet") Charakterbogen erstellen
-      router-link.button.hollow(:to="{ name: 'start-generation' }") Zurück zum Anfang
+  .row.mt-3.mb-5
+    .col-6.offset-3.btn-group
+      button.btn.btn-success(@click="openCharacterSheet") Charakterbogen erstellen
+      router-link.btn.btn-outline-success(:to="{ name: 'start-generation' }") Zurück zum Anfang
 
   character-sheet-modal(
     v-if="isCharacterSheetOpen"
@@ -116,25 +118,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../common/settings';
-
-.small-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-size: .8em;
-}
+@import "../common/settings";
 
 .attribute-list {
-  column-count: 2;
+  column-count: 3;
 }
 
 .skill-list {
-  @include breakpoint(medium) {
+  @include media-breakpoint-up(md) {
     column-count: 2;
-  }
-  li {
-    margin-bottom: .1rem;
   }
 }
 

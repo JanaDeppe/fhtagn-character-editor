@@ -1,20 +1,22 @@
 <template lang="pug">
-.grid-x.grid-margin-x.grid-margin-y
-  .cell.medium-8.medium-cell-block-y
-    keep-alive
-      router-view
-    .grid-x
-      .cell.small-6
-        router-link.button(
-          v-if="showPrevButton"
-          :to="'/' + prevStep.path") Vorheriger Schritt
-      .cell.small-6.text-right
-        router-link.button(
-          v-if="showNextButton"
-          :to="'/' + nextStep.path") Nächster Schritt
+.container-fluid
+  .row
+    .col-12.col-md-8
+      keep-alive
+        router-view
+      .row.mt-3
+        .col-6
+          router-link.btn.btn-secondary(
+            v-if="showPrevButton"
+            :to="'/' + prevStep.path") Vorheriger Schritt
+        .col-6.text-right
+          router-link.btn.btn-secondary(
+            v-if="showNextButton"
+            :to="'/' + nextStep.path") Nächster Schritt
 
-  .cell.medium-4.medium-cell-block-y.callout
-    sidebar-summary
+    .col-12.col-md-4.d-flex
+      .border.p-3.flex-grow-1
+        sidebar-summary
 
 </template>
 

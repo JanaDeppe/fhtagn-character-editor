@@ -2,34 +2,32 @@
 .grid-x
   .cell
     h2.text-center Profession Selector
-    ul.profession-list
+    ul.profession-list.list-unstyled
       li.profession-list__profession(
         :class="{'is-active': selectedProfession == index}"
         v-for="(profession, index) in professions"
         @click="setProfession(index)"
       ) {{profession.name}}
 
-    .callout(v-if="selectedProfession > -1")
+    .border.p-3(v-if="selectedProfession > -1")
       h3 {{currProf.name}}
         small  (
           span(v-for="(attr, index) in currProf.recommendedAttributes")
             span(v-if="index != 0") ,&nbsp;
             | {{attr}}
           | )
-      ul.variant-list
-        li.grid-x.grid-padding-x(v-for="variant in currProf.variants")
-          .cell.shrink
-            input(type="radio" id="variant" v-model="selectedVariant" :value="variant" @change="updateVariant")
-          .cell.auto {{variant}}
-        li.grid-x.grid-padding-x
-            .cell.shrink
-              input(type="radio" v-model="selectedVariant" value="custom" @change="updateVariant")
-            .cell.auto
-              input(type="text" v-model="customVariant" placeholder="Eigene Ausprägung" @input="updateVariant")
-      blockquote {{currProf.background}}
-      div(v-if="!isProfessionLoading")
+      ul.variant-list.list-unstyled
+        li.form-check.mb-2(v-for="variant in currProf.variants")
+          input.form-check-input(type="radio" :id="variant" v-model="selectedVariant" :value="variant" @change="updateVariant")
+          label.form-check-label(:for="variant") {{variant}}
+        li.form-check.mb-2
+          input.form-check-input(type="radio" v-model="selectedVariant" value="custom" @change="updateVariant")
+          label.form-check-label
+            input(type="text" v-model="customVariant" placeholder="Eigene Ausprägung" @input="updateVariant")
+      blockquote.blockquote.alert.alert-light.border-left {{currProf.background}}
+      div.mt-5(v-if="!isProfessionLoading")
         h5 Berufsfertigkeiten:
-        ul.skill-list
+        ul.skill-list.list-unstyled.mb-5
           li.skill-list__item(v-for="skill in professionalSkills")
             skill(
               :skillId="skill.skillId"
@@ -153,48 +151,36 @@ export default {
 
 <style lang="scss" scoped>
 @import "../common/settings";
-
-.profession-list,
-.variant-list,
-.skill-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
 .profession-list {
-  height: 30vh;
+  height: 20vh;
   overflow-x: scroll;
-  border: $hr-border;
-  margin: 0 0 map_get($grid-column-gutter, small);
+  border: $hr-border-width solid $hr-border-color;
+  margin: 0 0 $grid-gutter-width;
 
   &__profession {
-    padding: map_get($grid-column-gutter, small)/2;
+    padding: $grid-gutter-width/2;
     cursor: pointer;
 
-    @include breakpoint(medium) {
-      padding: map_get($grid-column-gutter, medium)/4;
+    @include media-breakpoint-up(md) {
+      padding: $grid-gutter-width/4;
     }
 
     &:hover {
-      background: $light-gray;
+      background: theme-color("light");
     }
 
     &.is-active {
-      background: $primary-transparent;
+      background: transparentize(theme-color("light"), .5);
     }
   }
 }
 
 .variant-list,
 .skill-list {
-  margin: 0 0 $paragraph-margin-bottom;
-  line-height: 37px;
-
-  @include breakpoint(large) {
+  @include media-breakpoint-up(lg) {
     column-count: 2;
   }
-  @include breakpoint(xlarge) {
+  @include media-breakpoint-up(xl) {
     colummn-count: 3;
   }
 }

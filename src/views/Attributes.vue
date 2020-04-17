@@ -1,36 +1,40 @@
 <template lang="pug">
 div
-  .grid-x.grid-margin-x.align-stretch.text-center(v-if="isPickerVisible")
-    .cell.small-12
+  .row.text-center(v-if="isPickerVisible")
+    .col-12.mb-3
       h2 Mit welcher Methode möchtest du die Attribute generieren?
-    a.cell.small-12.display-block.callout(
-      @click="switchGenerationMethod(1)"
-      v-bind:class="{success: distributionMethod === 1}"
-      )
-        h3 Standard
-        p Punkte können frei auf verschiedene Attribute verteilt werden.
-    a.cell.medium-4.display-block.callout(
-      @click="switchGenerationMethod(2)"
-      v-bind:class="{success: distributionMethod === 2}"
-      )
-        h4 Liste
-        p Attributswerte werden aus einer Liste verteilt.
-    a.cell.medium-4.display-block.callout(
-      @click="switchGenerationMethod(3)"
-      v-bind:class="{success: distributionMethod === 3}"
-      )
-        h4 Würfeln
-        p Attributswerte werden zuerst ausgewürfelt, dann verteilt.
-    a.cell.medium-4.display-block.callout(
-      @click="switchGenerationMethod(4)"
-      v-bind:class="{success: distributionMethod === 4}"
-      )
-        h4 Automatisch
-        p Attributswerte werden zufällig aus einer Liste auf die Attribute verteilt.
+    a.col-12.d-block
+      .border.p-3.mb-3(
+        @click="switchGenerationMethod(1)"
+        v-bind:class="{success: distributionMethod === 1}"
+        )
+          h3 Standard
+          p Punkte können frei auf verschiedene Attribute verteilt werden.
+    a.col-12.col-md-4.d-block
+      .border.p-3(
+        @click="switchGenerationMethod(2)"
+        v-bind:class="{success: distributionMethod === 2}"
+        )
+          h4 Liste
+          p Attributswerte werden aus einer Liste verteilt.
+    a.col-12.col-md-4.d-block
+      .border.p-3(
+        @click="switchGenerationMethod(3)"
+        v-bind:class="{success: distributionMethod === 3}"
+        )
+          h4 Würfeln
+          p Attributswerte werden zuerst ausgewürfelt, dann verteilt.
+    a.col-12.col-md-4.d-block
+      .border.p-3(
+        @click="switchGenerationMethod(4)"
+        v-bind:class="{success: distributionMethod === 4}"
+        )
+          h4 Automatisch
+          p Attributswerte werden zufällig aus einer Liste auf die Attribute verteilt.
 
-  .grid-x.grid-margin-x.text-right(v-if="!isPickerVisible")
-    .cell
-      button.button.secondary.small(@click="isPickerVisible = true") Andere Methode auswählen
+  .row.justify-content-end.mb-3(v-if="!isPickerVisible")
+    .cell-12
+      .btn.btn-outline-secondary(@click="isPickerVisible = true") Andere Methode auswählen
 
   // Point Distribution
   .grid-x(v-if="distributionMethod === 1" v-show="!isPickerVisible")

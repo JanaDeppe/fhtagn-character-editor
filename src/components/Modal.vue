@@ -1,15 +1,15 @@
 <template lang="pug">
 transition(name="modal" appear)
   .overlay(v-if="isActive")
-    .container
-      button(v-if="hasCloseButton" class="close-button material-icons" @click="close()") close
+    .modal-container
+      button(v-if="hasCloseButton" class="close material-icons" @click="close()")
       .header
-        slot(name="header") default header
+        slot(name="header")
       .body
         slot default body
       .footer
         slot(name="footer")
-          button.default-button(class="button" @click="close()") OK
+          button.default-button(class="btn btn-secondary" @click="close()") OK
 </template>
 <script>
 export default {
@@ -59,8 +59,8 @@ export default {
   justify-content: center;
 }
 
-.container {
-  min-width: 300px;
+.modal-container {
+  min-width: 400px;
   max-width: 50%;
   padding: 1rem;
   position: relative;
@@ -70,23 +70,20 @@ export default {
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif;
 }
 
 .header h3 {
   margin-top: 0;
-  color: #42b983;
   flex-shrink: 1;
 }
 
-.close-button {
+.close {
   position: absolute;
   right: 1rem;
   top: 1rem;
 }
 
 .body {
-  margin: 20px 0;
   flex-grow: 1;
 }
 

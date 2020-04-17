@@ -1,7 +1,7 @@
 <template lang="pug">
-.grid-x.align-stretch
-  .cell.auto
-    input(
+.row.no-gutters
+  .col
+    input.form-control(
       min="0"
       type="number"
       :id="inputId"
@@ -9,13 +9,15 @@
       @input="onInput"
       v-bind:class="{'is-invalid-input': error}"
     )
-  .cell.shrink.button-container
-    button.tiny.button.primary(@click="onIncrementalChange") -1
-    button.tiny.button.primary(@click="onIncrementalChange") +1
-  .cell.shrink.button-container
-    button.tiny.button.primary(@click="onIncrementalChange") -5
-    button.tiny.button.primary(@click="onIncrementalChange") +5
-  .cell.small-12.label.warning(v-if="error") {{errorTypes[error]}}
+  .flex-shrink-1.button-container
+    button.btn.btn-outline-secondary.btn-sm(@click="onIncrementalChange") -1
+    button.btn.btn-outline-secondary.btn-sm(@click="onIncrementalChange") +1
+  .flex-shrink-1.button-container
+    button.btn.btn-outline-secondary.btn-sm(@click="onIncrementalChange") -5
+    button.btn.btn-outline-secondary.btn-sm(@click="onIncrementalChange") +5
+  .col-12.mt-1(v-if="error")
+    .h5
+      .d-block.badge.badge-warning {{errorTypes[error]}}
 
 </template>
 

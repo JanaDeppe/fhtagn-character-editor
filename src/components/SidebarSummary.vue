@@ -1,48 +1,51 @@
 <template lang="pug">
 div
-  h4.text-center Zusammenfassung&nbsp;<br>
+  h4.text-center Zusammenfassung<br>
     span(v-if="personalInformation.Vorname || personalInformation.Nachname") "{{personalInformation.Vorname}} {{personalInformation.Nachname}}"
-  .grid-x
-    .cell.small-6(v-if="personalInformation.Geschlecht") {{personalInformation.Geschlecht}}
-    .cell.small-6(v-if="personalInformation.Alter") {{personalInformation.Alter}}
-    .cell.small-12(v-if="personalInformation.Aussehen") {{personalInformation.Aussehen}}
+  .row.mb-3
+    .col-12.col-md-6(v-if="personalInformation.Muttersprache") {{personalInformation.Muttersprache}}
+    .col-12.col-md-6(v-if="personalInformation.Alter") {{personalInformation.Alter}}
+    .col-12(v-if="personalInformation.Aussehen") {{personalInformation.Aussehen}}
 
   // Attribute
   h6(v-if="Object.keys(attributeValues).length") Attribute:
-  ul.small-list.attribute-list(v-if="attributeValues")
-    li(v-for="(value, abbr) in attributeValues").grid-x
-      .cell.small-4 {{abbr}}:
-      .cell.small-8 {{value}}
+  ul.list-unstyled.mb-3.attribute-list(v-if="attributeValues")
+    li(v-for="(value, abbr) in attributeValues").row
+      .col-2 {{abbr}}:
+      .col-8 {{value}}
 
   // Beruf
-  h6(v-if="profession > -1") Beruf:&nbsp;
+  h5(v-if="profession > -1") Beruf:&nbsp;
     span(v-if="professionVariant") {{professionVariant}} ({{professionName}})
     span(v-else) {{professionName}}
 
   // Skills
-  ul.skill-list.small-list(v-if="!isProfessionLoading")
+  ul.list-unstyled.small-list(v-if="!isProfessionLoading")
     li: h6 Fertigkeiten:
     li(v-for="skill in modifiedSkills")
-      skill(
+      skill.mb-1(
         :canAddSpecialisations="false"
         :canRemoveSpecialisation="false"
         :showCalculatedValue="true"
         :skillId="skill.skillId")
 
   // Verbindungen
-  ul.small-list(v-if="connections.length > 0")
-    li: h6 Verbindungen:
-    li(v-for="conn in connections" v-if="conn.length > 0") {{conn}}
+  div(v-if="connections.length > 0")
+    h6.mb-0 Verbindungen:
+    ul.small-list.list-unstyled.mb-3
+      li(v-for="conn in connections" v-if="conn.length > 0") {{conn}}
 
   // Facetten
-  ul.small-list(v-if="facettes.length > 0")
-    li: h6 Facetten:
-    li(v-for="facette in facettes") {{facette}}
+  div(v-if="facettes.length > 0")
+    h6.mb-0 Facetten:
+    ul.small-list.list-unstyled
+      li(v-for="facette in facettes") {{facette}}
 
   // Motivationen
-  ul.small-list(v-if="motivations.length > 0")
-    li: h6 Motivationen:
-    li(v-for="motivation in motivations" v-if="motivation.length > 0") {{motivation}}
+  div(v-if="motivations.length > 0")
+    h6.mb-0 Motivationen:
+    ul.small-list.list-unstyled
+      li(v-for="motivation in motivations" v-if="motivation.length > 0") {{motivation}}
 
 </template>
 
@@ -82,20 +85,11 @@ export default {
 <style lang="scss" scoped>
 
 .small-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    font-size: .8em;
+  font-size: .875rem;
 }
 
 .attribute-list {
-    column-count: 2;
-}
-
-.skill-list {
-  li {
-    margin-bottom: .1rem;
-  }
+    column-count: 3;
 }
 
 </style>

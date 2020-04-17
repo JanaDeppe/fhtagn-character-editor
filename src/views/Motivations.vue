@@ -1,12 +1,13 @@
 <template lang="pug">
-.grid-x
-  .cell.small-12
+.row
+  .col-12
     h2.text-center Motivationen
     p Schreibe auf, was deinen Charakter antreibt.
 
-  .cell(v-for="(motivation, index) in availableMotivations")
-    label Motivation \#{{index+1}}
-      input(
+  .col-12(v-for="(motivation, index) in availableMotivations")
+    .form-group
+      label Motivation \#{{index+1}}
+      input.form-control(
         type="text"
         placeholder="Beschreibung der Motivation"
         v-model="currentMotivations[index]")

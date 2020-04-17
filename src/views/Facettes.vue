@@ -1,16 +1,16 @@
 <template lang="pug">
-.grid-x
-  .cell.small-12
+.row
+  .col-12
     h2.text-center Facetten
     p Füge, wenn du möchtest, deinem Charakter Facetten hinzu!
-  .cell(v-for="(facette, name) in facettesList").callout
-    .grid-x.grid-padding-x
-      .cell.shrink
+  .col-12(v-for="(facette, name) in facettesList").callout
+    .row.mb-3
+      .col-auto
         input(
           type="checkbox"
           v-model="selectedFacettes"
           :value="name")
-      .cell.auto
+      .col
         h4 {{name}}
         p {{facette.description}}
         p
