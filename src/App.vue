@@ -1,21 +1,21 @@
 <template lang="pug">
-.grid-y.medium-grid-frame.grid-padding-x.grid-padding-y
-  .cell.shrink.top-bar
-    ul.menu
-      li
-        router-link(to="/") Editor
-      li
-        router-link(to="/about") About
-  .cell.medium-auto.medium-cell-block-container
+.d-flex.flex-column.vh-100
+  .flex-shrink-1.navbar.justify-content-end
+    ul.nav
+      li.nav-item
+        router-link(to="/" class="nav-link") Editor
+      li.nav-item
+        router-link(to="/about" class="nav-link") About
+  .flex-grow-1
     router-view
 
-  .cell.shrink.top-bar
-    .top-bar-right.grid-x.grid-padding-x
-      a.cell.shrink(
+  .flex-shrink-1.navbar.justify-content-end
+    .row
+      a.col-auto(
         href="https://gitlab.com/Redbow/fhtagn-character-editor/tags"
         target="_blank")
         small Version {{appVersion}}
-      a.cell.shrink.bug-report-link(
+      a.col-auto.bug-report-link(
         @click="isBugReportOpen = true")
         small
           span.bug-report-link__icon.material-icons bug_report

@@ -1,12 +1,12 @@
 <template lang="pug">
-  draggable.bonus-draggable(
+  draggable.bonus-draggable.px-1(
       @add="onAdd"
       @remove="onRemove"
       :value="value"
       :list="list"
       :ghost-class="'ghost'"
       group="bonusSkills")
-    .bonus-badge.label(v-for="(i, index) in realValue" :key="index") +20% Bonus
+    .bonus-badge.badge.badge-success(v-for="(i, index) in realValue" :key="index") +20% Bonus
 </template>
 
 <script>
@@ -52,11 +52,11 @@ export default {
 <style lang="scss" scoped>
 @import "../common/settings";
 
-$badge-width: 95px;
+$badge-width: 100px;
 
 .bonus-draggable {
-  min-height: 1rem;
-  background: theme-color("light");
+  min-height: 1.5rem;
+  background: $gray-200;
   flex-basis: $badge-width;
   border-radius: $border-radius;
 }

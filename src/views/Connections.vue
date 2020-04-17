@@ -1,11 +1,12 @@
 <template lang="pug">
-.grid-x
-  .cell.small-12
+.row
+  .col-12
     h2.text-center Verbindungen
     p Schreibe deine Verbindungen und eine kurze Beschreibung dazu!
-  .cell(v-for="(connection, index) in currentConnections")
-    label Verbindung \#{{index+1}}
-      input(
+  .col-12(v-for="(connection, index) in currentConnections")
+    .form-group
+      label Verbindung \#{{index+1}}
+      input.form-control(
         type="text"
         placeholder="Name der Verbindung"
         v-model="currentConnections[index]")

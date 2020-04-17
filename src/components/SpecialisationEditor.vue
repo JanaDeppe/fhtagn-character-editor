@@ -1,38 +1,39 @@
 <template lang="pug">
-span
-  .button-group.tiny.display-inline-block.margin-0
-    button.button.add-specialisation(
+div
+  .btn-group.d-inline-block
+    button.btn.btn-secondary.btn-sm.add-specialisation(
       v-if="canAddSpecialisations"
       @click="add"
     )
       span.material-icons add
-    button.button(
+    button.btn.btn-secondary.btn-sm(
       v-if="canModifySpecialisations"
       @click="open"
     )
       span.material-icons create
-    button.button(
+    button.btn.btn-secondary.btn-sm(
       v-if="canRemoveSpecialisations"
       @click="remove"
     )
       span.material-icons remove
   transition(name="modal" appear)
     .overlay(v-if="isActive")
-      .container
-        button.material-icons.close-button(
+      .modal-container
+        button.material-icons.close(
           v-if="hasCloseButton"
           @click="close()"
-        ) close
+        )
         .header
-          slot(name="header") default header
+          slot(name="header")
+            h6 Bitte bezeichne diese Fertigkeit genauer!
         .body
-          slot(name="body") Bitte bezeichne diese Fertigkeit genauer:
-          p
-            label {{skillname}}:
-              input(type="text" v-model="specialisationName")
+          slot(name="body")
+            .form-group
+              label {{skillname}}:
+              input.form-control(type="text" v-model="specialisationName")
         .footer
           slot(name="footer")
-            button.default-button(class="button" @click="close") OK
+            button.default-button.btn.btn-secondary(@click="close") OK
 
 </template>
 <script>
@@ -88,6 +89,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .material-icons {
-  font-size: 1rem;
+  font-size: .875rem;
+  vertical-align: -2px;
+}
+
+.btn.btn-secondary:not(:last-child) {
+  margin-right: 2px;
 }
 </style>

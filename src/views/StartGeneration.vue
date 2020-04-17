@@ -1,6 +1,6 @@
 <template lang="pug">
-.grid-x.grid-padding-x
-  .cell.small-12
+.row
+  .col-12.mb-3
     h1.text-center Erstelle einen neuen <br>Fhtagn Charakter!
   -
     var steps = [
@@ -14,11 +14,13 @@
     var i = 0;
 
   while i < steps.length
-    .cell.medium-6.large-4.xlarge-3: .callout.primary
-      .label.primary= i+1
-      = ' ' + steps[i++]
-  .cell.small-12.text-center
-    button.button(@click="createNewCharacter") Neuen Charakter starten
+    .col-12.col-md-6.col-lg-4: .alert.alert-secondary.text-center
+      .h4
+        .badge.badge-secondary.mb-3= i+1
+        br
+        = ' ' + steps[i++]
+  .col-12.text-center.mt-3
+    button.btn.btn-success(@click="createNewCharacter") Neuen Charakter starten
 
 </template>
 

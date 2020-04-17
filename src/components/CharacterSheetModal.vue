@@ -1,8 +1,8 @@
 <template lang="pug">
 transition(name="modal" appear)
   .overlay
-    .container
-      button(v-if="hasCloseButton" class="close-button material-icons" @click="close()") close
+    .modal-container
+      button(v-if="hasCloseButton" class="close material-icons" @click="close()")
       .header Charakterbogen
       .body
         iframe.pdf-document-viewer(ref="pdfDocumentViewer")
@@ -56,7 +56,7 @@ export default {
 <style lang="scss" scoped>
 @import "../common/settings";
 
-.container {
+.modal-container {
   width: 95%;
   height: 95%;
   max-width: none;

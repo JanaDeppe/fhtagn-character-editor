@@ -1,11 +1,12 @@
 <template lang="pug">
 div
-  .grid-x
-    .cell.auto: p Wähle zusätzlich {{getAvailableOptionalSkillCount(professionId)}} aus folgenden Fertigkeiten:
-    .cell.auto.text-right: p Restliche, optionale Skills: {{ remainingOptionalSkillCount }}
-  div(v-if="error")
-    .label.warning {{errorTypes[error]}}
-  ul.skill-list
+  .row
+    .col-12: h5 Optionale Fertigkeiten:
+    .col: p Wähle zusätzlich {{getAvailableOptionalSkillCount(professionId)}} aus folgenden Fertigkeiten.
+    .col.text-right: p Restliche, optionale Skills: {{ remainingOptionalSkillCount }}
+  .h5(v-if="error")
+    .d-block.badge.badge-warning {{errorTypes[error]}}
+  ul.skill-list.list-unstyled
     li(
       v-for="skill in optionalSkills"
       :key="skill.skillId")
@@ -80,12 +81,6 @@ export default {
 @import "../common/settings";
 
 .skill-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  margin: 0 0 $paragraph-margin-bottom;
-  line-height: 37px;
-
   @include media-breakpoint-up(lg) {
     column-count: 2;
   }

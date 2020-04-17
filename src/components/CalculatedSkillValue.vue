@@ -1,11 +1,14 @@
 <template lang="pug">
-.cell.auto.grid-x.align-right
-  .cell.shrink.label.secondary(v-if="skill.isProfessional") Beruf
-  .cell.shrink.label(v-if="skill.isSelected") Optional
-  .cell.shrink.label.success(v-if="skill.bonusCount") Bonus
-    span(v-if="skill.bonusCount > 1") (x{{ skill.bonusCount }})
-  | &nbsp;{{ calculatedValue }}
-  span(v-if="isANumber") %
+.row.no-gutters.justify-content-end.ml-1.mr-1.align-items-center
+  .col-auto.skill-badge
+    .badge.badge-secondary(v-if="skill.isProfessional") Beruf
+  .col-auto.skill-badge
+    .badge.badge-primary(v-if="skill.isSelected") Optional
+  .col-auto.skill-badge
+    .badge.badge-success(v-if="skill.bonusCount") Bonus
+      span(v-if="skill.bonusCount > 1") (x{{ skill.bonusCount }})
+  .col-auto.ml-2 {{ calculatedValue }}
+    span(v-if="isANumber") %
 
 </template>
 
@@ -47,5 +50,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.skill-badge {
+  &:not(:first-child) {
+    margin-left: 1px;
+  }
+}
 
 </style>

@@ -1,13 +1,14 @@
 <template lang="pug">
-.grid-x
-  .cell.small-12
+.row
+  .col-12
     h2.text-center Persönliche Informationen
     p Zu guter Letzt, gebe einige persönliche Daten zu deinem Charakter an!
-  .cell
-    .grid-x.grid-padding-x
-      .cell.medium-6(v-for="(data, key) in currentPersonalInformation")
-        label {{key}}
-          input(
+  .col-12
+    .row
+      .col-12.col-md-6(v-for="(data, key) in currentPersonalInformation")
+        .form-group
+          label {{key}}
+          input.form-control(
             type="text"
             v-model="currentPersonalInformation[key]")
 

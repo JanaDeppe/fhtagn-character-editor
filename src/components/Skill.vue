@@ -1,9 +1,9 @@
 <template lang="pug">
-div.grid-x.grid-margin-x.max-width-100(
+div.skill.row.no-gutters.align-items-center(
   :class="{'is-nonexisting-specialisation': !skillId && currentSkill.hasSpecialisation}"
 )
   //- Optional skill checkbox
-  div.cell.shrink(v-if="isOptionalCheckbox")
+  div.col-auto.pr-2(v-if="isOptionalCheckbox")
     input(
       type="checkbox"
       v-model="selected"
@@ -11,12 +11,13 @@ div.grid-x.grid-margin-x.max-width-100(
     )
 
   //- Skill name
-  span.cell.shrink.skill-name {{skillname || currentSkill.skillname}}
-    span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisationName}}
-    small(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
+  span.col-auto.pr-2.skill-name
+      span {{skillname || currentSkill.skillname}}
+      span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisationName}}
+      small.d-block.small-line-height(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
 
   //- Specialisation editor
-  specialisation-editor(
+  specialisation-editor.col-auto.pr-1(
     v-if="currentSkill.hasSpecialisation && enableSpecialisationEditing"
     :skillname="currentSkill.skillname"
     :specialisation="currentSkill.specialisationName"
@@ -29,17 +30,16 @@ div.grid-x.grid-margin-x.max-width-100(
   )
 
   //- Calculated skill value
-  calculated-skill-value(
+  calculated-skill-value.col(
     v-if="showCalculatedValue"
     :skillId="skillId"
     :skill="currentSkill")
-  span.padding-horizontal-1(v-else) ({{currentSkill.professionalValue || currentSkill.baseValue}}%)
+  span(v-else) ({{currentSkill.professionalValue || currentSkill.baseValue}}%)
 
   //- Bonus Draggable
-  bonusSkillDraggable(
+  bonusSkillDraggable.col-auto(
     v-if="showDraggable"
-    v-model="currentBonusCount"
-    class="cell small-3")
+    v-model="currentBonusCount")
 
 </template>
 
@@ -165,6 +165,10 @@ export default {
 <style lang="scss" scoped>
 @import "../common/settings";
 
+.skill {
+  line-height: 29px;
+}
+
 .is-nonexisting-specialisation {
 
   .skill-name {
@@ -174,6 +178,10 @@ export default {
   .add-specialisation {
     opacity: 1;
   }
+}
+
+.small-line-height {
+  line-height: 1;
 }
 
 </style>

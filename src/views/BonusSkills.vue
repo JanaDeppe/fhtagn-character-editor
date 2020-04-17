@@ -1,26 +1,26 @@
 <template lang="pug">
-.grid-x
-  .cell.small-12
+.row
+  .col-12
     h2.text-center Bonusfertigkeiten
-  p.cell Zieh alle Boni zu den gewünschten Fertigkeiten!
-  draggable.bonus-list.cell(
-    group="bonusSkills"
-    @add="onReturnSkill"
-    @remove="onUseSkill")
-    .bonus-badge.label(v-for="i in availableSkills") +20% Bonus
-  ul.skill-list.cell
-    li.skill-list__item(
-      v-for="skill in skills"
-      class="grid-x padding-bottom-1"
-      :key="skill.skillId || skill.skillname")
-      skill(
-        class="cell auto"
-        :skillname="skill.skillname"
-        :skillId="skill.skillId"
-        :showBaseValue="true"
-        :showCalculatedValue="true"
-        :showDraggable="true"
-        @optional-skill-toggled="checkForError")
+  p.col-12 Zieh alle Boni zu den gewünschten Fertigkeiten!
+  .col-12.mb-3
+    draggable.bonus-list.p-1(
+      group="bonusSkills"
+      @add="onReturnSkill"
+      @remove="onUseSkill")
+      .bonus-badge.badge.badge-success.mr-2.mb-1.text-center(v-for="i in availableSkills") +20% Bonus
+  .col-12
+    ul.skill-list
+      li.skill-list__item.pb-2(
+        v-for="skill in skills"
+        :key="skill.skillId || skill.skillname")
+        skill(
+          :skillname="skill.skillname"
+          :skillId="skill.skillId"
+          :showBaseValue="true"
+          :showCalculatedValue="true"
+          :showDraggable="true"
+          @optional-skill-toggled="checkForError")
 
 
 </template>
@@ -82,28 +82,15 @@ export default {
 <style lang="scss" scoped>
 @import "../common/settings";
 
-$badge-width: 95px;
-
-.bonus-list,
-.skill-list {
-  margin-bottom: $paragraph-margin-bottom;
-}
+$badge-width: 100px;
 
 .bonus-list {
-  padding: .2rem 0 0 .2rem;
-  background: theme-color("light");
+  background: $gray-200;
   min-height: 2rem;
-
-  .bonus-badge {
-    margin-right: .2rem;
-    margin-bottom: .2rem;
-  }
 }
 
 .bonus-badge {
   width: $badge-width;
-  text-align: center;
-  line-height: 1.2;
 
   &[draggable="false"] {
     display: none;
@@ -115,33 +102,8 @@ $badge-width: 95px;
   padding: 0;
   margin: 0;
 
-  // @include breakpoint(xlarge) {
-  //     column-count: 2;
-  // }
-
-  &__item {
-    display: flex;
-    align-items: stretch;
-    margin: 0 0 .2rem;
-
-    &.is-mythos {
-      .skill-list__bonus-slot {
-        display: none;
-      }
-      .skill-list__value {
-        flex-basis: 10rem;
-      }
-    }
-  }
-
-  &__label {
-    flex-grow: 1;
-  }
-
-
-  &__value {
-    flex-basis: 10rem;
-    text-align: right;
+  @include media-breakpoint-up(large) {
+      column-count: 2;
   }
 }
 </style>
