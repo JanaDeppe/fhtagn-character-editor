@@ -68,6 +68,9 @@ const getters = {
   [get.OPTIONAL_SKILL_COUNT](state) {
     return Object.keys(state.skillModifications).filter(mod => state.skillModifications[mod].type === 'selected').length;
   },
+  [get.BONUS_SKILL_COUNT](state) {
+    return Object.keys(state.skillModifications).filter(mod => state.skillModifications[mod].type === 'bonus').length;
+  },
   [get.SKILL_BY_ID]: (state, getters, rootState) => skillId => {
     const skill = state.characterSkills[skillId];
     const skillRuleset = rootState.rulesystem.skills[skill.skillname];

@@ -2,19 +2,14 @@
 .row
   .col-12
     h2.text-center Bonusfertigkeiten
-  p.col-12 Zieh alle Boni zu den gewünschten Fertigkeiten!
-  .col-12.mb-3
-    draggable.bonus-list.p-1(
-      group="bonusSkills"
-      @add="onReturnSkill"
-      @remove="onUseSkill")
-      .bonus-badge.badge.badge-success.mr-2.mb-1.text-center(v-for="i in availableSkills") +20% Bonus
+    p Restliche Bonus-Fertigkeiten: {{ remainingBonusSkillCount }}
   .col-12
-    ul.skill-list
+    ul.skill-list.cell
       li.skill-list__item.pb-2(
         v-for="skill in skills"
         :key="skill.skillId || skill.skillname")
         skill(
+          class="cell auto"
           :skillname="skill.skillname"
           :skillId="skill.skillId"
           :showBaseValue="true"
@@ -30,25 +25,24 @@ import { mapGetters, mapActions } from 'vuex';
 import { get, act } from '@/store/type';
 
 import Skill from '@/components/Skill.vue';
-import Draggable from 'vuedraggable';
 
 export default {
   props: {},
   components: {
-    Draggable,
     Skill,
   },
   data() {
     return {
-      availableSkills: new Array(8),
-      usedSkills: 0,
+      availableSkills: 8,
       currentSkills: [],
     };
   },
   computed: {
     ...mapGetters({
       skills: get.SKILL_MAP,
+      bonusSkillCount: get.BONUS_SKILL_COUNT,
     }),
+    remainingBonusSkillCount() { return this.availableSkills - this.bonusSkillCount; },
   },
   created() {
     // this.checkForError(this.currentSkills.length);
@@ -103,7 +97,8 @@ $badge-width: 100px;
   margin: 0;
 
   @include media-breakpoint-up(large) {
-      column-count: 2;
+    column-count: 2;
+    column-gap: 1rem;
   }
 }
 </style>

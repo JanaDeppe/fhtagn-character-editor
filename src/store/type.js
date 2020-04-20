@@ -68,6 +68,7 @@ const get = {
   PROFESSIONAL_SKILLS: 'professionalSkills',
   OPTIONAL_SKILLS: 'optionalSkills',
   OPTIONAL_SKILL_COUNT: 'optionalSkillCount',
+  BONUS_SKILL_COUNT: 'optionalSkillCount',
   SKILL_BY_ID: 'skillById',
 };
 
