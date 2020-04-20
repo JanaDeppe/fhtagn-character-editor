@@ -37,9 +37,10 @@ div.skill.row.no-gutters.align-items-center(
   span(v-else) ({{currentSkill.professionalValue || currentSkill.baseValue}}%)
 
   //- Bonus Draggable
-  bonusSkillDraggable.col-auto(
+  bonusSkillSpinner.col-auto(
     v-if="showDraggable"
-    v-model="currentBonusCount")
+    v-model="currentBonusCount"
+    :bonusCount="currentSkill.bonusCount")
 
 </template>
 
@@ -47,13 +48,13 @@ div.skill.row.no-gutters.align-items-center(
 import { mapGetters, mapActions } from 'vuex';
 import { get, act } from '@/store/type';
 
-import BonusSkillDraggable from '@/components/BonusSkillDraggable.vue';
+import BonusSkillSpinner from '@/components/BonusSkillSpinner.vue';
 import CalculatedSkillValue from '@/components/CalculatedSkillValue.vue';
 import SpecialisationEditor from '@/components/SpecialisationEditor.vue';
 
 export default {
   components: {
-    BonusSkillDraggable,
+    BonusSkillSpinner,
     CalculatedSkillValue,
     SpecialisationEditor,
   },
