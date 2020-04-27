@@ -37,7 +37,7 @@ const state = {
     missingMotivations: {
       type: 'warning',
       title: 'Fehlende Motivationen',
-      text: 'Du hast nicht alle Verbindungen ausgefüllt.',
+      text: 'Du hast nicht alle Motivationen ausgefüllt.',
     },
     missingPersonalInformation: {
       type: 'warning',

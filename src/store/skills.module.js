@@ -66,7 +66,10 @@ const getters = {
     return profSkillArray.sort((a, b) => a.skillname.localeCompare(b.skillname, 'de'));
   },
   [get.OPTIONAL_SKILL_COUNT](state) {
-    return Object.keys(state.skillModifications).filter(mod => state.skillModifications[mod].type === 'selected').length;
+    const skillModificationsIds = Object.keys(state.skillModifications);
+    const skillModificationsSelectedIds = skillModificationsIds.filter(mod => state.skillModifications[mod].type === 'selected');
+    const count = skillModificationsSelectedIds.length;
+    return count;
   },
   [get.BONUS_SKILL_COUNT](state) {
     return Object.keys(state.skillModifications).filter(mod => state.skillModifications[mod].type === 'bonus').length;

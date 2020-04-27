@@ -68,9 +68,6 @@ export default {
     if (nextRouteIndex === this.editorSteps.length - 1) this.nextStep = false;
     else this.nextStep = this.editorSteps[nextRouteIndex + 1];
 
-    next();
-  },
-  beforeRouteLeave(to, from, next) {
     if (this.currentWarnings.length) {
       this.currentWarnings.forEach(item => {
         const currentWarningData = this.warningDataByKey(item);
@@ -83,6 +80,7 @@ export default {
       });
       this.flushWarnings();
     }
+
     next();
   },
   created() {

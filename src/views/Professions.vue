@@ -35,12 +35,8 @@
               :canRemoveSpecialisations="false")
         optional-skill-list(
           f-if="currProf"
-          :optionalSkills="currProf.skills.optional"
-          :availableSkills="currProf.skills.optionalAmount"
           :professionId="selectedProfession"
-          v-model="optionalSkills"
-          @specialisation-updated="updateSpecialisation('optional', $event)"
-          )
+        )
         h5 Verbindungen: {{currProf.connections}}
   modal(
     :isVisible="isErrorOpen"
@@ -68,7 +64,6 @@ export default {
   data() {
     return {
       selectedProfession: -1,
-      optionalSkills: [],
       selectedVariant: '',
       customVariant: '',
       isErrorOpen: false,

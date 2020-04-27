@@ -30,7 +30,7 @@ div
         :skillId="skill.skillId")
 
   // Verbindungen
-  div(v-if="connections.length > 0")
+  div(v-if="isArrayPopulated(connections)")
     h6.mb-0 Verbindungen:
     ul.small-list.list-unstyled.mb-3
       li(v-for="conn in connections" v-if="conn.length > 0") {{conn}}
@@ -42,7 +42,7 @@ div
       li(v-for="facette in facettes") {{facette}}
 
   // Motivationen
-  div(v-if="motivations.length > 0")
+  div(v-if="isArrayPopulated(motivations)")
     h6.mb-0 Motivationen:
     ul.small-list.list-unstyled
       li(v-for="motivation in motivations" v-if="motivation.length > 0") {{motivation}}
@@ -78,6 +78,11 @@ export default {
     profession() { return this.characterData.profession; },
     professionVariant() { return this.characterData.professionVariant; },
     professionName() { return this.professionNameById(this.profession); },
+  },
+  methods: {
+    isArrayPopulated(array) {
+      return !!(array.find(item => item.trim().length > 0));
+    },
   },
 };
 </script>

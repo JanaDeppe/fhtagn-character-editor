@@ -3,7 +3,7 @@ div
   .row
     .col-12: h5 Optionale Fertigkeiten:
     .col: p Wähle zusätzlich {{getAvailableOptionalSkillCount(professionId)}} aus folgenden Fertigkeiten.
-    .col.text-right: p Restliche, optionale Skills: {{ remainingOptionalSkillCount }}
+    .col.text-right: p Restliche, optionale Fertigkeiten: {{ remainingOptionalSkillCount }}
   .h5(v-if="error")
     .d-block.badge.badge-warning {{errorTypes[error]}}
   ul.skill-list.list-unstyled
@@ -61,12 +61,10 @@ export default {
       removeWarning: act.REMOVE_WARNING,
     }),
     checkForError() {
-      const currentSkillCount = this.optionalSkillCount;
-      const availableSkills = this.getAvailableOptionalSkillCount(this.professionId);
-      if (currentSkillCount > availableSkills) {
+      if (this.remainingOptionalSkillCount < 0) {
         this.removeWarning('optionalSkillsRemaining');
         this.error = 'tooHigh';
-      } else if (currentSkillCount < availableSkills) {
+      } else if (this.remainingOptionalSkillCount > 0) {
         this.addWarning('optionalSkillsRemaining');
       } else {
         this.removeWarning('optionalSkillsRemaining');
