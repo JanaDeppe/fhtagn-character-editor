@@ -5,9 +5,9 @@ const act = {
   SET_ATTRIBUTE_VALUES: 'setAttributeValues',
   SET_PROFESSION: 'setProfession',
   UPDATE_PROFESSION_VARIANT: 'updateProfessionVariant',
-  UPDATE_CONNECTIONS: 'updateConnections',
+  UPDATE_CONNECTION: 'updateConnection',
   UPDATE_FACETTES: 'updateFacettes',
-  UPDATE_MOTIVATIONS: 'updateMotivations',
+  UPDATE_MOTIVATION: 'updateMotivation',
   UPDATE_PERSONAL_INFORMATION: 'updatePersonalInformation',
 
   // common
@@ -57,6 +57,7 @@ const get = {
   OPTIONAL_SKILLS_BY_ID: 'optionalSkillsById',
   AVAILABLE_OPTIONAL_SKILL_COUNT: 'availableOptionalSkillCount',
   AVAILABLE_CONNECTIONS_COUNT_BY_ID: 'availableConnectionsCountById',
+  AVAILABLE_MOTIVATIONS: 'availableMotivations',
   PROFESSION_NAME_BY_ID: 'professionNameById',
   HAS_SPECIALISATION_BY_SKILLNAME: 'hasSpecialisationBySkillname',
   SKILL_BY_NAME: 'skillByName',
@@ -68,7 +69,7 @@ const get = {
   PROFESSIONAL_SKILLS: 'professionalSkills',
   OPTIONAL_SKILLS: 'optionalSkills',
   OPTIONAL_SKILL_COUNT: 'optionalSkillCount',
-  BONUS_SKILL_COUNT: 'optionalSkillCount',
+  BONUS_SKILL_COUNT: 'bonusSkillCount',
   SKILL_BY_ID: 'skillById',
 };
 

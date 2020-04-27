@@ -117,10 +117,21 @@ export default {
       },
       set(newValue) {
         if (newValue === 'add') {
-          this.dispatchAddBonusSkill({ skillname: this.skillname, skillId: this.skillId });
+          this
+            .dispatchAddBonusSkill(
+              {
+                skillname: this.skillname,
+                skillId: this.skillId,
+              },
+            )
+            .then(() => {
+              this.$emit('bonus-skill-changed');
+            });
         }
         if (newValue === 'remove') {
-          this.dispatchRemoveBonusSkill({ skillId: this.skillId });
+          this
+            .dispatchRemoveBonusSkill({ skillId: this.skillId })
+            .then(() => { this.$emit('bonus-skill-changed'); });
         }
       },
     },

@@ -317,6 +317,7 @@ const state = {
       disadvantage: '-20% auf soziale Proben, um unerkannt zu bleiben. Der Charakter muss immer damit rechnen, dass er einen Bewunderer oder Untergebenen trifft und erkannt wird.',
     },
   },
+  availableMotivations: 5,
 };
 
 const getters = {
@@ -328,6 +329,7 @@ const getters = {
   [get.OPTIONAL_SKILLS_BY_ID]: state => id => state.professions[id].skills.optional,
   [get.AVAILABLE_OPTIONAL_SKILL_COUNT]: state => id => state.professions[id].skills.optionalAmount,
   [get.AVAILABLE_CONNECTIONS_COUNT_BY_ID]: state => id => state.professions[id].connections,
+  [get.AVAILABLE_MOTIVATIONS]: state => state.availableMotivations,
   [get.PROFESSION_NAME_BY_ID]: state => id => (id > -1 ? state.professions[id].name : ''),
   [get.HAS_SPECIALISATION_BY_SKILLNAME]: state => skillname => !!(state.skills[skillname].specialisation),
   [get.SKILL_BY_NAME]: state => skillname => {

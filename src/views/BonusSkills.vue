@@ -15,7 +15,7 @@
           :showBaseValue="true"
           :showCalculatedValue="true"
           :showDraggable="true"
-          @optional-skill-toggled="checkForError")
+          @bonus-skill-changed="checkForError")
 
 
 </template>
@@ -45,7 +45,7 @@ export default {
     remainingBonusSkillCount() { return this.availableSkills - this.bonusSkillCount; },
   },
   created() {
-    // this.checkForError(this.currentSkills.length);
+    this.checkForError();
   },
   methods: {
     ...mapActions({
@@ -53,8 +53,8 @@ export default {
       removeWarning: act.REMOVE_WARNING,
     }),
 
-    checkForError(selectedSkillsAmount) {
-      if (selectedSkillsAmount < this.availableSkills) {
+    checkForError() {
+      if (this.remainingBonusSkillCount > 0) {
         this.addWarning('bonusSkillsRemaining');
       } else {
         this.removeWarning('bonusSkillsRemaining');

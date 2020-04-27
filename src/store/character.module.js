@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import { get, act } from './type';
 
 function initState() {
@@ -78,13 +79,13 @@ const mutations = {
     context.professionVariant = variant;
   },
   setConnections(context, payload) {
-    context.connections = payload;
+    Vue.set(context, 'connections', payload);
   },
   setFacettes(context, payload) {
-    context.facettes = payload;
+    Vue.set(context, 'facettes', payload);
   },
   setMotivations(context, payload) {
-    context.motivations = payload;
+    Vue.set(context, 'motivations', payload);
   },
   setPersonalInformation(context, payload) {
     context.personalInformation = { ...payload };
@@ -95,8 +96,9 @@ const mutations = {
 };
 
 const actions = {
-  [act.CREATE_NEW_CHARACTER]({ commit, dispatch }) {
+  [act.CREATE_NEW_CHARACTER]({ commit, dispatch, rootGetters }) {
     commit('resetCharacterState');
+    commit('setMotivations', new Array(rootGetters[get.AVAILABLE_MOTIVATIONS]).fill(''));
     dispatch(act.INIT_CHARACTER_SKILLS);
   },
   [act.SET_ATTRIBUTE_VALUES]({ commit }, payload) {
@@ -105,17 +107,39 @@ const actions = {
   [act.UPDATE_PROFESSION_VARIANT]({ commit }, payload) {
     commit('setProfessionVariant', payload);
   },
-  [act.UPDATE_CONNECTIONS]({ commit }, payload) {
-    commit('setConnections', payload);
+  [act.UPDATE_CONNECTION]({ commit, getters }, { index, value }) {
+    const newConnections = getters[get.CONNECTIONS].slice();
+    newConnections[index] = value;
+    commit('setConnections', newConnections);
   },
   [act.UPDATE_FACETTES]({ commit }, payload) {
     commit('setFacettes', payload);
   },
-  [act.UPDATE_MOTIVATIONS]({ commit }, payload) {
-    commit('setMotivations', payload);
+  [act.UPDATE_MOTIVATION]({ commit, getters }, { index, value }) {
+    const newMotivations = getters[get.MOTIVATIONS].slice();
+    newMotivations[index] = value;
+    commit('setMotivations', newMotivations);
   },
   [act.UPDATE_PERSONAL_INFORMATION]({ commit }, payload) {
     commit('setPersonalInformation', payload);
+  },
+  setConnectionsCount({ commit, getters, rootGetters }, payload) {
+    const currentConnections = getters[get.CONNECTIONS] || [];
+    const availableConnections = rootGetters[get.AVAILABLE_CONNECTIONS_COUNT_BY_ID](payload);
+    const connectionsToAdd = availableConnections - currentConnections.length;
+    const newConnections = currentConnections.slice();
+
+    if (connectionsToAdd > 0) {
+      for (let i = 0; i < connectionsToAdd; i += 1) {
+        newConnections.push('');
+      }
+    } else if (connectionsToAdd < 0) {
+      for (let i = 0; i < Math.abs(connectionsToAdd); i += 1) {
+        newConnections.pop();
+      }
+    }
+
+    commit('setConnections', newConnections);
   },
   async [act.SET_PROFESSION]({
     commit, dispatch,
@@ -129,6 +153,7 @@ const actions = {
     commit('setProfessionVariant', '');
 
     await dispatch(act.SET_PROFESSION_SKILLS, payload);
+    await dispatch('setConnectionsCount', payload);
     commit('toggleProfessionLoading');
   },
 

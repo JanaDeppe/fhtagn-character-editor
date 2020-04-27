@@ -3,13 +3,13 @@
   .col-12
     h2.text-center Verbindungen
     p Schreibe deine Verbindungen und eine kurze Beschreibung dazu!
-  .col-12(v-for="(connection, index) in currentConnections")
+  .col-12(v-for="(connection, index) in connections")
     .form-group
       label Verbindung \#{{index+1}}
       input.form-control(
         type="text"
         placeholder="Name der Verbindung"
-        v-model="currentConnections[index]")
+        @change="handleConnectionsChange($event, index)")
 </template>
 
 <script>
@@ -24,41 +24,25 @@ export default {
       professionId: get.PROFESSION_ID,
       connections: get.CONNECTIONS,
     }),
-    availableConnections() {
-      return this.getAvailableConnectionsCount(this.professionId);
-    },
-    currentConnections: {
-      get() { return this.connections; },
-      set(newValue) {
-        this.checkForError(newValue);
-        this.updateConnections(newValue);
-      },
-    },
   },
   created() {
     this.checkForError(this.currentConnections);
-  },
-  activated() {
-    const connectionsToAdd = this.availableConnections - this.currentConnections.length;
-    if (connectionsToAdd > 0) {
-      for (let i = 0; i < connectionsToAdd; i += 1) {
-        this.currentConnections.push('');
-      }
-    } else if (connectionsToAdd < 0) {
-      for (let i = 0; i < Math.abs(connectionsToAdd); i += 1) {
-        this.currentConnections.pop();
-      }
-    }
   },
   methods: {
     ...mapActions({
       addWarning: act.ADD_WARNING,
       removeWarning: act.REMOVE_WARNING,
-      updateConnections: act.UPDATE_CONNECTIONS,
+      updateConnection: act.UPDATE_CONNECTION,
     }),
-    checkForError(connections) {
+    handleConnectionsChange(e, index) {
+      this.updateConnection({
+        index,
+        value: e.currentTarget.value,
+      }).then(() => this.checkForError());
+    },
+    checkForError() {
       let isComplete = true;
-      connections.forEach(element => {
+      this.connections.forEach(element => {
         if (element.trim() === '') {
           isComplete = false;
         }
