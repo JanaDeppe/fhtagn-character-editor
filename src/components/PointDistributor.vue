@@ -1,5 +1,6 @@
 <template lang="pug">
 .d-flex.flex-column
+  .row: .col: h2.text-center Attribute vergeben
   .row.text-right
     .col-10.h4 Restliche Punkte: {{remainingPoints}}
   .h4

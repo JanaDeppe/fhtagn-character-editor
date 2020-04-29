@@ -1,7 +1,7 @@
 <template lang="pug">
 .grid-x
   .cell
-    h2.text-center Profession Selector
+    h2.text-center Beruf wählen
     ul.profession-list.list-unstyled
       li.profession-list__profession(
         :class="{'is-active': selectedProfession == index}"

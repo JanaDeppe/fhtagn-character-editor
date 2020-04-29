@@ -32,7 +32,7 @@ div
           h4 Automatisch
           p Attributswerte werden zufällig aus einer Liste auf die Attribute verteilt.
 
-  .row.justify-content-end.mb-3(v-if="!isPickerVisible")
+  .row.justify-content-end.mb-3(v-if="false")
     .cell-12
       .btn.btn-outline-secondary(@click="isPickerVisible = true") Andere Methode auswählen
 
@@ -77,8 +77,8 @@ export default {
   data() {
     return {
       distributableAttributeValues: [],
-      isPickerVisible: true,
-      distributionMethod: 0,
+      isPickerVisible: false,
+      distributionMethod: 1,
     };
   },
   computed: {
