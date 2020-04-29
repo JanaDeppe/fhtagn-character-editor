@@ -147,7 +147,7 @@ export default {
 <style lang="scss" scoped>
 @import "../common/settings";
 .profession-list {
-  height: 20vh;
+  height: 21vh;
   overflow-x: scroll;
   border: $hr-border-width solid $hr-border-color;
   margin: 0 0 $grid-gutter-width;
