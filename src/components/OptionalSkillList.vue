@@ -10,7 +10,13 @@ div
     li(
       v-for="skill in optionalSkills"
       :key="skill.skillId")
-      skill(
+      combined-skill(
+        v-if="skill.conjunctionId && skill.conjunctionId !== 'duplicate'"
+        :conjunctionId="skill.conjunctionId"
+        modType="optional"
+      )
+      skill.pl-2(
+        v-else-if="!skill.conjunctionId"
         :skillId="skill.skillId"
         :isOptionalCheckbox="true"
         @optional-skill-toggled="checkForError")
@@ -22,10 +28,13 @@ import { mapGetters, mapActions } from 'vuex';
 import { get, act } from '@/store/type';
 
 import Skill from '@/components/Skill.vue';
+import CombinedSkill from '@/components/CombinedSkill.vue';
+
 
 export default {
   components: {
     Skill,
+    CombinedSkill,
   },
   props: {
     professionId: {
