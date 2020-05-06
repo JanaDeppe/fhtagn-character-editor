@@ -82,7 +82,16 @@ const state = {
       recommendedAttributes: ['IN', 'CH'],
       skills: {
         fixed: {
-          // TODO: Buchführung 50% oder Bürokratie 50%
+          Buchführung: {
+            value: 50,
+            conjunction: 'or',
+            combinedSkill: 'Bürokratie',
+          },
+          Bürokratie: {
+            value: 50,
+            conjunction: 'or',
+            combinedSkill: 'Buchführung',
+          },
           Heimlichkeit: 50,
           Kriminologie: 40,
           Psychologie: 50,
@@ -330,7 +339,7 @@ const state = {
           Okkultismus: 40,
           Rechtswesen: 40,
           Überlebenskunst: 50,
-          Überwachung: 40,
+          Überwachen: 40,
         },
         optionalAmount: 4,
       },
@@ -428,7 +437,11 @@ const state = {
             },
           ],
           Informatik: 40,
-          // TODO: Nahkampfwaffen: 50 oder Schusswaffen: 40,
+          Nahkampfwaffen: {
+            value: 50,
+            combinedSkill: 'Schusswaffen',
+            conjunction: 'and',
+          },
           Navigation: 50,
           Kunst: [
             {
@@ -442,6 +455,11 @@ const state = {
           ],
           Pharmazie: 40,
           Rechtswesen: 40,
+          Schusswaffen: {
+            value: 40,
+            combinedSkill: 'Nahkampfwaffen',
+            conjunction: 'and',
+          },
           Schwimmen: 50,
           Sprengstoffe: 40,
           Steuern: [
@@ -475,7 +493,16 @@ const state = {
       recommendedAttributes: ['IN', 'EN'],
       skills: {
         fixed: {
-          // TODO: Anthropologie 50% oder Archäologie 50%
+          Anthropologie: {
+            value: 50,
+            conjunction: 'or',
+            combinedSkill: 'Archäologie',
+          },
+          Archäologie: {
+            value: 50,
+            conjunction: 'or',
+            combinedSkill: 'Anthropologie',
+          },
           Bürokratie: 40,
           Fremdsprache: [
             {
@@ -492,7 +519,16 @@ const state = {
           Überzeugen: 40,
         },
         optional: {
-          // TODO: Anthropologie 40% oder Archäologie 40%
+          Anthropologie: {
+            value: 40,
+            conjunction: 'or',
+            combinedSkill: 'Archäologie',
+          },
+          Archäologie: {
+            value: 40,
+            conjunction: 'or',
+            combinedSkill: 'Anthropologie',
+          },
           Navigation: 50,
           Okkultismus: 50,
           Psychologie: 50,
@@ -604,9 +640,18 @@ const state = {
       skills: {
         fixed: {
           Athletik: 50,
-          // TODO: Fahren 50% oder Reiten: 40,
+          Fahren: {
+            value: 50,
+            conjunction: 'or',
+            combinedSkill: 'Reiten',
+          },
           Heimlichkeit: 30,
           Psychologie: 50,
+          Reiten: {
+            value: 40,
+            conjunction: 'or',
+            combinedSkill: 'Fahren',
+          },
           Schwimmen: 50,
           Suchen: 40,
           Überzeugen: 50,
@@ -616,16 +661,34 @@ const state = {
         optional: {
           Anthropologie: 40,
           Archäologie: 40,
+          Buchführung: {
+            value: 50,
+            conjunction: 'or',
+            combinedSkill: 'Bürokratie',
+          },
+          Bürokratie: {
+            value: 50,
+            conjunction: 'or',
+            combinedSkill: 'Buchführung',
+          },
           Geschichte: 50,
-          // TODO: Buchführung 50% oder Bürokratie: 50,
           Fremdsprache: 40,
           Kunst: 40,
-          // TODO: Nahkampfwaffen 50% und Waffenloser Kampf: 60,
+          Nahkampfwaffen: {
+            value: 50,
+            conjunction: 'and',
+            combinedSkill: 'Waffenloser Kampf',
+          },
           Navigation: 50,
           Okkultismus: 50,
           Schusswaffen: 50,
           Überlebenskunst: 50,
           Überwachen: 40,
+          'Waffenloser Kampf': {
+            value: 60,
+            conjunction: 'and',
+            combinedSkill: 'Nahkampfwaffen',
+          },
         },
         optionalAmount: 3,
       },
@@ -712,11 +775,20 @@ const state = {
           Geschichte: 50,
           Handwerk: 40,
           Kunst: 40,
-          // TODO: Nahkampfwaffen 50% und Schusswaffen: 40,
           Militärwissenschaft: 40,
+          Nahkampfwaffen: {
+            value: 50,
+            conjunction: 'and',
+            combinedSkill: 'Schusswaffen',
+          },
           Okkultismus: 50,
           Pharmazie: 50,
           Religion: 50,
+          Schusswaffen: {
+            value: 40,
+            conjunction: 'and',
+            combinedSkill: 'Nahkampfwaffen',
+          },
           Verkleiden: 50,
         },
         optionalAmount: 2,
@@ -738,7 +810,16 @@ const state = {
       recommendedAttributes: ['GE', 'IN'],
       skills: {
         fixed: {
-          // TODO: Buchführung 40% oder Bürokratie 40%
+          Buchführung: {
+            value: 40,
+            conjunction: 'or',
+            combinedSkill: 'Bürokratie',
+          },
+          Bürokratie: {
+            value: 40,
+            conjunction: 'or',
+            combinedSkill: 'Buchführung',
+          },
           Handwerk: [
             {
               value: 40,
@@ -754,7 +835,11 @@ const state = {
           Überzeugen: 40,
         },
         optional: {
-          // TODO: Athletik 40% und Schusswaffen 40%
+          Athletik: {
+            value: 40,
+            conjunction: 'and',
+            combinedSkill: 'Schusswaffen',
+          },
           Fahren: 60,
           Handwerk: 40,
           Heimlichkeit: 50,
@@ -763,6 +848,11 @@ const state = {
           Naturwissenschaft: 40,
           Militärwissenschaft: 40,
           Navigation: 40,
+          Schusswaffen: {
+            value: 40,
+            conjunction: 'or',
+            combinedSkill: 'Athletik',
+          },
           Schwimmen: 40,
           Sprengstoffe: 40,
           Steuern: 40,
@@ -773,21 +863,6 @@ const state = {
         optionalAmount: 6,
       },
       connections: 3,
-    },
-    {
-      name: '',
-      background: '',
-      variants: [
-      ],
-      recommendedAttributes: ['', ''],
-      skills: {
-        fixed: {
-        },
-        optional: {
-        },
-        optionalAmount: 1,
-      },
-      connections: 1,
     },
     {
       name: 'Überlebenskünstlerin',
@@ -863,7 +938,7 @@ const state = {
           Navigation: 50,
           Reiten: 50,
           Schusswaffen: 60,
-          Überwachung: 40,
+          Überwachen: 40,
         },
         optionalAmount: 2,
       },

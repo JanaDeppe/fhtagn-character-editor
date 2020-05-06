@@ -25,7 +25,7 @@ div
     li(v-for="skill in modifiedSkills")
       skill.mb-1(
         :canAddSpecialisations="false"
-        :canRemoveSpecialisation="false"
+        :canRemoveSpecialisations="false"
         :showCalculatedValue="true"
         :skillId="skill.skillId")
 

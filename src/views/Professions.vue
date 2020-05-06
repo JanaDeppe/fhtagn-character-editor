@@ -9,14 +9,14 @@
         @click="setProfession(index)"
       ) {{profession.name}}
 
-    .border.p-3(v-if="selectedProfession > -1")
+    .p-3(v-if="selectedProfession > -1")
       h3 {{currProf.name}}
         small  (
           span(v-for="(attr, index) in currProf.recommendedAttributes")
             span(v-if="index != 0") ,&nbsp;
             | {{attr}}
           | )
-      ul.variant-list.list-unstyled
+      //- ul.variant-list.list-unstyled
         li.form-check.mb-2(v-for="variant in currProf.variants")
           input.form-check-input(type="radio" :id="variant" v-model="selectedVariant" :value="variant" @change="updateVariant")
           label.form-check-label(:for="variant") {{variant}}
@@ -24,12 +24,18 @@
           input.form-check-input(type="radio" v-model="selectedVariant" value="custom" @change="updateVariant")
           label.form-check-label
             input(type="text" v-model="customVariant" placeholder="Eigene Ausprägung" @input="updateVariant")
-      blockquote.blockquote.alert.alert-light.border-left {{currProf.background}}
+      //- blockquote.blockquote.alert.alert-light.border-left {{currProf.background}}
       div.mt-5(v-if="!isProfessionLoading")
         h5 Berufsfertigkeiten:
         ul.skill-list.list-unstyled.mb-5
           li.skill-list__item(v-for="skill in professionalSkills")
-            skill(
+            combined-skill(
+              v-if="skill.conjunctionId && skill.conjunctionId !== 'duplicate'"
+              :conjunctionId="skill.conjunctionId"
+              modType="professional"
+            )
+            skill.pl-2(
+              v-else-if="!skill.conjunctionId"
               :skillId="skill.skillId"
               :canAddSpecialisations="false"
               :canRemoveSpecialisations="false")
@@ -52,6 +58,7 @@ import { act, get } from '@/store/type';
 
 import OptionalSkillList from '@/components/OptionalSkillList.vue';
 import Skill from '@/components/Skill.vue';
+import CombinedSkill from '@/components/CombinedSkill.vue';
 import Modal from '@/components/Modal.vue';
 
 export default {
@@ -59,6 +66,7 @@ export default {
   components: {
     OptionalSkillList,
     Skill,
+    CombinedSkill,
     Modal,
   },
   data() {
@@ -67,6 +75,7 @@ export default {
       selectedVariant: '',
       customVariant: '',
       isErrorOpen: false,
+      conjunctions: [],
     };
   },
   computed: {

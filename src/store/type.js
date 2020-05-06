@@ -17,10 +17,9 @@ const act = {
 
   // skills
   INIT_CHARACTER_SKILLS: 'initCharacterSkills',
-  NEW_CHARACTER_SKILL: 'newCharacterSkill',
-  NEW_SKILL_MODIFICATION: 'newSkillModification',
   ADD_BONUS_SKILL: 'addBonusSkill',
   REMOVE_BONUS_SKILL: 'removeBonusSkill',
+  TOGGLE_PROFESSIONAL_SKILL: 'toggleProfessionalSkill',
   TOGGLE_OPTIONAL_SKILL: 'toggleOptionalSkill',
   ADD_SPECIALISATION: 'addSpecialisation',
   MODIFY_SPECIALISATION: 'modifySpecialisation',
@@ -71,6 +70,7 @@ const get = {
   OPTIONAL_SKILL_COUNT: 'optionalSkillCount',
   BONUS_SKILL_COUNT: 'bonusSkillCount',
   SKILL_BY_ID: 'skillById',
+  CONJUNCTION_BY_ID: 'conjunctionById',
 };
 
 export { get, act };

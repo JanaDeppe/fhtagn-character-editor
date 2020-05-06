@@ -12,9 +12,9 @@ div.skill.row.no-gutters.align-items-center(
 
   //- Skill name
   span.col-auto.pr-2.skill-name
-      span {{skillname || currentSkill.skillname}}
-      span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisationName}}
-      small.d-block.small-line-height(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
+    span {{skillname || currentSkill.skillname}}
+    span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisationName}}
+    small.d-block.small-line-height(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
 
   //- Specialisation editor
   specialisation-editor.col-auto.pr-1(

@@ -1,9 +1,9 @@
 <template lang="pug">
 .row.no-gutters.justify-content-end.ml-1.mr-1.align-items-center
   .col-auto.skill-badge
-    .badge.badge-secondary(v-if="skill.isProfessional") Beruf
+    .badge.badge-secondary(v-if="skill.isProfessional && skill.isSelectedProfessional") Beruf
   .col-auto.skill-badge
-    .badge.badge-primary(v-if="skill.isSelected") Optional
+    .badge.badge-primary(v-if="skill.isOptional && skill.isSelected") Optional
   .col-auto.skill-badge
     .badge.badge-success(v-if="skill.bonusCount") Bonus
       span(v-if="skill.bonusCount > 1") (x{{ skill.bonusCount }})
