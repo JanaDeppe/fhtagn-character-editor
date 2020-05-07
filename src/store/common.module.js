@@ -1,4 +1,4 @@
-import router from '@/router';
+import routerConfig from '@/router/router.config';
 import { get, act } from './type';
 
 const state = {
@@ -69,7 +69,7 @@ const actions = {
 };
 
 const getters = {
-  [get.EDITOR_STEPS]: () => router.options.routes[0].children,
+  [get.EDITOR_STEPS]: () => routerConfig.routes[0].children,
   [get.CURRENT_WARNINGS]: state => state.currentWarnings,
   [get.WARNING_DATA_BY_KEY]: state => key => state.warnings[key],
   [get.APP_VERSION]: context => context.version,
