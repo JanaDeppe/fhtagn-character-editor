@@ -5,13 +5,13 @@
       li.nav-item
         router-link(to="/" class="nav-link") Editor
       li.nav-item
-        router-link(to="/about" class="nav-link") About
+        a.nav-link(href="https://www.deutschelovecraftgesellschaft.de/impressum/" target="_blank") Impressum
   .flex-grow-1
     router-view
 
   .flex-shrink-1.navbar.justify-content-end
     .row
-      a.col-auto(
+      //- a.col-auto(
         href="https://gitlab.com/Redbow/fhtagn-character-editor/tags"
         target="_blank")
         small Version {{appVersion}}
@@ -19,13 +19,14 @@
         @click="isBugReportOpen = true")
         small
           span.bug-report-link__icon.material-icons bug_report
-          | Bug melden
+          | Bug melden oder Idee mitteilen
 
   modal(
     :isVisible="isBugReportOpen"
     @modal-closed="isBugReportOpen = false")
-    h3(slot="header") Einen Fehler melden
-    p Hast du einen Bug gefunden?
+    h3(slot="header") Hast du einen Bug gefunden?
+    p &nbsp;
+    p Oder eine Idee für eine neue Funktion?
     p Bitte
       a(target="_blank" href="mailto: incoming+redbow-fhtagn-character-editor-9841490-issue-@incoming.gitlab.com")  schreib mir eine E-Mail
       | , dann kümmere ich mich darum. Danke!

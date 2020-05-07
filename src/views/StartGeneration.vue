@@ -1,7 +1,7 @@
 <template lang="pug">
 .row
   .col-12.mb-3
-    h1.text-center Erstelle einen neuen <br>Fhtagn Charakter!
+    h1.text-center Erstelle einen neuen <br>FHTAGN Charakter!
   -
     var steps = [
       "Attribute verteilen",
