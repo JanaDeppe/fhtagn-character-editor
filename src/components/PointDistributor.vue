@@ -80,18 +80,19 @@ export default {
       });
     },
     updateAttributeValues() {
-      this.checkForError(this.remainingPoints);
+      this.checkForError();
       this.$emit('input', this.currentAttributes);
     },
-    checkForError(newValue) {
-      if (newValue < 0) {
+    checkForError() {
+      if (this.remainingPoints < 0) {
         this.error = 'negative';
         this.removeWarning('attributePointsRemaining');
-      } else if (newValue > 0) {
-        this.addWarning('attributePointsRemaining');
-      } else {
-        this.addWarning('attributePointsRemaining');
+      } else if (this.remainingPoints === 0) {
         this.error = false;
+        this.removeWarning('attributePointsRemaining');
+      } else if (this.remainingPoints > 0) {
+        this.error = false;
+        this.addWarning('attributePointsRemaining');
       }
     },
   },
