@@ -50,7 +50,10 @@ export default {
   computed: {
     currentPoints: {
       get() { return this.points; },
-      set(newValue) { this.$emit('pointsUpdated', newValue); },
+      set(newValue) {
+        if (Number.isNaN(parseInt(newValue, 10))) this.$emit('pointsUpdated', 0);
+        else this.$emit('pointsUpdated', newValue);
+      },
     },
   },
   methods: {
