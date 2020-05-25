@@ -44,9 +44,13 @@ export default {
       editorSteps: get.EDITOR_STEPS,
       currentWarnings: get.CURRENT_WARNINGS,
       warningDataByKey: get.WARNING_DATA_BY_KEY,
+      isCharacterStarted: get.IS_CHARACTER_STARTED,
     }),
     showPrevButton() { return !!(this.prevStep); },
-    showNextButton() { return !!(this.nextStep) && this.nextStep.name !== 'attributes'; },
+    showNextButton() {
+      return (!!(this.nextStep) && this.nextStep.name !== 'attributes')
+        || (this.nextStep.name === 'attributes' && this.isCharacterStarted);
+    },
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

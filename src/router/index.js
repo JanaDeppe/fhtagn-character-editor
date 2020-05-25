@@ -9,7 +9,7 @@ Vue.use(Router);
 const router = new Router(config);
 
 router.beforeEach((to, from, next) => {
-  const hasNoAttributes = !Number.isInteger(store.getters.attributeValues.ST);
+  const hasNoAttributes = !store.getters.isCharacterStarted;
   const toRouteIndex = config.routes[0].children.findIndex(route => to.name === route.name);
   const isRestrictedRoute = toRouteIndex > 1;
 

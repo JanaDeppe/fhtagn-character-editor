@@ -60,6 +60,7 @@ const getters = {
   [get.MOTIVATIONS]: state => state.motivations,
   [get.PERSONAL_INFORMATION]: state => state.personalInformation,
   [get.IS_PROFESSION_LOADING]: state => state.loadingState.isProfessionLoading,
+  [get.IS_CHARACTER_STARTED]: state => Number.isInteger(state.attributeValues.ST),
 };
 
 const mutations = {

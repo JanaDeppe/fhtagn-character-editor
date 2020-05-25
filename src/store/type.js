@@ -40,6 +40,7 @@ const get = {
   MOTIVATIONS: 'motivations',
   PERSONAL_INFORMATION: 'personalInformation',
   IS_PROFESSION_LOADING: 'isProfessionLoading',
+  IS_CHARACTER_STARTED: 'isCharacterStarted',
 
   // common
   EDITOR_STEPS: 'editorSteps',
