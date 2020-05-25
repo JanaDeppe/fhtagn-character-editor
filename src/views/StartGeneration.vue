@@ -1,7 +1,9 @@
 <template lang="pug">
-.row
-  .col-12.mb-3
+.row.align-items-stretch
+  .col-12.mb-3.order-lg-0
     h1.text-center Erstelle einen neuen <br>FHTAGN Charakter!
+  .col-12.text-center.mb-3.mb-lg-0.mt-lg-3.order-lg-2
+    button.btn.btn-success(@click="createNewCharacter") Neuen Charakter starten
   -
     var steps = [
       "Attribute verteilen",
@@ -14,13 +16,12 @@
     var i = 0;
 
   while i < steps.length
-    .col-12.col-md-6.col-lg-4: .alert.alert-secondary.text-center
+    .col-12.col-md-6.col-lg-4.order-lg-1.d-flex: .alert.alert-secondary.text-center.col
       .h4
         .badge.badge-secondary.mb-3= i+1
         br
         = ' ' + steps[i++]
-  .col-12.text-center.mt-3
-    button.btn.btn-success(@click="createNewCharacter") Neuen Charakter starten
+
 
 </template>
 
