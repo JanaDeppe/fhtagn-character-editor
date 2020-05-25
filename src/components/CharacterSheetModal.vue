@@ -5,6 +5,8 @@ transition(name="modal" appear)
       button(v-if="hasCloseButton" class="close material-icons" @click="close()")
       .header Charakterbogen
       .body
+        .text-center.my-3
+          a.btn.btn-primary(ref="pdfLink") "{{characterSheetName}}" herunterladen
         iframe.pdf-document-viewer(ref="pdfDocumentViewer")
       .footer
 
@@ -33,6 +35,13 @@ export default {
     characterSheetService() {
       return new CharacterSheetService(this.characterData);
     },
+    characterSheetName() {
+      const { Vorname, Nachname } = this.characterData.characterData.personalInformation;
+      if (Vorname || Nachname) {
+        return `fhtagn${`-${Vorname}`}${`-${Nachname}`}.pdf`;
+      }
+      return 'fhtagn-character.pdf';
+    },
   },
   mounted() {
     const self = this;
@@ -46,7 +55,9 @@ export default {
       this.characterSheetService
         .generateDocumentURL()
         .then(url => {
-          this.$refs.pdfDocumentViewer.src = url;
+          this.$refs.pdfDocumentViewer.src = `${url}`;
+          this.$refs.pdfLink.href = `${url}`;
+          this.$refs.pdfLink.download = this.characterSheetName;
         });
     },
   },
