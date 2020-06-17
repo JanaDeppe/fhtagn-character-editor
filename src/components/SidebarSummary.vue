@@ -3,9 +3,11 @@ div
   h4.text-center Zusammenfassung<br>
     span(v-if="personalInformation.Vorname || personalInformation.Nachname") "{{personalInformation.Vorname}} {{personalInformation.Nachname}}"
   .row.mb-3
-    .col-12.col-md-6(v-if="personalInformation.Muttersprache") {{personalInformation.Muttersprache}}
-    .col-12.col-md-6(v-if="personalInformation.Alter") {{personalInformation.Alter}}
-    .col-12(v-if="personalInformation.Aussehen") {{personalInformation.Aussehen}}
+    .col-12.col-md-6(v-if="personalInformation.Muttersprache") Muttersprache: {{personalInformation.Muttersprache}}
+    .col-12.col-md-6(v-if="personalInformation.Alter") Alter: {{personalInformation.Alter}}
+    .col-12(v-if="personalInformation.Aussehen") Aussehen: {{personalInformation.Aussehen}}
+    .col-12(v-if="personalInformation.Ausrüstungsgegenstände")
+      | Ausrüstung: {{personalInformation.Ausrüstungsgegenstände}}
 
   // Attribute
   h6(v-if="Object.keys(attributeValues).length") Attribute:

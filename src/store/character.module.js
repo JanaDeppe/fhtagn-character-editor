@@ -13,6 +13,7 @@ function initState() {
       Muttersprache: '',
       Alter: '',
       Aussehen: '',
+      Ausrüstungsgegenstände: '',
     },
     profession: -1,
     professionVariant: '',

@@ -10,6 +10,8 @@ div
         .col-6(v-if="charData.personalInformation.Alter") Alter: {{charData.personalInformation.Alter}}
         .col-6(v-if="charData.personalInformation.Muttersprache") Muttersprache: {{charData.personalInformation.Muttersprache}}
         .col-12(v-if="charData.personalInformation.Aussehen") Aussehen: {{charData.personalInformation.Aussehen}}
+        .col-12(v-if="charData.personalInformation.Ausrüstungsgegenstände")
+          | Ausrüstungsgegenstände: {{charData.personalInformation.Ausrüstungsgegenstände}}
 
     // Attribute
     .col-12.mb-5
