@@ -26,6 +26,7 @@ class CharacterSheetService {
         name: `${this.character.characterData.personalInformation.Vorname} ${this.character.characterData.personalInformation.Nachname}`,
       },
       personalInformation: this.character.characterData.personalInformation,
+      personalInformationPageTwo: this.character.characterData.personalInformation,
       facettes: {
         facettes: this.character.characterData.facettes.join(', '),
       },

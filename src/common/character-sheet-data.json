@@ -667,6 +667,25 @@
           }
         }
       },
+      "personalInformationPageTwo": {
+        "typeSettings": {
+          "page": 1,
+          "fontSize": 10,
+          "font": "Courier",
+          "color": "#696969",
+          "lineAdjustment": 0.15
+        },
+        "items": {
+          "Ausrüstungsgegenstände": {
+            "x": 28,
+            "line": 3,
+            "tableIndex": 0,
+            "settings": {
+              "width": 390
+            }
+          }
+        }
+      },
       "derivedValues": {
         "typeSettings": {
           "page": 0,
