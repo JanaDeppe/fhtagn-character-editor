@@ -17,11 +17,7 @@ class CharacterSheetService {
 
     this.characterSettingsDataMap = {
       attributeValues: this.character.characterData.attributeValues,
-      professionName: {
-        professionName: this.character.characterData.professionVariant
-          ? `${this.character.characterData.professionVariant} (${this.character.professionName})`
-          : this.character.professionName,
-      },
+
       name: {
         name: `${this.character.characterData.personalInformation.Vorname} ${this.character.characterData.personalInformation.Nachname}`,
       },
@@ -101,6 +97,7 @@ class CharacterSheetService {
   fillPDFDocument() {
     this.addImages();
     this.addLabels();
+    this.addProfessionName();
     this.addCharacterData();
     this.skills.printSkills();
 
@@ -124,6 +121,33 @@ class CharacterSheetService {
         color,
       });
     });
+  }
+
+  addProfessionName() {
+    const doc = this.pdfDocument;
+    const professionName = this.character.characterData.professionVariant
+      ? `${this.character.characterData.professionVariant} (${this.character.professionName})`
+      : this.character.professionName;
+
+    const length = professionName.length >= 30 ? 'Long' : 'Short';
+    const typeSettings = this.characterDataSettings.special.professionName[`typeSettings${length}`];
+    const {
+      fontSize, font, color, lineAdjustment, page,
+    } = typeSettings;
+    const itemSettings = this.characterDataSettings.special.professionName.items[`professionName${length}`];
+
+    doc.font(font);
+    doc.switchToPage(page);
+
+    doc
+      .fontSize(fontSize)
+      .fillColor(color)
+      .text(
+        professionName,
+        itemSettings.x,
+        TextInPdfService.convertLineToPixel(itemSettings.line + lineAdjustment, itemSettings.tableIndex),
+        itemSettings.settings ? itemSettings.settings : {},
+      );
   }
 
   addCharacterData() {
