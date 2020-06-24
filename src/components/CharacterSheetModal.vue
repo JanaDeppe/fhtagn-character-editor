@@ -38,9 +38,9 @@ export default {
     characterSheetName() {
       const { Vorname, Nachname } = this.characterData.characterData.personalInformation;
       if (Vorname || Nachname) {
-        return `fhtagn${`-${Vorname}`}${`-${Nachname}`}.pdf`;
+        return `Fhtagn${`-${Vorname}`}${`-${Nachname}`}.pdf`;
       }
-      return 'fhtagn-character.pdf';
+      return 'Fhtagn-Character.pdf';
     },
   },
   mounted() {

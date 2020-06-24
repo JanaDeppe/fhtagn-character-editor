@@ -560,6 +560,42 @@
     }
   },
   "characterDataSettings": {
+    "special":{
+      "professionName": {
+        "typeSettingsShort": {
+          "page": 0,
+          "fontSize": 10,
+          "font": "Courier",
+          "color": "#696969",
+          "lineAdjustment": 0.15
+        },
+        "typeSettingsLong": {
+          "page": 0,
+          "fontSize": 9,
+          "font": "Courier",
+          "color": "#696969",
+          "lineAdjustment": -0.1 
+        },
+        "items": {
+          "professionNameShort": {
+            "x": 400,
+            "line": 3,
+            "tableIndex": 0,
+            "settings": {
+              "width": 220
+            }
+          },
+          "professionNameLong": {
+            "x": 400,
+            "line": 3,
+            "tableIndex": 0,
+            "settings": {
+              "width": 160
+            }
+          }
+        }
+      }
+    },
     "types": {
       "attributeValues": {
         "typeSettings": {
@@ -600,25 +636,6 @@
             "x":128,
             "line":11,
             "tableIndex":1
-          }
-        }
-      },
-      "professionName": {
-        "typeSettings": {
-          "page": 0,
-          "fontSize": 9,
-          "font": "Courier",
-          "color": "#696969",
-          "lineAdjustment": -0.1 
-        },
-        "items": {
-          "professionName": {
-            "x": 400,
-            "line": 3,
-            "tableIndex": 0,
-            "settings": {
-              "width": 175
-            }
           }
         }
       },

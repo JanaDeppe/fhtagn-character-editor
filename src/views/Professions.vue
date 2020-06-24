@@ -16,7 +16,7 @@
             span(v-if="index != 0") ,&nbsp;
             | {{attr}}
           | )
-      //- ul.variant-list.list-unstyled
+      ul.variant-list.list-unstyled
         li.form-check.mb-2(v-for="variant in currProf.variants")
           input.form-check-input(type="radio" :id="variant" v-model="selectedVariant" :value="variant" @change="updateVariant")
           label.form-check-label(:for="variant") {{variant}}
@@ -24,7 +24,7 @@
           input.form-check-input(type="radio" v-model="selectedVariant" value="custom" @change="updateVariant")
           label.form-check-label
             input(type="text" v-model="customVariant" placeholder="Eigene Ausprägung" @input="updateVariant")
-      //- blockquote.blockquote.alert.alert-light.border-left {{currProf.background}}
+      blockquote.blockquote.alert.alert-light.border-left {{currProf.background}}
       div.mt-5(v-if="!isProfessionLoading")
         h5 Berufsfertigkeiten:
         ul.skill-list.list-unstyled.mb-5
