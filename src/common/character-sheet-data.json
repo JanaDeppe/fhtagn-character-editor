@@ -594,6 +594,25 @@
             }
           }
         }
+      },
+      "facetteDetails": {
+        "typeSettings": {
+          "page": 1,
+          "fontSize": 9,
+          "font": "Courier",
+          "color": "#696969",
+          "lineAdjustment": 0.15
+        },
+        "items": {
+          "facetteDetails": {
+            "x": 302,
+            "line": 23,
+            "tableIndex":2,
+            "settings": {
+              "width": 275
+            }
+          }
+        }
       }
     },
     "types": {

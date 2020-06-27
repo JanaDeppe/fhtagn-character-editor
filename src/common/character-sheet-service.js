@@ -4,6 +4,7 @@ import liberationSansNarrow from '@/assets/LiberationSansNarrow-Regular.ttf';
 import liberationSansNarrowBold from '@/assets/LiberationSansNarrow-Bold.ttf';
 import TextInPdfService from './text-in-pdf-service';
 import PrintSkillsService from './print-skills-service';
+import PrintCharacterDataService from './print-character-data-service';
 
 // v13 of character sheet
 import characterSheetData from './character-sheet-data.json';
@@ -15,22 +16,6 @@ class CharacterSheetService {
     this.labels = characterSheetData.labels;
     this.characterDataSettings = characterSheetData.characterDataSettings;
 
-    this.characterSettingsDataMap = {
-      attributeValues: this.character.characterData.attributeValues,
-
-      name: {
-        name: `${this.character.characterData.personalInformation.Vorname} ${this.character.characterData.personalInformation.Nachname}`,
-      },
-      personalInformation: this.character.characterData.personalInformation,
-      personalInformationPageTwo: this.character.characterData.personalInformation,
-      facettes: {
-        facettes: this.character.characterData.facettes.join(', '),
-      },
-      connections: this.character.characterData.connections,
-      motivations: this.character.characterData.motivations,
-      derivedValues: this.character.derivedValues,
-    };
-
     // eslint-disable-next-line no-undef
     this.pdfDocument = new PDFDocument({
       size: 'A4',
@@ -39,6 +24,13 @@ class CharacterSheetService {
 
     this.stream = this.pdfDocument.pipe(blobStream());
     this.text = new TextInPdfService(this.pdfDocument);
+
+    this.printCharacterData = new PrintCharacterDataService({
+      doc: this.pdfDocument,
+      text: this.text,
+      character: this.character,
+    });
+
     this.skills = new PrintSkillsService({
       doc: this.pdfDocument,
       text: this.text,
@@ -97,8 +89,7 @@ class CharacterSheetService {
   fillPDFDocument() {
     this.addImages();
     this.addLabels();
-    this.addProfessionName();
-    this.addCharacterData();
+    this.printCharacterData.addCharacterData();
     this.skills.printSkills();
 
     this.pdfDocument.end();
@@ -120,85 +111,6 @@ class CharacterSheetService {
         font,
         color,
       });
-    });
-  }
-
-  addProfessionName() {
-    const doc = this.pdfDocument;
-    const professionName = this.character.characterData.professionVariant
-      ? `${this.character.characterData.professionVariant} (${this.character.professionName})`
-      : this.character.professionName;
-
-    const length = professionName.length >= 30 ? 'Long' : 'Short';
-    const typeSettings = this.characterDataSettings.special.professionName[`typeSettings${length}`];
-    const {
-      fontSize, font, color, lineAdjustment, page,
-    } = typeSettings;
-    const itemSettings = this.characterDataSettings.special.professionName.items[`professionName${length}`];
-
-    doc.font(font);
-    doc.switchToPage(page);
-
-    doc
-      .fontSize(fontSize)
-      .fillColor(color)
-      .text(
-        professionName,
-        itemSettings.x,
-        TextInPdfService.convertLineToPixel(itemSettings.line + lineAdjustment, itemSettings.tableIndex),
-        itemSettings.settings ? itemSettings.settings : {},
-      );
-  }
-
-  addCharacterData() {
-    const doc = this.pdfDocument;
-
-    Object.keys(this.characterDataSettings.types).forEach(typeKey => {
-      const values = this.characterSettingsDataMap[typeKey];
-      const { items, typeSettings } = this.characterDataSettings.types[typeKey];
-      const {
-        fontSize, font, color, lineAdjustment,
-      } = typeSettings;
-
-      doc.font(font);
-      doc.switchToPage(typeSettings.page);
-
-      const isArray = Array.isArray(values);
-      let iterableObject = isArray ? values : Object.keys(items);
-
-      // Remove empty strings from Arrays:
-      if (isArray) iterableObject = iterableObject.filter(item => item.trim() !== '');
-
-      iterableObject.forEach((key, index) => {
-        const itemSettings = isArray ? items[typeKey] : items[key];
-        const line = isArray ? itemSettings.line + index : itemSettings.line;
-        const text = isArray ? key : values[key];
-
-        doc
-          .fontSize(fontSize)
-          .fillColor(color)
-          .text(
-            text,
-            itemSettings.x,
-            TextInPdfService.convertLineToPixel(line + lineAdjustment, itemSettings.tableIndex),
-            itemSettings.settings ? itemSettings.settings : {},
-          );
-      });
-
-      // Special cases
-      if (typeKey === 'attributeValues') {
-        Object.keys(items).forEach(key => {
-          doc
-            .fontSize(fontSize)
-            .fillColor(color)
-            .text(
-              parseInt(values[key], 10) * 5,
-              items[key].x + typeSettings.distanceToTimesFive,
-              TextInPdfService.convertLineToPixel(items[key].line + lineAdjustment, items[key].tableIndex),
-              items[key].settings ? items[key].settings : {},
-            );
-        });
-      }
     });
   }
 }
