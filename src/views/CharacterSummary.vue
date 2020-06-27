@@ -95,6 +95,7 @@ export default {
       charData: get.CHARACTER_DATA,
       attributes: get.ATTRIBUTE_LIST,
       getProfessionNameById: get.PROFESSION_NAME_BY_ID,
+      getFacetteByName: get.FACETTE_BY_NAME,
     }),
     skillList() {
       return Object.keys(this.skills).sort();
@@ -102,12 +103,16 @@ export default {
     currentProfessionName() {
       return this.getProfessionNameById(this.charData.profession);
     },
+    currentFacettes() {
+      return this.charData.facettes.map(facette => ({ [facette]: this.getFacetteByName(facette) }));
+    },
     aggregatedCharacterData() {
       return {
         skillMap: this.skillMap,
         derivedValues: this.derivedValues,
         characterData: this.charData,
         professionName: this.currentProfessionName,
+        facettes: this.currentFacettes,
       };
     },
   },

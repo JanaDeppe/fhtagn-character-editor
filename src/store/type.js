@@ -59,6 +59,7 @@ const get = {
   AVAILABLE_CONNECTIONS_COUNT_BY_ID: 'availableConnectionsCountById',
   AVAILABLE_MOTIVATIONS: 'availableMotivations',
   PROFESSION_NAME_BY_ID: 'professionNameById',
+  FACETTE_BY_NAME: 'facetteByName',
   HAS_SPECIALISATION_BY_SKILLNAME: 'hasSpecialisationBySkillname',
   SKILL_BY_NAME: 'skillByName',
   BASE_SKILL_VALUE_BY_NAME: 'baseSkillValueByName',

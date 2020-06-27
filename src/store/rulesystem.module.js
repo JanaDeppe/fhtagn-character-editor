@@ -1197,6 +1197,7 @@ const getters = {
   [get.AVAILABLE_CONNECTIONS_COUNT_BY_ID]: state => id => state.professions[id].connections,
   [get.AVAILABLE_MOTIVATIONS]: state => state.availableMotivations,
   [get.PROFESSION_NAME_BY_ID]: state => id => (id > -1 ? state.professions[id].name : ''),
+  [get.FACETTE_BY_NAME]: state => key => (key ? state.facettes[key] : undefined),
   [get.HAS_SPECIALISATION_BY_SKILLNAME]: state => skillname => !!(state.skills[skillname].specialisation),
   [get.SKILL_BY_NAME]: state => skillname => {
     const skillRuleset = state.skills[skillname];

@@ -24,23 +24,38 @@ class TextInPdfService {
     this.skillColumnWidth = 137;
   }
 
+  printText({
+    text, x, line, tableIndex, settings, font, fontSize, color,
+  }) {
+    this.doc
+      .font(font)
+      .fontSize(fontSize)
+      .fillColor(color)
+      .text(
+        text,
+        x,
+        TextInPdfService.convertLineToPixel(line, tableIndex),
+        settings || {},
+      );
+  }
+
   printTextList({
     list, fontSize, font, color,
   }) {
-    this.doc.font(font);
-
     list.forEach((headers, page) => {
       this.doc.switchToPage(page);
+
       headers.forEach(header => {
-        this.doc
-          .fontSize(fontSize)
-          .fillColor(color)
-          .text(
-            header.text,
-            header.x,
-            TextInPdfService.convertLineToPixel(header.line, header.tableIndex),
-            header.settings ? header.settings : {},
-          );
+        this.printText({
+          text: header.text,
+          x: header.x,
+          line: header.line,
+          tableIndex: header.tableIndex,
+          settings: header.settings,
+          font,
+          fontSize,
+          color,
+        });
       });
     });
   }
@@ -57,15 +72,16 @@ class TextInPdfService {
 
     const hasBaseValue = skillname !== 'Traumlandwissen' && skillname !== 'Unnatürliches Wissen';
 
-    this.doc.font(this.labelFont)
-      .fontSize(fontSize)
-      .fillColor(color)
-      .text(
-        hasBaseValue ? `${skillname} (${baseValue}%)` : `${skillname}`,
-        (hasSpecialisation ? this.defaultLineIndent : indentWithSquare) + currentColumn * columnWidth,
-        TextInPdfService.convertLineToPixel(uppermostLine + currentLine, tableIndex),
-        { width: 95 },
-      );
+    this.printText({
+      text: hasBaseValue ? `${skillname} (${baseValue}%)` : `${skillname}`,
+      x: (hasSpecialisation ? this.defaultLineIndent : indentWithSquare) + currentColumn * columnWidth,
+      line: uppermostLine + currentLine,
+      tableIndex,
+      settings: { width: 95 },
+      font: this.labelFont,
+      fontSize,
+      color,
+    });
   }
 
   printSpecialisationName({ specialisationName }, currentColumn, currentLine) {
@@ -78,15 +94,16 @@ class TextInPdfService {
       indentWithSquare,
     } = this.skillsSettings;
 
-    this.doc.font(this.labelFont)
-      .fontSize(fontSize)
-      .fillColor(color)
-      .text(
-        `${specialisationName}`,
-        indentWithSquare + currentColumn * columnWidth,
-        TextInPdfService.convertLineToPixel(uppermostLine + currentLine, tableIndex),
-        { width: 95 },
-      );
+    this.printText({
+      text: `${specialisationName}`,
+      x: indentWithSquare + currentColumn * columnWidth,
+      line: uppermostLine + currentLine,
+      tableIndex,
+      settings: { width: 95 },
+      font: this.labelFont,
+      fontSize,
+      color,
+    });
   }
 
   printSquare(currentColumn, currentLine) {
@@ -99,15 +116,15 @@ class TextInPdfService {
       lineOffsetSquare,
     } = this.skillsSettings;
 
-    this.doc.font(this.labelFont)
-      .fontSize(fontSizeSquare)
-      .fillColor(color)
-      .text(
-        '□',
-        this.defaultLineIndent + currentColumn * columnWidth,
-        TextInPdfService.convertLineToPixel(uppermostLine + currentLine - lineOffsetSquare, tableIndex),
-        {},
-      );
+    this.printText({
+      text: '□',
+      x: this.defaultLineIndent + currentColumn * columnWidth,
+      line: uppermostLine + currentLine - lineOffsetSquare,
+      tableIndex,
+      font: this.labelFont,
+      fontSize: fontSizeSquare,
+      color,
+    });
   }
 
   printModifiedSkillValue(value, currentColumn, currentLine) {
@@ -119,15 +136,16 @@ class TextInPdfService {
       uppermostLine,
     } = this.skillsSettings;
 
-    this.doc.font(this.valueFont)
-      .fontSize(fontSize)
-      .fillColor(colorValues)
-      .text(
-        `${value}%`,
-        currentColumn * columnWidth,
-        TextInPdfService.convertLineToPixel(uppermostLine + currentLine + 0.15, tableIndex),
-        { align: 'right', width: columnWidth + 20 },
-      );
+    this.printText({
+      text: `${value}%`,
+      x: currentColumn * columnWidth,
+      line: uppermostLine + currentLine + 0.15,
+      tableIndex,
+      settings: { align: 'right', width: columnWidth + 20 },
+      font: this.valueFont,
+      fontSize,
+      color: colorValues,
+    });
   }
 
   static convertLineToPixel(line, tableIndex) {
