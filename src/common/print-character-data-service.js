@@ -170,8 +170,6 @@ Nachteil: ${disadvantage}
       fontSize,
       color,
     });
-
-    console.log(facetteDetails);
   }
 }
 
