@@ -719,6 +719,14 @@
             "settings": {
               "width": 390
             }
+          },
+          "Notizen": {
+            "x": 28,
+            "line": 24,
+            "tableIndex": 2,
+            "settings": {
+              "width": 260 
+            }
           }
         }
       },

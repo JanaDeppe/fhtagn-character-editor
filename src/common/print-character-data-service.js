@@ -32,7 +32,6 @@ class PrintCharacterDataService {
     this.addSpecialTypes();
   }
 
-
   addRegularTypes() {
     const { doc } = this;
 
@@ -74,7 +73,7 @@ class PrintCharacterDataService {
         text,
         x: itemSettings.x,
         line: line + lineAdjustment,
-        tableIndex: itemSettings.table,
+        tableIndex: itemSettings.tableIndex,
         settings: itemSettings.settings,
         font,
         fontSize,

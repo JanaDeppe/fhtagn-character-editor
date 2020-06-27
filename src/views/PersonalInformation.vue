@@ -5,10 +5,15 @@
     p Zu guter Letzt, gebe einige persönliche Daten zu deinem Charakter an!
   .col-12
     .row
-      .col-12.col-md-6(v-for="(data, key) in currentPersonalInformation")
+      .col-12.col-md-6.mb-3(v-for="(data, key) in currentPersonalInformation")
         .form-group
           label {{key}}
+          textarea.form-control(
+            v-if="key === 'Notizen'"
+            v-model="currentPersonalInformation[key]"
+            rows="5")
           input.form-control(
+            v-else
             type="text"
             v-model="currentPersonalInformation[key]")
 

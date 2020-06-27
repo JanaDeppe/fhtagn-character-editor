@@ -14,6 +14,7 @@ function initState() {
       Alter: '',
       Aussehen: '',
       Ausrüstungsgegenstände: '',
+      Notizen: '',
     },
     profession: -1,
     professionVariant: '',
