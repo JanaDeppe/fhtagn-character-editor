@@ -32,12 +32,12 @@ export default {
     },
     calculatedValue() {
       const {
-        baseValue, professionalValue, isProfessional, isSelected, bonusCount,
+        baseValue, professionalValue, isProfessional, isSelectedProfessional, isSelected, bonusCount,
       } = this.skill;
 
       let value = baseValue;
 
-      if (isProfessional || isSelected) {
+      if ((isProfessional && isSelectedProfessional) || isSelected) {
         value = professionalValue;
       }
 
