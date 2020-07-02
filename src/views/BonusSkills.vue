@@ -5,7 +5,7 @@
     p Restliche Bonus-Fertigkeiten: {{ remainingBonusSkillCount }}
   .col-12
     ul.skill-list.cell
-      li.skill-list__item.pb-2(
+      li.border-bottom.skill-list__item.pb-2(
         v-for="skill in skills"
         :key="skill.skillId || skill.skillname")
         skill(
@@ -99,6 +99,10 @@ $badge-width: 100px;
   @include media-breakpoint-up(large) {
     column-count: 2;
     column-gap: 1rem;
+  }
+
+  &__item {
+    break-inside: avoid;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template lang="pug">
-.d-flex.flex-column.vh-100
+.d-flex.flex-column.app-container.border.m-3
   .flex-shrink-1.navbar.justify-content-end
     ul.nav
       li.nav-item
@@ -59,6 +59,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.app-container {
+  height: 630px;
+  overflow: auto;
+}
+
 .bug-report-link {
   &__icon {
     vertical-align: -7px;

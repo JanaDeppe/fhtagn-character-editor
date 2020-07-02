@@ -7,7 +7,7 @@ div
   .h5(v-if="error")
     .d-block.badge.badge-warning {{errorTypes[error]}}
   ul.skill-list.list-unstyled
-    li(
+    li.no-break(
       v-for="skill in optionalSkills"
       :key="skill.skillId")
       combined-skill(
@@ -94,5 +94,9 @@ export default {
   @include media-breakpoint-up(xl) {
     colummn-count: 3;
   }
+}
+
+.no-break {
+  break-inside: avoid;
 }
 </style>

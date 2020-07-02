@@ -29,12 +29,12 @@
         h5 Berufsfertigkeiten:
         ul.skill-list.list-unstyled.mb-5
           li.skill-list__item(v-for="skill in professionalSkills")
-            combined-skill(
+            combined-skill.no-break(
               v-if="skill.conjunctionId && skill.conjunctionId !== 'duplicate'"
               :conjunctionId="skill.conjunctionId"
               modType="professional"
             )
-            skill.pl-2(
+            skill.no-break.pl-2(
               v-else-if="!skill.conjunctionId"
               :skillId="skill.skillId"
               :canAddSpecialisations="false"
@@ -187,6 +187,10 @@ export default {
   @include media-breakpoint-up(xl) {
     colummn-count: 3;
   }
+}
+
+.no-break {
+  break-inside: avoid;
 }
 
 </style>

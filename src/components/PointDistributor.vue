@@ -5,7 +5,7 @@
     .col-10.h4 Restliche Punkte: {{remainingPoints}}
   .h4
     .d-block.badge.badge-warning(v-if="error") {{errorTypes[error]}}
-  .mb-3(v-for="attribute in attributes")
+  div(v-for="attribute in attributes")
     .row.form-group
       .col-12.col-md-4.text-right.align-self-center
         label(:for="attribute.abbr") {{attribute.name}}
