@@ -15,7 +15,7 @@
             :to="'/' + nextStep.path") Nächster Schritt
 
     .col-12.col-md-4.d-flex
-      .border.p-3.flex-grow-1
+      .border-left.p-3.flex-grow-1
         sidebar-summary
 
 </template>
