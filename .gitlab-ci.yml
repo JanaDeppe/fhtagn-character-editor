@@ -35,7 +35,7 @@ deploy production:
   before_script:
     - apt-get update -qq && apt-get install -y -qq lftp
   script:
-    - lftp -c "open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; mirror -Rev -e dist/ $FTP_PATH --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/"
+    - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; mirror -Rev -e dist/ $FTP_PATH --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/"
   only: 
     - production
 
