@@ -32,8 +32,9 @@ unit test:
 deploy production:
   image: ubuntu:latest
   stage: deploy
-  - apt-get update -qy
-  - apt-get install -y lftp
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y lftp
   script:
     - lftp -e "open $FTP_HOST; user $FTP_USERNAME $FTP_PASSWORD; mirror -X .* -X .*/ --reverse --verbose --delete --parallel=10 dist/ $FTP_PATH; bye"
   only: 
