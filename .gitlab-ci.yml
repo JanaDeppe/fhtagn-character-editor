@@ -33,9 +33,10 @@ deploy production:
   image: ubuntu:latest
   stage: deploy
   before_script:
-    - apt-get update -qq && apt-get install -y -qq lftp
+    - apt-get update -qy
+    - apt-get install -y lftp
   script:
-    - lftp -c "set ftp:ssl-allow no; open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; mirror -Rev -e dist/ $FTP_PATH --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/"
+    - lftp -e "open $FTP_HOST; user $FTP_USERNAME $FTP_PASSWORD; mirror -X .* -X .*/ --reverse --verbose --delete --parallel=10 dist/ $FTP_PATH; bye"
   only: 
     - production
 
