@@ -1,7 +1,7 @@
 /* eslint-disable */
 module.exports = {
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/fhtagn-character-editor/'
+    ? '/simulacrum-assets/'
     : '/',
   chainWebpack: config => {
     config
