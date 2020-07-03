@@ -3,9 +3,7 @@
   .flex-shrink-1.navbar.justify-content-end
     ul.nav
       li.nav-item
-        router-link(to="/" class="nav-link") Editor
-      li.nav-item
-        a.nav-link(href="https://www.deutschelovecraftgesellschaft.de/impressum/" target="_blank") Impressum
+        router-link(to="/" class="nav-link") Zurück zum Anfang
   .flex-grow-1
     router-view
 
