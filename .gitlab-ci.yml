@@ -1,0 +1,53 @@
+image: node:latest
+
+# Cache modules in between jobs
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - node_modules/
+
+before_script:
+  - node --version
+  - npm --version
+  - yarn --version
+  - yarn install
+
+
+build site:
+  image: node:latest
+  stage: build
+  script:
+    - yarn run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+  
+unit test:
+  image: node:latest
+  stage: test
+  script:
+    - yarn run test:unit
+
+deploy production:
+  image: alpine
+  stage: deploy
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq lftp
+  script:
+    - lftp -c "open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST; mirror -Rev dist/ $FTP_PATH --ignore-time --parallel=10 --exclude-glob .git* --exclude .git/"
+  only: 
+    - production
+
+pages: 
+  image: node:latest
+  stage: deploy
+  script: 
+    - yarn run build
+    - mv public public-vue
+    - mv dist public
+  artifacts: 
+    paths: 
+      - public
+  only: 
+    - master
