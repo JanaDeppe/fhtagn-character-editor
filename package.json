@@ -1,62 +1,39 @@
 {
   "name": "002-fhtagn-character-editor",
-  "description": "A character generator for the pen&paper RPG Call of Cthulhu with Vue.js",
-  "author": "Jana Deppe <janadeppe@gmail.com>",
-  "version": "0.1.0",
+  "description": "A character generator for the pen&paper RPG Fhtagn with Vue.js",
+  "author": "Jana Deppe <hallo@janadeppe.de>",
+  "version": "0.1.1",
   "private": true,
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "gitlab:Redbow/fhtagn-character-editor"
+    "url": "github:JanaDeppe/fhtagn-character-editor"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5050",
+    "test:unit": "vitest --environment jsdom",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "blob-stream": "^0.1.3",
-    "bootstrap": "^4.4.1",
-    "bootswatch": "^4.4.1",
     "material-design-icons-iconfont": "^5.0.1",
-    "pug": "^2.0.4",
-    "pug-plain-loader": "^1.0.0",
-    "vue": "^2.6.11",
-    "vue-notification": "^1.3.20",
-    "vue-router": "^3.1.6",
-    "vuedraggable": "^2.23.2",
-    "vuex": "^3.1.3"
+    "pinia": "^2.0.13",
+    "vue": "^3.2.33",
+    "vue-router": "^4.0.14"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.2.3",
-    "@vue/cli-plugin-eslint": "^4.2.3",
-    "@vue/cli-plugin-unit-mocha": "^4.2.3",
-    "@vue/cli-service": "^4.2.3",
-    "@vue/eslint-config-airbnb": "^5.0.2",
-    "@vue/test-utils": "^1.0.0-beta.20",
-    "babel-eslint": "^10.1.0",
-    "chai": "^4.2.0",
-    "eslint": "5.16.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "lint-staged": "^10.0.9",
-    "node-sass": "^4.13.1",
-    "sass-loader": "^8.0.2",
-    "vue-template-compiler": "^2.6.11",
-    "webpack": "^4.36.0 || ^5.0.0"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.js": [
-      "vue-cli-service lint",
-      "git add"
-    ],
-    "*.vue": [
-      "vue-cli-service lint",
-      "git add"
-    ]
+    "@rushstack/eslint-patch": "^1.1.0",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/test-utils": "^2.0.0-rc.20",
+    "eslint": "^8.5.0",
+    "eslint-plugin-vue": "^8.2.0",
+    "jsdom": "^19.0.0",
+    "prettier": "^2.5.1",
+    "pug": "^3.0.2",
+    "vite": "^2.9.5",
+    "vitest": "^0.9.3"
   }
 }

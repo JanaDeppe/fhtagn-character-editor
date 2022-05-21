@@ -1,4 +1,4 @@
-# 002-fhtagn-character-editor
+# fhtagn-character-editor
 
 ## Git Workflow
 
@@ -6,35 +6,42 @@
 2. The `production` branch is used for deploying new minor (and eventually major) versions of the app. Merging `master` into `production` bumps the minor version up and resets the patch version. 
 3. Hotfixes branch off of `master` as well and are cherry-picked into `production`. They bump the patch version up. 
 
-## Project setup
-```
-yarn install
+This template should help get you started developing with Vue 3 in Vite.
+
+## Recommended IDE Setup
+
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.vscode-typescript-vue-plugin).
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
 ```
 
-### Compiles and minifies for production
-```
-yarn run build
+### Compile and Minify for Production
+
+```sh
+npm run build
 ```
 
-### Run your tests
-```
-yarn run test
+### Run Unit Tests with [Vitest](https://vitest.dev/)
+
+```sh
+npm run test:unit
 ```
 
-### Lints and fixes files
-```
-yarn run lint
-```
+### Lint with [ESLint](https://eslint.org/)
 
-### Run your unit tests
+```sh
+npm run lint
 ```
-yarn run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
