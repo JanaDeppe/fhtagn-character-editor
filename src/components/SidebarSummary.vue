@@ -25,11 +25,11 @@ div
   ul.list-unstyled.small-list(v-if="!isProfessionLoading")
     li: h6 Fertigkeiten:
     li(v-for="skill in modifiedSkills")
-      skill.mb-1(
-        :canAddSpecialisations="false"
-        :canRemoveSpecialisations="false"
-        :showCalculatedValue="true"
-        :skillId="skill.skillId")
+      //- skill.mb-1(
+      //-   :canAddSpecialisations="false"
+      //-   :canRemoveSpecialisations="false"
+      //-   :showCalculatedValue="true"
+      //-   :skillId="skill.skillId")
 
   // Verbindungen
   div(v-if="isArrayPopulated(connections)")
@@ -52,24 +52,21 @@ div
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { get } from '@/store/type';
-
-import Skill from '@/components/Skill.vue';
+// import Skill from '@/components/Skill.vue';
 
 export default {
   props: {},
   components: {
-    Skill,
+    // Skill,
   },
   computed: {
-    ...mapGetters({
-      attributes: get.ATTRIBUTE_LIST,
-      modifiedSkills: get.MODIFIED_SKILLS,
-      characterData: get.CHARACTER_DATA,
-      professionNameById: get.PROFESSION_NAME_BY_ID,
-      isProfessionLoading: get.IS_PROFESSION_LOADING,
-    }),
+    // ...mapGetters({
+    //   attributes: get.ATTRIBUTE_LIST,
+    //   modifiedSkills: get.MODIFIED_SKILLS,
+    //   characterData: get.CHARACTER_DATA,
+    //   professionNameById: get.PROFESSION_NAME_BY_ID,
+    //   isProfessionLoading: get.IS_PROFESSION_LOADING,
+    // }),
     attributeValues() {
       return this.characterData.attributeValues;
     },

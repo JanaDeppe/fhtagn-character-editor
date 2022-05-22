@@ -9,10 +9,6 @@
 
   .flex-shrink-1.navbar.justify-content-end
     .row
-      //- a.col-auto(
-        href="https://gitlab.com/Redbow/fhtagn-character-editor/tags"
-        target="_blank")
-        small Version {{appVersion}}
       a.col-auto.bug-report-link(
         @click="isBugReportOpen = true")
         small
@@ -33,9 +29,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { get } from '@/store/type';
-
 import Modal from '@/components/Modal.vue';
 
 export default {
@@ -46,11 +39,6 @@ export default {
     return {
       isBugReportOpen: false,
     };
-  },
-  computed: {
-    ...mapGetters({
-      appVersion: get.APP_VERSION,
-    }),
   },
   methods: {},
 };

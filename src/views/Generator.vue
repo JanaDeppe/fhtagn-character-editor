@@ -16,13 +16,14 @@
 
     .col-12.col-md-4.d-flex
       .border-left.p-3.flex-grow-1
-        sidebar-summary
+        //- sidebar-summary
 
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { get, act } from '@/store/type';
+import { mapStores } from 'pinia';
+import { useCommonStore } from '@/stores/common';
+import { useCharacterStore } from '@/stores/character';
 
 import Prompts from '@/components/Prompts.vue';
 import SidebarSummary from '@/components/SidebarSummary.vue';
@@ -40,61 +41,52 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      editorSteps: get.EDITOR_STEPS,
-      currentWarnings: get.CURRENT_WARNINGS,
-      warningDataByKey: get.WARNING_DATA_BY_KEY,
-      isCharacterStarted: get.IS_CHARACTER_STARTED,
-    }),
+    ...mapStores(useCommonStore, useCharacterStore),
     showPrevButton() { return !!(this.prevStep); },
     showNextButton() {
       return (!!(this.nextStep) && this.nextStep.name !== 'attributes')
-        || (this.nextStep.name === 'attributes' && this.isCharacterStarted);
+        || (this.nextStep.name === 'attributes' && this.characterStore.isCharacterStarted);
     },
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       /* eslint-disable no-param-reassign */
-      const nextRouteIndex = vm.editorSteps.findIndex(record => to.name === record.name);
+      const nextRouteIndex = vm.commonStore.editorSteps.findIndex(record => to.name === record.name);
       if (nextRouteIndex === 0) vm.prevStep = false;
-      else vm.prevStep = vm.editorSteps[nextRouteIndex - 1];
+      else vm.prevStep = vm.commonStore.editorSteps[nextRouteIndex - 1];
 
-      if (nextRouteIndex === vm.editorSteps.length - 1) vm.nextStep = false;
-      else vm.nextStep = vm.editorSteps[nextRouteIndex + 1];
+      if (nextRouteIndex === vm.commonStore.editorSteps.length - 1) vm.nextStep = false;
+      else vm.nextStep = vm.commonStore.editorSteps[nextRouteIndex + 1];
       /* eslint-enable no-param-reassign */
     });
   },
   beforeRouteUpdate(to, from, next) {
-    const nextRouteIndex = this.editorSteps.findIndex(record => to.name === record.name);
+    const nextRouteIndex = this.commonStore.editorSteps.findIndex(record => to.name === record.name);
     if (nextRouteIndex === 0) this.prevStep = false;
-    else this.prevStep = this.editorSteps[nextRouteIndex - 1];
+    else this.prevStep = this.commonStore.editorSteps[nextRouteIndex - 1];
 
-    if (nextRouteIndex === this.editorSteps.length - 1) this.nextStep = false;
-    else this.nextStep = this.editorSteps[nextRouteIndex + 1];
+    if (nextRouteIndex === this.commonStore.editorSteps.length - 1) this.nextStep = false;
+    else this.nextStep = this.commonStore.editorSteps[nextRouteIndex + 1];
 
-    if (this.currentWarnings.length) {
-      this.currentWarnings.forEach(item => {
-        const currentWarningData = this.warningDataByKey(item);
-        this.$notify({
-          group: 'default',
-          type: 'warn',
-          title: currentWarningData.title,
-          text: currentWarningData.text,
-        });
+    if (this.commonStore.currentWarnings.length) {
+      this.commonStore.currentWarnings.forEach(item => {
+        const currentWarningData = this.commonStore.warningDataByKey(item);
+        console.log(currentWarningData);
+        // TODO: fire notifications with new plugin
+        // this.$notify({
+        //   group: 'default',
+        //   type: 'warn',
+        //   title: currentWarningData.title,
+        //   text: currentWarningData.text,
+        // });
       });
-      this.flushWarnings();
+      this.commonStore.flushWarnings();
     }
 
     next();
   },
   created() {
-    this.createNewCharacter();
-  },
-  methods: {
-    ...mapActions({
-      flushWarnings: act.FLUSH_WARNINGS,
-      createNewCharacter: act.CREATE_NEW_CHARACTER,
-    }),
+    this.characterStore.createNewCharacter();
   },
 };
 </script>

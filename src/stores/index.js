@@ -1,3 +1,4 @@
+import { defineStore } from 'pinia';
 import Vue from 'vue';
 import Vuex from 'vuex';
 

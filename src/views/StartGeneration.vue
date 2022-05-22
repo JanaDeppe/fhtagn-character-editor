@@ -26,18 +26,18 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { act } from '@/store/type';
+import { mapStores } from 'pinia';
+import { useCharacterStore } from '../stores/character';
 
 export default {
   props: '',
+  computed: {
+    ...mapStores(useCharacterStore)
+  },
   methods: {
-    ...mapActions({
-      dispatchCreateNewCharacter: act.CREATE_NEW_CHARACTER,
-    }),
     createNewCharacter() {
-      this.dispatchCreateNewCharacter();
-      this.$router.push({ name: 'attributes' });
+      this.characterStore.createNewCharacter();
+      // this.$router.push({ name: 'attributes' });
     },
   },
 };

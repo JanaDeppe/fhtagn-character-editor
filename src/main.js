@@ -1,15 +1,17 @@
+// CSS
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
-import Vue from 'vue';
+// Libraries
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 
+// Components
 import App from './App.vue';
-import router from './router/index';
-import store from './store';
+import router from '@/router';
 
-Vue.config.productionTip = false;
+const app = createApp(App);
 
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app');
+app.use(createPinia());
+app.use(router);
+
+app.mount('#app');
