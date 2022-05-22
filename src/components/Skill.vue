@@ -174,22 +174,17 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../common/settings";
-
+<style scoped>
 .skill {
   line-height: 29px;
 }
 
-.is-nonexisting-specialisation {
-
-  .skill-name {
+.is-nonexisting-specialisation .skill-name {
     opacity: .5;
-  }
+}
 
-  .add-specialisation {
-    opacity: 1;
-  }
+.is-nonexisting-specialisation .add-specialisation {
+  opacity: 1;
 }
 
 .small-line-height {

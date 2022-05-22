@@ -153,38 +153,43 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 @import "../common/settings";
 .profession-list {
   height: 21vh;
   overflow-x: scroll;
-  border: $hr-border-width solid $hr-border-color;
-  margin: 0 0 $grid-gutter-width;
+  border: 1px solid 1px;
+  margin: 0 0 30px;
+}
 
-  &__profession {
-    padding: $grid-gutter-width/2;
-    cursor: pointer;
+.profession-list__profession {
+  padding: 30px/2;
+  cursor: pointer;
+}
+.profession-list__profession:hover {
+  background: theme-color("light");
+}
 
-    @include media-breakpoint-up(md) {
-      padding: $grid-gutter-width/4;
-    }
+.profession-list__profession.is-active {
+  background: transparentize(theme-color("light"), .5);
+}
 
-    &:hover {
-      background: theme-color("light");
-    }
-
-    &.is-active {
-      background: transparentize(theme-color("light"), .5);
-    }
+@media screen and (min-width: 768px) {
+  .profession-list__profession {
+    padding: 30px/4;
   }
 }
 
-.variant-list,
-.skill-list {
-  @include media-breakpoint-up(lg) {
+@media screen and (min-width: 1024px) {
+  .variant-list,
+  .skill-list {
     column-count: 2;
   }
-  @include media-breakpoint-up(xl) {
+}
+
+@media screen and (min-width: 1440px) {
+  .variant-list,
+  .skill-list {
     colummn-count: 3;
   }
 }
@@ -192,5 +197,4 @@ export default {
 .no-break {
   break-inside: avoid;
 }
-
 </style>

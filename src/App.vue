@@ -56,15 +56,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .app-container {
   height: 630px;
   overflow: auto;
 }
 
-.bug-report-link {
-  &__icon {
+.bug-report-link__icon{
     vertical-align: -7px;
-  }
-}
+} 
 </style>

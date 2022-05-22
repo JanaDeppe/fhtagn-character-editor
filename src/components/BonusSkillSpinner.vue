@@ -1,10 +1,10 @@
 <template lang="pug">
-  div.container
-    button.btn.btn-outline-secondary.btn-sm(
-      @click="onRemove"
-      :disabled="!(bonusCount)"
-    ) -
-    button.btn.btn-outline-secondary.btn-sm(@click="onAdd") +
+div.container
+  button.btn.btn-outline-secondary.btn-sm(
+    @click="onRemove"
+    :disabled="!(bonusCount)"
+  ) -
+  button.btn.btn-outline-secondary.btn-sm(@click="onAdd") +
 </template>
 
 <script>
@@ -36,9 +36,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../common/settings";
-
+<style scoped>
 .container {
   display: flex;
   margin-left: 3px;

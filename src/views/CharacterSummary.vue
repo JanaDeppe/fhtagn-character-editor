@@ -124,15 +124,13 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../common/settings";
-
+<style scoped>
 .attribute-list {
   column-count: 3;
 }
 
-.skill-list {
-  @include media-breakpoint-up(md) {
+@media screen and (min-width: 768px) {
+  .skill-list {
     column-count: 2;
   }
 }

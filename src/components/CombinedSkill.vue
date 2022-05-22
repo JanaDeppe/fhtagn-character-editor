@@ -101,9 +101,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../common/settings";
-
+<style scoped>
 .conjunction-word {
   text-transform: uppercase;
   width: 100%;

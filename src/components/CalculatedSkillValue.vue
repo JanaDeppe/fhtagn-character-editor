@@ -49,12 +49,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
-.skill-badge {
-  &:not(:first-child) {
-    margin-left: 1px;
-  }
+.skill-badge:not(:first-child) {
+  margin-left: 1px;
 }
 
 </style>

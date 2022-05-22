@@ -9,7 +9,7 @@ transition(name="modal" appear)
         slot default body
       .footer
         slot(name="footer")
-          button.default-button(class="btn btn-secondary" @click="close()") OK
+          button.default-button.btn.btn-secondary(@click="close()") OK
 </template>
 <script>
 export default {
@@ -44,7 +44,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
 .overlay {
   position: fixed;
   z-index: 9998;

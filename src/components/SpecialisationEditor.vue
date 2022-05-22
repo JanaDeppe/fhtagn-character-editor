@@ -87,7 +87,7 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
+<style scoped>
 .material-icons {
   font-size: .875rem;
   vertical-align: -2px;

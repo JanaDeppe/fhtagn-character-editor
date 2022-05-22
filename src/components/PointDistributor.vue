@@ -99,8 +99,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-    .field-container {
-        margin: .3rem 0;
-    }
+<style scoped>
+.field-container {
+  margin: .3rem 0;
+}
 </style>

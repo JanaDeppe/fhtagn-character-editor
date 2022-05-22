@@ -73,36 +73,31 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../common/settings";
-
-$badge-width: 100px;
-
+<style scoped>
 .bonus-list {
-  background: $gray-200;
+  background: #cccccc;
   min-height: 2rem;
 }
 
-.bonus-badge {
-  width: $badge-width;
-
-  &[draggable="false"] {
+.bonus-badge[draggable="false"] {
     display: none;
-  }
+
 }
 
 .skill-list {
   list-style: none;
   padding: 0;
   margin: 0;
+}
 
-  @include media-breakpoint-up(large) {
+@media screen and (min-width: 1024px) {
+  .skill-list {
     column-count: 2;
     column-gap: 1rem;
   }
+}
 
-  &__item {
-    break-inside: avoid;
-  }
+.skill-list__item {
+  break-inside: avoid;
 }
 </style>

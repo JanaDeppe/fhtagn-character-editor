@@ -84,15 +84,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../common/settings";
-
-.skill-list {
-  @include media-breakpoint-up(lg) {
+<style scoped>
+@media screen and (min-width: 1024px) {
+  .skill-list {
     column-count: 2;
   }
-  @include media-breakpoint-up(xl) {
-    colummn-count: 3;
+}
+
+@media screen and (min-width: 1440px) {
+  .skill-list {
+    column-count: 3;
   }
 }
 
