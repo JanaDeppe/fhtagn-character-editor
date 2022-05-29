@@ -5,28 +5,29 @@
     .col-10.h4 Restliche Punkte: {{remainingPoints}}
   .h4
     .d-block.badge.badge-warning(v-if="error") {{errorTypes[error]}}
-  div(v-for="attribute in attributes")
+  div(v-for="attribute in rulesystemStore.attributes")
     .row.form-group
       .col-12.col-md-4.text-right.align-self-center
         label(:for="attribute.abbr") {{attribute.name}}
       .col-12.col-md-8.col-lg-6
         attribute-spinner(
           :input-id="attribute.abbr"
-          v-model="currentAttributes[attribute.abbr]"
-          @pointsUpdated="updateAttributeValues"
+          v-model:points="currentAttributes[attribute.abbr]"
+          @update:points="updateAttributeValues"
         )
 
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { get, act } from '@/store/type';
+import { mapStores } from "pinia";
+import { useRulesystemStore } from "../stores/rulesystem";
+import { useCommonStore } from "../stores/common";
 
-import AttributeSpinner from '@/components/AttributeSpinner.vue';
+import AttributeSpinner from "@/components/AttributeSpinner.vue";
 
 export default {
   model: {
-    prop: 'attributeValues',
+    prop: "attributeValues",
   },
   props: {
     attributeValues: {
@@ -43,17 +44,15 @@ export default {
       currentAttributes: {},
       error: false,
       errorTypes: {
-        negative: 'Du hast mehr als 72 Attributspunkte verteilt.',
+        negative: "Du hast mehr als 72 Attributspunkte verteilt.",
       },
     };
   },
   computed: {
-    ...mapGetters({
-      attributes: get.ATTRIBUTE_LIST,
-    }),
+    ...mapStores(useCommonStore, useRulesystemStore),
     currentPointsTotal() {
       let total = 0;
-      Object.keys(this.currentAttributes).forEach(item => {
+      Object.keys(this.currentAttributes).forEach((item) => {
         total += parseInt(this.currentAttributes[item], 10);
       });
       return total;
@@ -66,33 +65,30 @@ export default {
     this.setInitAttributes();
   },
   activated() {
-    if (Object.keys(this.attributeValues).length === 0) this.setInitAttributes();
+    if (Object.keys(this.attributeValues).length === 0)
+      this.setInitAttributes();
   },
   methods: {
-    ...mapActions({
-      addWarning: act.ADD_WARNING,
-      removeWarning: act.REMOVE_WARNING,
-    }),
     setInitAttributes() {
-      this.attributes.forEach(item => {
-        this.$set(this.currentAttributes, item.abbr, 3);
-        this.$emit('input', this.currentAttributes);
+      this.rulesystemStore.attributes.forEach((item) => {
+        this.currentAttributes[item.abbr] = 3;
+        this.$emit("input", this.currentAttributes);
       });
     },
     updateAttributeValues() {
       this.checkForError();
-      this.$emit('input', this.currentAttributes);
+      this.$emit("input", this.currentAttributes);
     },
     checkForError() {
       if (this.remainingPoints < 0) {
-        this.error = 'negative';
-        this.removeWarning('attributePointsRemaining');
+        this.error = "negative";
+        this.commonStore.removeWarning("attributePointsRemaining");
       } else if (this.remainingPoints === 0) {
         this.error = false;
-        this.removeWarning('attributePointsRemaining');
+        this.commonStore.removeWarning("attributePointsRemaining");
       } else if (this.remainingPoints > 0) {
         this.error = false;
-        this.addWarning('attributePointsRemaining');
+        this.commonStore.addWarning("attributePointsRemaining");
       }
     },
   },
@@ -101,6 +97,6 @@ export default {
 
 <style scoped>
 .field-container {
-  margin: .3rem 0;
+  margin: 0.3rem 0;
 }
 </style>

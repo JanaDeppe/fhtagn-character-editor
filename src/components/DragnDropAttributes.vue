@@ -3,8 +3,8 @@ p DragnDropAttributes
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { get } from '@/store/type';
+import { mapStores } from "pinia";
+import { useRulesystemStore } from "../stores/rulesystem";
 
 export default {
   props: {
@@ -22,13 +22,11 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      attributeList: get.ATTRIBUTE_LIST,
-    }),
+    ...mapStores(useRulesystemStore),
   },
   method: {
     updateAttributeValues() {
-      this.$emit('update:attributeValues', this.attributeValues);
+      this.$emit("update:attributeValues", this.attributeValues);
     },
   },
 };

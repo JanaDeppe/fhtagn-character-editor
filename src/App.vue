@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
+import Modal from "@/components/Modal.vue";
 
 export default {
   components: {
@@ -45,12 +45,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.app-container {
-  height: 630px;
-  overflow: auto;
+.bug-report-link__icon {
+  vertical-align: -7px;
 }
-
-.bug-report-link__icon{
-    vertical-align: -7px;
-} 
 </style>

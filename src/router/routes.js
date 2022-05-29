@@ -1,23 +1,23 @@
 export default [
   {
-    path: '/',
-    component: () => import('@/views/Generator.vue'),
+    path: "/",
+    component: () => import("@/views/GeneratorView.vue"),
     children: [
       {
-        path: '',
-        name: 'start-generation',
-        component: () => import('@/views/StartGeneration.vue'),
+        path: "",
+        name: "start-generation",
+        component: () => import("@/views/StartGeneration.vue"),
       },
-      // {
-      //   path: 'attributes',
-      //   name: 'attributes',
-      //   component: () => import('@/views/Attributes.vue'),
-      // },
-      // {
-      //   path: 'professions',
-      //   name: 'professions',
-      //   component: () => import('@/views/Professions.vue'),
-      // },
+      {
+        path: "attributes",
+        name: "attributes",
+        component: () => import("@/views/AttributesView.vue"),
+      },
+      {
+        path: "professions",
+        name: "professions",
+        component: () => import("@/views/Professions.vue"),
+      },
       // {
       //   path: 'bonus-skills',
       //   name: 'bonus-skills',

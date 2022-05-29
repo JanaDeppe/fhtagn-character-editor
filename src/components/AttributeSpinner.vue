@@ -22,37 +22,38 @@
 </template>
 
 <script>
-
 export default {
   props: {
     inputId: {
       type: String,
-      default: '',
+      default: "",
     },
     points: {
       type: Number,
       default: 3,
     },
   },
-  model: {
-    prop: 'points',
-    event: 'pointsUpdated',
-  },
+  emits: ["update:points"],
   data() {
     return {
       error: false,
       errorTypes: {
-        tooLow: 'Kein Attributswert darf unter 3 bleiben.',
-        tooHigh: 'Kein Attributswert darf höher als 18 sein.',
+        tooLow: "Kein Attributswert darf unter 3 bleiben.",
+        tooHigh: "Kein Attributswert darf höher als 18 sein.",
       },
     };
   },
   computed: {
     currentPoints: {
-      get() { return this.points; },
+      get() {
+        return this.points;
+      },
       set(newValue) {
-        if (Number.isNaN(parseInt(newValue, 10))) this.$emit('pointsUpdated', 0);
-        else this.$emit('pointsUpdated', newValue);
+        if (Number.isNaN(parseInt(newValue, 10))) {
+          this.$emit("update:points", 0);
+        } else {
+          this.$emit("update:points", newValue);
+        }
       },
     },
   },
@@ -61,7 +62,9 @@ export default {
       this.checkForError(e.currentTarget.value);
     },
     onIncrementalChange(e) {
-      const newValue = parseInt(this.currentPoints, 10) + parseInt(e.currentTarget.textContent, 10);
+      const newValue =
+        parseInt(this.currentPoints, 10) +
+        parseInt(e.currentTarget.textContent, 10);
       if (newValue < 0) return;
 
       this.checkForError(newValue);
@@ -69,46 +72,45 @@ export default {
     },
     checkForError(newValue) {
       if (newValue > 18) {
-        this.error = 'tooHigh';
+        this.error = "tooHigh";
       } else if (newValue < 3) {
-        this.error = 'tooLow';
+        this.error = "tooLow";
       } else {
         this.error = false;
       }
     },
   },
 };
-
 </script>
 
 <style scoped>
-  input {
-    height: 100%;
-  }
+input {
+  height: 100%;
+}
 
-  .button-container {
-    display: flex;
-    flex-direction: column;
-    margin-left: 3px;
-  }
+.button-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 3px;
+}
 
-  button {
-    flex-basis: 50%;
-    margin: 0;
-    font-weight: bold;
-  }
+button {
+  flex-basis: 50%;
+  margin: 0;
+  font-weight: bold;
+}
 
-  button:first-child {
-    border-radius: 35% 35% 0 0;
-    margin-bottom: 1px;
-  }
+button:first-child {
+  border-radius: 35% 35% 0 0;
+  margin-bottom: 1px;
+}
 
-  button:last-child {
-    border-radius: 0 0 35% 35%;
-    margin-top: 1px;
-  }
+button:last-child {
+  border-radius: 0 0 35% 35%;
+  margin-top: 1px;
+}
 
-  .label {
-    margin-top: 3px;
-  }
+.label {
+  margin-top: 3px;
+}
 </style>

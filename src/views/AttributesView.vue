@@ -60,12 +60,12 @@ div
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { get, act } from '@/store/type';
+import { mapStores } from "pinia";
+import { useCharacterStore } from "@/stores/character";
 
-import PointDistributor from '@/components/PointDistributor.vue';
-import DiceRoller from '@/components/DiceRoller.vue';
-import DragnDropAttributes from '@/components/DragnDropAttributes.vue';
+import PointDistributor from "@/components/PointDistributor.vue";
+import DiceRoller from "@/components/DiceRoller.vue";
+import DragnDropAttributes from "@/components/DragnDropAttributes.vue";
 
 export default {
   props: {},
@@ -77,23 +77,22 @@ export default {
   data() {
     return {
       distributableAttributeValues: [],
-      isPickerVisible: false,
+      isPickerVisible: true,
       distributionMethod: 1,
     };
   },
   computed: {
-    ...mapGetters({
-      getAttributeValues: get.ATTRIBUTE_VALUES,
-    }),
+    ...mapStores(useCharacterStore),
     attributeValues: {
-      get() { return this.getAttributeValues; },
-      set(newAttributeValues) { this.setAttributeValues(newAttributeValues); },
+      get() {
+        return this.characterStore.attributeValues;
+      },
+      set(newAttributeValues) {
+        this.characterStore.attributeValues = newAttributeValues;
+      },
     },
   },
   methods: {
-    ...mapActions({
-      setAttributeValues: act.SET_ATTRIBUTE_VALUES,
-    }),
     switchGenerationMethod(methodIndex) {
       this.isPickerVisible = false;
       this.distributionMethod = methodIndex;

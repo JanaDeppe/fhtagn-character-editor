@@ -1,22 +1,24 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
+import { useRulesystemStore } from "@/stores/rulesystem";
+import { useSkillsStore } from "@/stores/skills";
 
-export const useCharacterStore = defineStore('character', {
+export const useCharacterStore = defineStore("character", {
   state: () => ({
     attributeValues: {},
     connections: [],
     facettes: [],
     motivations: [],
     personalInformation: {
-      Vorname: '',
-      Nachname: '',
-      Muttersprache: '',
-      Alter: '',
-      Aussehen: '',
-      Ausrüstungsgegenstände: '',
-      Notizen: '',
+      Vorname: "",
+      Nachname: "",
+      Muttersprache: "",
+      Alter: "",
+      Aussehen: "",
+      Ausrüstungsgegenstände: "",
+      Notizen: "",
     },
     professionId: -1,
-    professionVariant: '',
+    professionVariant: "",
     isProfessionLoading: true,
   }),
   getters: {
@@ -37,7 +39,7 @@ export const useCharacterStore = defineStore('character', {
       profession,
       professionVariant,
     }),
-    derivedValues: state => {
+    derivedValues: (state) => {
       const { ST, KO, EN } = state.attributeValues;
       const hitpoints = Math.ceil((ST + KO) / 2);
       const willpowerPoints = EN;
@@ -45,19 +47,27 @@ export const useCharacterStore = defineStore('character', {
       const breakingPoint = stabilityPoints - EN;
 
       return {
-        hitpoints, willpowerPoints, stabilityPoints, breakingPoint,
+        hitpoints,
+        willpowerPoints,
+        stabilityPoints,
+        breakingPoint,
       };
     },
-    isCharacterStarted: state => Number.isInteger(state.attributeValues.ST),
+    isCharacterStarted: (state) => Number.isInteger(state.attributeValues.ST),
   },
   actions: {
-    toggleProfessionLoading: () => this.isProfessionLoading = !this.isProfessionLoading,
-    createNewCharacter () {
+    toggleProfessionLoading: () =>
+      (this.isProfessionLoading = !this.isProfessionLoading),
+    createNewCharacter() {
+      // Remove all data from an old character
       this.$reset();
-      // TODO: create an appropriately sized array for the motivations (see old store)
-      // commit('setMotivations', new Array(rootGetters[get.AVAILABLE_MOTIVATIONS]).fill(''));
-      // TODO: init character skills (from skills)
-      // dispatch(act.INIT_CHARACTER_SKILLS);
-    }
-  }
+
+      // Create a new, appropriately sized array for the motivations
+      const rulesystemStore = useRulesystemStore();
+      this.motivations = Array(rulesystemStore.availableMotivations).fill("");
+
+      const skillsStore = useSkillsStore();
+      skillsStore.initCharacterSkills();
+    },
+  },
 });

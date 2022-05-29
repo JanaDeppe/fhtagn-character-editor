@@ -26,18 +26,18 @@
 </template>
 
 <script>
-import { mapStores } from 'pinia';
-import { useCharacterStore } from '../stores/character';
+import { mapStores } from "pinia";
+import { useCharacterStore } from "../stores/character";
 
 export default {
-  props: '',
+  props: "",
   computed: {
-    ...mapStores(useCharacterStore)
+    ...mapStores(useCharacterStore),
   },
   methods: {
     createNewCharacter() {
       this.characterStore.createNewCharacter();
-      // this.$router.push({ name: 'attributes' });
+      this.$router.push({ name: "attributes" });
     },
   },
 };
