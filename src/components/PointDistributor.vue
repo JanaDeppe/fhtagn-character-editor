@@ -26,15 +26,13 @@ import { useCommonStore } from "../stores/common";
 import AttributeSpinner from "@/components/AttributeSpinner.vue";
 
 export default {
-  model: {
-    prop: "attributeValues",
-  },
   props: {
     attributeValues: {
       type: Object,
       default: () => {},
     },
   },
+  emits: ["update:attributeValues"],
   components: {
     AttributeSpinner,
   },
@@ -72,12 +70,12 @@ export default {
     setInitAttributes() {
       this.rulesystemStore.attributes.forEach((item) => {
         this.currentAttributes[item.abbr] = 3;
-        this.$emit("input", this.currentAttributes);
+        this.$emit("update:attributeValues", this.currentAttributes);
       });
     },
     updateAttributeValues() {
       this.checkForError();
-      this.$emit("input", this.currentAttributes);
+      this.$emit("update:attributeValues", this.currentAttributes);
     },
     checkForError() {
       if (this.remainingPoints < 0) {

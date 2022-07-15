@@ -1,5 +1,5 @@
 <template lang="pug">
-transition(name="modal" appear)
+transition(name="modalBox" appear)
   .overlay
     .modal-container
       button(v-if="hasCloseButton" class="close material-icons" @click="close()")
@@ -13,11 +13,11 @@ transition(name="modal" appear)
 </template>
 
 <script>
-import CharacterSheetService from '@/common/character-sheet-service';
-import Modal from '@/components/Modal.vue';
+import CharacterSheetService from "@/common/character-sheet-service";
+import ModalBox from "@/components/ModalBox.vue";
 
 export default {
-  extends: Modal,
+  extends: ModalBox,
   props: {
     characterData: {
       default: () => {},
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       publicPath: process.env.BASE_URL,
-      characterSheetHtml: '',
+      characterSheetHtml: "",
       characterSheetServiceInitiated: false,
     };
   },
@@ -36,29 +36,27 @@ export default {
       return new CharacterSheetService(this.characterData);
     },
     characterSheetName() {
-      const { Vorname, Nachname } = this.characterData.characterData.personalInformation;
+      const { Vorname, Nachname } =
+        this.characterData.characterData.personalInformation;
       if (Vorname || Nachname) {
         return `Fhtagn${`-${Vorname}`}${`-${Nachname}`}.pdf`;
       }
-      return 'Fhtagn-Character.pdf';
+      return "Fhtagn-Character.pdf";
     },
   },
   mounted() {
     const self = this;
-    self.characterSheetService.init()
-      .then(() => {
-        self.createPDFDocument();
-      });
+    self.characterSheetService.init().then(() => {
+      self.createPDFDocument();
+    });
   },
   methods: {
     createPDFDocument() {
-      this.characterSheetService
-        .generateDocumentURL()
-        .then(url => {
-          this.$refs.pdfDocumentViewer.src = `${url}`;
-          this.$refs.pdfLink.href = `${url}`;
-          this.$refs.pdfLink.download = this.characterSheetName;
-        });
+      this.characterSheetService.generateDocumentURL().then((url) => {
+        this.$refs.pdfDocumentViewer.src = `${url}`;
+        this.$refs.pdfLink.href = `${url}`;
+        this.$refs.pdfLink.download = this.characterSheetName;
+      });
     },
   },
 };
@@ -79,5 +77,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-
 </style>

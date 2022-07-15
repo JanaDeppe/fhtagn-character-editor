@@ -36,21 +36,21 @@ div.skill.row.no-gutters.align-items-center(
     :skill="currentSkill")
   span(v-else) ({{currentSkill.professionalValue || currentSkill.baseValue}}%)
 
-  //- Bonus Draggable
+  //- Bonus Spinner
   bonusSkillSpinner.col-auto(
-    v-if="showDraggable"
-    v-model="currentBonusCount"
-    :bonusCount="currentSkill.bonusCount")
+    v-if="showBonusSpinner"
+    v-model:bonusCount="currentBonusCount")
 
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { get, act } from '@/store/type';
+import { mapStores } from "pinia";
+import { useSkillsStore } from "../stores/skills";
+import { useRulesystemStore } from "../stores/rulesystem";
 
-import BonusSkillSpinner from '@/components/BonusSkillSpinner.vue';
-import CalculatedSkillValue from '@/components/CalculatedSkillValue.vue';
-import SpecialisationEditor from '@/components/SpecialisationEditor.vue';
+import BonusSkillSpinner from "@/components/BonusSkillSpinner.vue";
+import CalculatedSkillValue from "@/components/CalculatedSkillValue.vue";
+import SpecialisationEditor from "@/components/SpecialisationEditor.vue";
 
 export default {
   components: {
@@ -61,11 +61,11 @@ export default {
   props: {
     skillname: {
       type: String,
-      default: '',
+      default: "",
     },
     skillId: {
       type: String,
-      default: '',
+      default: "",
     },
     isOptionalCheckbox: {
       type: Boolean,
@@ -83,7 +83,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    showDraggable: {
+    showBonusSpinner: {
       type: Boolean,
       default: false,
     },
@@ -102,73 +102,53 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      skillByName: get.SKILL_BY_NAME,
-      skillById: get.SKILL_BY_ID,
-    }),
+    ...mapStores(useSkillsStore, useRulesystemStore),
     currentSkill() {
       return this.skillId
-        ? this.skillById(this.skillId)
-        : this.skillByName(this.skillname);
+        ? this.skillsStore.skillById(this.skillId)
+        : this.rulesystemStore.skillByName(this.skillname);
     },
     currentBonusCount: {
       get() {
-        return new Array(this.currentSkill.bonusCount);
+        return this.currentSkill.bonusCount;
       },
       set(newValue) {
-        if (newValue === 'add') {
-          this
-            .dispatchAddBonusSkill(
-              {
-                skillname: this.skillname,
-                skillId: this.skillId,
-              },
+        if (newValue === "add") {
+          this.skillsStore
+            .addBonusSkill(
+              this.skillname,
+              this.skillId,
+              this.currentSkill.specialisationName
             )
             .then(() => {
-              this.$emit('bonus-skill-changed');
+              this.$emit("bonus-skill-changed");
             });
         }
-        if (newValue === 'remove') {
-          this
-            .dispatchRemoveBonusSkill({ skillId: this.skillId })
-            .then(() => { this.$emit('bonus-skill-changed'); });
+        if (newValue === "remove") {
+          this.skillsStore.removeBonusSkill(this.skillId).then(() => {
+            this.$emit("bonus-skill-changed");
+          });
         }
       },
     },
   },
   methods: {
-    ...mapActions({
-      toggleOptionalSkill: act.TOGGLE_OPTIONAL_SKILL,
-      dispatchAddSpecialisation: act.ADD_SPECIALISATION,
-      dispatchModifySpecialisation: act.MODIFY_SPECIALISATION,
-      dispatchRemoveSpecialisation: act.REMOVE_SPECIALISATION,
-      dispatchAddBonusSkill: act.ADD_BONUS_SKILL,
-      dispatchRemoveBonusSkill: act.REMOVE_BONUS_SKILL,
-    }),
     selectOptionalSkill() {
-      this.toggleOptionalSkill({
-        skillname: this.skillname,
-        skillId: this.skillId,
-      }).then(() => {
-        this.$emit('optional-skill-toggled');
+      this.skillsStore.toggleOptionalSkill(this.skillId).then(() => {
+        this.$emit("optional-skill-toggled");
       });
     },
     addSpecialisation() {
-      this.dispatchAddSpecialisation({
-        skillname: this.currentSkill.skillname,
-        isOptional: this.currentSkill.isOptional,
-      });
+      this.skillsStore.addSpecialisation(
+        this.currentSkill.skillname,
+        this.currentSkill.isOptional
+      );
     },
     modifySpecialisation(specialisation) {
-      this.dispatchModifySpecialisation({
-        skillId: this.skillId,
-        specialisation,
-      });
+      this.skillsStore.modifySpecialisation(this.skillId, specialisation);
     },
     removeSpecialisation() {
-      this.dispatchRemoveSpecialisation({
-        skillId: this.skillId,
-      });
+      this.skillsStore.removeSpecialisation(this.skillId);
     },
   },
 };
@@ -180,7 +160,7 @@ export default {
 }
 
 .is-nonexisting-specialisation .skill-name {
-    opacity: .5;
+  opacity: 0.5;
 }
 
 .is-nonexisting-specialisation .add-specialisation {
@@ -190,5 +170,4 @@ export default {
 .small-line-height {
   line-height: 1;
 }
-
 </style>

@@ -16,38 +16,38 @@ export default [
       {
         path: "professions",
         name: "professions",
-        component: () => import("@/views/Professions.vue"),
+        component: () => import("@/views/ProfessionsView.vue"),
       },
-      // {
-      //   path: 'bonus-skills',
-      //   name: 'bonus-skills',
-      //   component: () => import('@/views/BonusSkills.vue'),
-      // },
-      // {
-      //   path: 'connections',
-      //   name: 'connections',
-      //   component: () => import('@/views/Connections.vue'),
-      // },
-      // {
-      //   path: 'facettes',
-      //   name: 'facettes',
-      //   component: () => import('@/views/Facettes.vue'),
-      // },
-      // {
-      //   path: 'motivations',
-      //   name: 'motivations',
-      //   component: () => import('@/views/Motivations.vue'),
-      // },
-      // {
-      //   path: 'personal-information',
-      //   name: 'personal-information',
-      //   component: () => import('@/views/PersonalInformation.vue'),
-      // },
-      // {
-      //   path: 'character-summary',
-      //   name: 'character-summary',
-      //   component: () => import('@/views/CharacterSummary.vue'),
-      // },
+      {
+        path: "bonus-skills",
+        name: "bonus-skills",
+        component: () => import("@/views/BonusSkills.vue"),
+      },
+      {
+        path: "connections",
+        name: "connections",
+        component: () => import("@/views/Connections.vue"),
+      },
+      {
+        path: "facettes",
+        name: "facettes",
+        component: () => import("@/views/Facettes.vue"),
+      },
+      {
+        path: "motivations",
+        name: "motivations",
+        component: () => import("@/views/Motivations.vue"),
+      },
+      {
+        path: "personal-information",
+        name: "personal-information",
+        component: () => import("@/views/PersonalInformation.vue"),
+      },
+      {
+        path: "character-summary",
+        name: "character-summary",
+        component: () => import("@/views/CharacterSummary.vue"),
+      },
     ],
   },
   // {

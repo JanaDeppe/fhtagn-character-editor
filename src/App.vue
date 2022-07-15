@@ -15,7 +15,7 @@
           span.bug-report-link__icon.material-icons bug_report
           | Bug melden oder Idee mitteilen
 
-  modal(
+  modal-box(
     :isVisible="isBugReportOpen"
     @modal-closed="isBugReportOpen = false")
     h3(slot="header") Hast du einen Bug gefunden?
@@ -29,11 +29,11 @@
 </template>
 
 <script>
-import Modal from "@/components/Modal.vue";
+import ModalBox from "@/components/ModalBox.vue";
 
 export default {
   components: {
-    Modal,
+    ModalBox,
   },
   data() {
     return {

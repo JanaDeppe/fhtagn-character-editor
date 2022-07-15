@@ -13,7 +13,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     skill: {
@@ -32,7 +31,12 @@ export default {
     },
     calculatedValue() {
       const {
-        baseValue, professionalValue, isProfessional, isSelectedProfessional, isSelected, bonusCount,
+        baseValue,
+        professionalValue,
+        isProfessional,
+        isSelectedProfessional,
+        isSelected,
+        bonusCount,
       } = this.skill;
 
       let value = baseValue;
@@ -50,9 +54,7 @@ export default {
 </script>
 
 <style scoped>
-
 .skill-badge:not(:first-child) {
   margin-left: 1px;
 }
-
 </style>

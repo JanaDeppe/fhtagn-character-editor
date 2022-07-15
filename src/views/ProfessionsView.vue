@@ -5,7 +5,7 @@
     ul.profession-list.list-unstyled
       li.profession-list__profession(
         :class="{'is-active': selectedProfession == index}"
-        v-for="(profession, index) in professions"
+        v-for="(profession, index) in rulesystemStore.professions"
         @click="setProfession(index)"
       ) {{profession.name}}
 
@@ -25,16 +25,16 @@
           label.form-check-label
             input(type="text" v-model="customVariant" placeholder="Eigene Ausprägung" @input="updateVariant")
       blockquote.blockquote.alert.alert-light.border-left {{currProf.background}}
-      div.mt-5(v-if="!isProfessionLoading")
+      div.mt-5(v-if="!characterStore.isProfessionLoading")
         h5 Berufsfertigkeiten:
         ul.skill-list.list-unstyled.mb-5
-          li.skill-list__item(v-for="skill in professionalSkills")
+          li.skill-list__item(v-for="skill in skillsStore.professionalSkills")
             combined-skill.no-break(
               v-if="skill.conjunctionId && skill.conjunctionId !== 'duplicate'"
               :conjunctionId="skill.conjunctionId"
               modType="professional"
             )
-            skill.no-break.pl-2(
+            single-skill.no-break.pl-2(
               v-else-if="!skill.conjunctionId"
               :skillId="skill.skillId"
               :canAddSpecialisations="false"
@@ -44,7 +44,7 @@
           :professionId="selectedProfession"
         )
         h5 Verbindungen: {{currProf.connections}}
-  modal(
+  modal-box(
     :isVisible="isErrorOpen"
     @modal-closed="isErrorOpen = false")
     h3(slot="header") Fehlende Auswahl
@@ -53,43 +53,46 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { act, get } from '@/store/type';
+import { mapStores } from "pinia";
+import { useCommonStore } from "../stores/common";
+import { useRulesystemStore } from "../stores/rulesystem";
+import { useCharacterStore } from "../stores/character";
+import { useSkillsStore } from "../stores/skills";
 
-import OptionalSkillList from '@/components/OptionalSkillList.vue';
-import Skill from '@/components/Skill.vue';
-import CombinedSkill from '@/components/CombinedSkill.vue';
-import Modal from '@/components/Modal.vue';
+import OptionalSkillList from "@/components/OptionalSkillList.vue";
+import SingleSkill from "@/components/SingleSkill.vue";
+import CombinedSkill from "@/components/CombinedSkill.vue";
+import ModalBox from "@/components/ModalBox.vue";
 
 export default {
   props: {},
   components: {
     OptionalSkillList,
-    Skill,
+    SingleSkill,
     CombinedSkill,
-    Modal,
+    ModalBox,
   },
   data() {
     return {
       selectedProfession: -1,
-      selectedVariant: '',
-      customVariant: '',
+      selectedVariant: "",
+      customVariant: "",
       isErrorOpen: false,
       conjunctions: [],
     };
   },
   computed: {
-    ...mapGetters({
-      professionalSkills: get.PROFESSIONAL_SKILLS,
-      editorSteps: get.EDITOR_STEPS,
-      professions: get.PROFESSIONS_LIST,
-      isProfessionLoading: get.IS_PROFESSION_LOADING,
-    }),
+    ...mapStores(
+      useCommonStore,
+      useRulesystemStore,
+      useCharacterStore,
+      useSkillsStore
+    ),
     currProf() {
-      return this.professions[this.selectedProfession];
+      return this.rulesystemStore.professions[this.selectedProfession];
     },
     currentVariant() {
-      if (this.selectedVariant === 'custom') {
+      if (this.selectedVariant === "custom") {
         return this.customVariant;
       }
       return this.selectedVariant;
@@ -99,8 +102,12 @@ export default {
     this.checkForError(this.currentVariant);
   },
   beforeRouteLeave(to, from, next) {
-    const currentRouteIndex = this.editorSteps.findIndex(record => from.name === record.name);
-    const nextRouteIndex = this.editorSteps.findIndex(record => to.name === record.name);
+    const currentRouteIndex = this.commonStore.editorSteps.findIndex(
+      (record) => from.name === record.name
+    );
+    const nextRouteIndex = this.commonStore.editorSteps.findIndex(
+      (record) => to.name === record.name
+    );
     if (currentRouteIndex < nextRouteIndex) {
       if (this.selectedProfession === -1) {
         next(false);
@@ -113,40 +120,25 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      dispatchSetProfession: act.SET_PROFESSION,
-      updateProfessionVariant: act.UPDATE_PROFESSION_VARIANT,
-      modifySpecialisation: act.MODIFY_SPECIALISATION,
-      addWarning: act.ADD_WARNING,
-      removeWarning: act.REMOVE_WARNING,
-    }),
     setProfession(index) {
       this.selectedProfession = index;
-      this.dispatchSetProfession(this.selectedProfession);
+      this.characterStore.setProfession(this.selectedProfession);
     },
     updateVariant() {
       this.checkForError(this.currentVariant);
-      this.updateProfessionVariant(this.currentVariant);
-    },
-    modifySpecialisation(data) {
-      this.changeSpecialisation({
-        skill: data.skill,
-        index: this.index,
-        specialisation: data.name,
-        isProfessional: true,
-      });
+      this.characterStore.professionVariant = this.currentVariant;
     },
     checkForError(variant) {
       if (!variant) {
-        this.addWarning('missingVariant');
+        this.commonStore.addWarning("missingVariant");
       } else {
-        this.removeWarning('missingVariant');
+        this.commonStore.removeWarning("missingVariant");
       }
 
-      if (variant === 'custom' && !this.customVariant) {
-        this.addWarning('missingCustomVariant');
+      if (variant === "custom" && !this.customVariant) {
+        this.commonStore.addWarning("missingCustomVariant");
       } else {
-        this.removeWarning('missingCustomVariant');
+        this.commonStore.removeWarning("missingCustomVariant");
       }
     },
   },
@@ -154,7 +146,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../common/settings";
 .profession-list {
   height: 21vh;
   overflow-x: scroll;
@@ -171,7 +162,7 @@ export default {
 }
 
 .profession-list__profession.is-active {
-  background: transparentize(theme-color("light"), .5);
+  background: transparentize(theme-color("light"), 0.5);
 }
 
 @media screen and (min-width: 768px) {
@@ -190,7 +181,7 @@ export default {
 @media screen and (min-width: 1440px) {
   .variant-list,
   .skill-list {
-    colummn-count: 3;
+    column-count: 3;
   }
 }
 

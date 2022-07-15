@@ -2,35 +2,29 @@
 div.container
   button.btn.btn-outline-secondary.btn-sm(
     @click="onRemove"
-    :disabled="!(bonusCount)"
+    :disabled="!(bonusCount.length)"
   ) -
   button.btn.btn-outline-secondary.btn-sm(@click="onAdd") +
 </template>
 
 <script>
 export default {
-  components: {
-  },
   props: {
-    value: {
-      required: false,
-      type: Array,
-      default: null,
-    },
     bonusCount: {
       type: Number,
       default: 0,
     },
   },
+  emits: ["update:bonusCount"],
   data() {
     return {};
   },
   methods: {
     onAdd() {
-      this.$emit('input', 'add');
+      this.$emit("update:bonusCount", "add");
     },
     onRemove() {
-      this.$emit('input', 'remove');
+      this.$emit("update:bonusCount", "remove");
     },
   },
 };

@@ -16,7 +16,7 @@ div
       @click="remove"
     )
       span.material-icons remove
-  transition(name="modal" appear)
+  transition(name="modalBox" appear)
     .overlay(v-if="isActive")
       .modal-container
         button.material-icons.close(
@@ -37,14 +37,14 @@ div
 
 </template>
 <script>
-import Modal from '@/components/Modal.vue';
+import ModalBox from "@/components/ModalBox.vue";
 
 export default {
-  extends: Modal,
+  extends: ModalBox,
   props: {
     skillname: {
       type: String,
-      default: '',
+      default: "",
     },
     specialisation: {
       type: String,
@@ -68,28 +68,30 @@ export default {
   },
   computed: {
     specialisationName: {
-      get() { return this.specialisation; },
+      get() {
+        return this.specialisation;
+      },
       set(newValue) {
-        this.$emit('modify-specialisation', newValue);
+        this.$emit("modify-specialisation", newValue);
       },
     },
   },
   methods: {
     add() {
-      this.$emit('add-specialisation');
+      this.$emit("add-specialisation");
     },
     remove() {
-      this.$emit('remove-specialisation');
+      this.$emit("remove-specialisation");
     },
     onEditorOpen() {
-      this.$emit('editor-opened');
+      this.$emit("editor-opened");
     },
   },
 };
 </script>
 <style scoped>
 .material-icons {
-  font-size: .875rem;
+  font-size: 0.875rem;
   vertical-align: -2px;
 }
 

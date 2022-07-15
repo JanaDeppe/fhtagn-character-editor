@@ -22,14 +22,14 @@ div
     span(v-else) {{professionName}}
 
   // Skills
-  ul.list-unstyled.small-list(v-if="!isProfessionLoading")
+  ul.list-unstyled.small-list(v-if="!characterStore.isProfessionLoading")
     li: h6 Fertigkeiten:
-    li(v-for="skill in modifiedSkills")
-      //- skill.mb-1(
-      //-   :canAddSpecialisations="false"
-      //-   :canRemoveSpecialisations="false"
-      //-   :showCalculatedValue="true"
-      //-   :skillId="skill.skillId")
+    li(v-for="skill in skillsStore.modifiedSkills")
+      single-skill.mb-1(
+        :canAddSpecialisations="false"
+        :canRemoveSpecialisations="false"
+        :showCalculatedValue="true"
+        :skillId="skill.skillId")
 
   // Verbindungen
   div(v-if="isArrayPopulated(connections)")
@@ -52,48 +52,58 @@ div
 </template>
 
 <script>
-// import Skill from '@/components/Skill.vue';
+import { mapStores } from "pinia";
+import { useCharacterStore } from "../stores/character";
+import { useSkillsStore } from "../stores/skills";
+import { useRulesystemStore } from "../stores/rulesystem";
+import SingleSkill from "@/components/SingleSkill.vue";
 
 export default {
   props: {},
   components: {
-    // Skill,
+    SingleSkill,
   },
   computed: {
-    // ...mapGetters({
-    //   attributes: get.ATTRIBUTE_LIST,
-    //   modifiedSkills: get.MODIFIED_SKILLS,
-    //   characterData: get.CHARACTER_DATA,
-    //   professionNameById: get.PROFESSION_NAME_BY_ID,
-    //   isProfessionLoading: get.IS_PROFESSION_LOADING,
-    // }),
+    ...mapStores(useCharacterStore, useSkillsStore, useRulesystemStore),
     attributeValues() {
-      return this.characterData.attributeValues;
+      return this.characterStore.characterData.attributeValues;
     },
-    connections() { return this.characterData.connections; },
-    facettes() { return this.characterData.facettes; },
-    motivations() { return this.characterData.motivations; },
-    personalInformation() { return this.characterData.personalInformation; },
-    profession() { return this.characterData.profession; },
-    professionVariant() { return this.characterData.professionVariant; },
-    professionName() { return this.professionNameById(this.profession); },
+    connections() {
+      return this.characterStore.characterData.connections;
+    },
+    facettes() {
+      return this.characterStore.characterData.facettes;
+    },
+    motivations() {
+      return this.characterStore.characterData.motivations;
+    },
+    personalInformation() {
+      return this.characterStore.characterData.personalInformation;
+    },
+    profession() {
+      return this.characterStore.characterData.profession;
+    },
+    professionVariant() {
+      return this.characterStore.characterData.professionVariant;
+    },
+    professionName() {
+      return this.rulesystemStore.professionNameById(this.profession);
+    },
   },
   methods: {
     isArrayPopulated(array) {
-      return !!(array.find(item => item.trim().length > 0));
+      return !!array.find((item) => item.trim().length > 0);
     },
   },
 };
 </script>
 
 <style scoped>
-
 .small-list {
-  font-size: .875rem;
+  font-size: 0.875rem;
 }
 
 .attribute-list {
-    column-count: 3;
+  column-count: 3;
 }
-
 </style>

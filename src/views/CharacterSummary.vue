@@ -32,7 +32,7 @@ div
       h6 Fertigkeiten:
       ul.skill-list.list-unstyled(v-if="charData.profession > -1")
         li.mb-2(v-for="skill in skillMap")
-          skill(
+          single-skill(
             :canAddSpecialisations="false"
             :canRemoveSpecialisations="false"
             :showCalculatedValue="true"
@@ -71,17 +71,17 @@ div
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { get } from '@/store/type';
+import { mapGetters } from "vuex";
+import { get } from "@/store/type";
 
-import CharacterSheetModal from '@/components/CharacterSheetModal.vue';
-import Skill from '@/components/Skill.vue';
+import CharacterSheetModal from "@/components/CharacterSheetModal.vue";
+import SingleSkill from "@/components/SingleSkill.vue";
 
 export default {
   props: {},
   components: {
     CharacterSheetModal,
-    Skill,
+    SingleSkill,
   },
   data() {
     return {
@@ -104,7 +104,9 @@ export default {
       return this.getProfessionNameById(this.charData.profession);
     },
     currentFacettes() {
-      return this.charData.facettes.map(facette => ({ [facette]: this.getFacetteByName(facette) }));
+      return this.charData.facettes.map((facette) => ({
+        [facette]: this.getFacetteByName(facette),
+      }));
     },
     aggregatedCharacterData() {
       return {
@@ -134,5 +136,4 @@ export default {
     column-count: 2;
   }
 }
-
 </style>

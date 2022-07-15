@@ -17,7 +17,7 @@
 
     .col-12.col-md-4.d-flex
       .border-left.p-3.flex-grow-1
-        //- sidebar-summary
+        sidebar-summary
 
 </template>
 
@@ -60,6 +60,7 @@ export default {
       const nextRouteIndex = vm.commonStore.editorSteps.findIndex(
         (record) => to.name === record.name
       );
+
       if (nextRouteIndex === 0) vm.prevStep = false;
       else vm.prevStep = vm.commonStore.editorSteps[nextRouteIndex - 1];
 
@@ -83,7 +84,6 @@ export default {
     if (this.commonStore.currentWarnings.length) {
       this.commonStore.currentWarnings.forEach((item) => {
         const currentWarningData = this.commonStore.warningDataByKey(item);
-        console.log(currentWarningData);
         this.$notify({
           group: "default",
           type: "warn",

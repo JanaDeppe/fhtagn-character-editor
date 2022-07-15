@@ -6,30 +6,31 @@
   .col-12
     ul.skill-list.cell
       li.border-bottom.skill-list__item.pb-2(
-        v-for="skill in skills"
+        v-for="skill in skillsStore.completeSkillMap"
         :key="skill.skillId || skill.skillname")
-        skill(
+        single-skill(
           class="cell auto"
           :skillname="skill.skillname"
           :skillId="skill.skillId"
           :showBaseValue="true"
           :showCalculatedValue="true"
-          :showDraggable="true"
+          :showBonusSpinner="true"
           @bonus-skill-changed="checkForError")
 
 
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { get, act } from '@/store/type';
+import { mapStores } from "pinia";
+import { useSkillsStore } from "../stores/skills";
+import { useCommonStore } from "../stores/common";
 
-import Skill from '@/components/Skill.vue';
+import SingleSkill from "@/components/SingleSkill.vue";
 
 export default {
   props: {},
   components: {
-    Skill,
+    SingleSkill,
   },
   data() {
     return {
@@ -38,33 +39,29 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      skills: get.SKILL_MAP,
-      bonusSkillCount: get.BONUS_SKILL_COUNT,
-    }),
-    remainingBonusSkillCount() { return this.availableSkills - this.bonusSkillCount; },
+    ...mapStores(useSkillsStore, useCommonStore),
+    remainingBonusSkillCount() {
+      return this.availableSkills - this.skillsStore.bonusSkillCount;
+    },
   },
   created() {
     this.checkForError();
   },
   methods: {
-    ...mapActions({
-      addWarning: act.ADD_WARNING,
-      removeWarning: act.REMOVE_WARNING,
-    }),
-
     checkForError() {
       if (this.remainingBonusSkillCount > 0) {
-        this.addWarning('bonusSkillsRemaining');
+        this.commonStore.addWarning("bonusSkillsRemaining");
       } else {
-        this.removeWarning('bonusSkillsRemaining');
+        this.commonStore.removeWarning("bonusSkillsRemaining");
       }
     },
     getKey(skillname) {
       const key = `${skillname}-${Math.floor(Math.random() * 50000)}`;
       return key;
     },
-    onUseSkill() { this.usedSkills += 1; },
+    onUseSkill() {
+      this.usedSkills += 1;
+    },
     onReturnSkill() {
       this.availableSkills.push(undefined);
       this.usedSkills -= 1;
@@ -80,8 +77,7 @@ export default {
 }
 
 .bonus-badge[draggable="false"] {
-    display: none;
-
+  display: none;
 }
 
 .skill-list {
