@@ -1,5 +1,7 @@
 // CSS
 import "material-design-icons-iconfont/dist/material-design-icons.css";
+import "./common/woltlab.css";
+import "./common/style.css";
 
 // Libraries
 import { createApp } from "vue";
