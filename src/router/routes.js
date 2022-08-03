@@ -26,17 +26,17 @@ export default [
       {
         path: "connections",
         name: "connections",
-        component: () => import("@/views/Connections.vue"),
+        component: () => import("@/views/ConnectionsView.vue"),
       },
       {
         path: "facettes",
         name: "facettes",
-        component: () => import("@/views/Facettes.vue"),
+        component: () => import("@/views/FacettesView.vue"),
       },
       {
         path: "motivations",
         name: "motivations",
-        component: () => import("@/views/Motivations.vue"),
+        component: () => import("@/views/MotivationsView.vue"),
       },
       {
         path: "personal-information",

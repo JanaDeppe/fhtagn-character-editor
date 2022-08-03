@@ -1,4 +1,5 @@
-import store from '@/store';
+import { useSkillsStore } from "@/stores/skills";
+import { useRulesystemStore } from "@/stores/rulesystem";
 
 class PrintSkillsService {
   constructor({ doc, text, skillMap }) {
@@ -20,7 +21,11 @@ class PrintSkillsService {
   }
 
   static getCalculatedSkillValue({
-    baseValue, professionalValue, isProfessional, isSelected, bonusCount,
+    baseValue,
+    professionalValue,
+    isProfessional,
+    isSelected,
+    bonusCount,
   }) {
     let value = baseValue;
 
@@ -35,26 +40,39 @@ class PrintSkillsService {
 
   printRegularModifiedSkill({ skill }) {
     this.text.printSquare(this.currentColumn, this.currentLine);
-    this.text.printSkillNameAndBaseValue(skill, this.currentColumn, this.currentLine);
+    this.text.printSkillNameAndBaseValue(
+      skill,
+      this.currentColumn,
+      this.currentLine
+    );
     this.text.printModifiedSkillValue(
       PrintSkillsService.getCalculatedSkillValue(skill),
       this.currentColumn,
-      this.currentLine,
+      this.currentLine
     );
   }
 
   printRegularUnmodifiedSkill({ skill }) {
-    if (skill.skillname !== 'Unnatürliches Wissen') this.text.printSquare(this.currentColumn, this.currentLine);
-    this.text.printSkillNameAndBaseValue(skill, this.currentColumn, this.currentLine);
+    if (skill.skillname !== "Unnatürliches Wissen")
+      this.text.printSquare(this.currentColumn, this.currentLine);
+    this.text.printSkillNameAndBaseValue(
+      skill,
+      this.currentColumn,
+      this.currentLine
+    );
   }
 
   printSpecialisationName({ skill }) {
     this.text.printSquare(this.currentColumn, this.currentLine);
-    this.text.printSpecialisationName(skill, this.currentColumn, this.currentLine);
+    this.text.printSpecialisationName(
+      skill,
+      this.currentColumn,
+      this.currentLine
+    );
     this.text.printModifiedSkillValue(
       PrintSkillsService.getCalculatedSkillValue(skill),
       this.currentColumn,
-      this.currentLine,
+      this.currentLine
     );
   }
 
@@ -66,13 +84,16 @@ class PrintSkillsService {
     if (isFirstOfKind) this.nthOfKind = 0;
     else this.nthOfKind += 1;
 
-    let emptyLinesCount = skill.skillname === 'Steuern'
-      ? 1 - this.nthOfKind
-      : 2 - this.nthOfKind;
+    let emptyLinesCount =
+      skill.skillname === "Steuern" ? 1 - this.nthOfKind : 2 - this.nthOfKind;
 
     // 1st specialisation
     if (isFirstOfKind) {
-      this.text.printSkillNameAndBaseValue(skill, this.currentColumn, this.currentLine);
+      this.text.printSkillNameAndBaseValue(
+        skill,
+        this.currentColumn,
+        this.currentLine
+      );
       this.currentLine += 1;
     }
 
@@ -97,20 +118,24 @@ class PrintSkillsService {
   }
 
   printSkill(skillData, index) {
-    const skill = skillData.skillId ? store.getters.skillById(skillData.skillId) : store.getters.skillByName(skillData.skillname);
-    this.prevSkill = this.skillMap[index - 1] || { skillname: '' };
-    this.nextSkill = this.skillMap[index + 1] || { skillname: '' };
+    const skillsStore = useSkillsStore();
+    const rulesystemStore = useRulesystemStore();
+    const skill = skillData.skillId
+      ? skillsStore.skillById(skillData.skillId)
+      : rulesystemStore.skillByName(skillData.skillname);
+    this.prevSkill = this.skillMap[index - 1] || { skillname: "" };
+    this.nextSkill = this.skillMap[index + 1] || { skillname: "" };
 
     // Specialisations
     if (skill.hasSpecialisation) {
       this.specialisedSkillTreatment({ skillData, skill });
 
-    // Modified, regular skills
+      // Modified, regular skills
     } else if (skill.isProfessional || skill.isSelected || skill.bonusCount) {
       this.printRegularModifiedSkill({ skill });
       this.currentLine += 1;
 
-    // Unmodified, regular skills
+      // Unmodified, regular skills
     } else {
       this.printRegularUnmodifiedSkill({ skill });
       this.currentLine += 1;
@@ -127,11 +152,15 @@ class PrintSkillsService {
     const { overflowSpecialisations: skills } = this;
     this.currentLine += 1;
     skills.forEach((skill, index) => {
-      const prevSkill = skills[index - 1] || { skillname: '' };
+      const prevSkill = skills[index - 1] || { skillname: "" };
       const isFirstOfKind = prevSkill.skillname !== skill.skillname;
 
       if (isFirstOfKind) {
-        this.text.printSkillNameAndBaseValue(skill, this.currentColumn, this.currentLine);
+        this.text.printSkillNameAndBaseValue(
+          skill,
+          this.currentColumn,
+          this.currentLine
+        );
         this.currentLine += 1;
       }
 

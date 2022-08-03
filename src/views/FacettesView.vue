@@ -3,7 +3,7 @@
   .col-12
     h2.text-center Facetten
     p Füge, wenn du möchtest, deinem Charakter Facetten hinzu!
-  .col-12(v-for="(facette, name) in facettesList").callout
+  .col-12(v-for="(facette, name) in rulesystemStore.facettes").callout
     .row.mb-3
       .col-auto
         input(
@@ -22,25 +22,22 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { get, act } from '@/store/type';
+import { mapStores } from "pinia";
+import { useRulesystemStore } from "../stores/rulesystem";
+import { useCharacterStore } from "../stores/character";
 
 export default {
-  props: '',
+  props: "",
   computed: {
-    ...mapGetters({
-      facettes: get.FACETTES,
-      facettesList: get.FACETTES_LIST,
-    }),
+    ...mapStores(useRulesystemStore, useCharacterStore),
     selectedFacettes: {
-      get() { return this.facettes; },
-      set(newValue) { this.updateFacettes(newValue); },
+      get() {
+        return this.characterStore.facettes;
+      },
+      set(newValue) {
+        this.characterStore.facettes = newValue;
+      },
     },
-  },
-  methods: {
-    ...mapActions({
-      updateFacettes: act.UPDATE_FACETTES,
-    }),
   },
 };
 </script>

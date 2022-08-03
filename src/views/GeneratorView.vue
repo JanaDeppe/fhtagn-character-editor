@@ -2,9 +2,6 @@
 .container-fluid
   .row
     .col-12.col-md-8
-      router-view(v-slot="{ Component }")
-        keep-alive
-          component(:is="Component")
       .row.mt-3
         .col-6
           router-link.btn.btn-secondary(
@@ -14,6 +11,9 @@
           router-link.btn.btn-secondary(
             v-if="showNextButton"
             :to="'/' + nextStep.path") Nächster Schritt
+      router-view(v-slot="{ Component }")
+        keep-alive
+          component(:is="Component")
 
     .col-12.col-md-4.d-flex
       .border-left.p-3.flex-grow-1

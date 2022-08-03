@@ -3,35 +3,35 @@ div
   .row(ref="characterSummaryContainer")
     .col-12.mb-3
       h4.text-center Zusammenfassung&nbsp;<br>
-        span(v-if="charData.personalInformation.Vorname || charData.personalInformation.Nachname")
-          | "{{charData.personalInformation.Vorname}} {{charData.personalInformation.Nachname}}"
+        span(v-if="characterStore.personalInformation.Vorname || characterStore.personalInformation.Nachname")
+          | "{{characterStore.personalInformation.Vorname}} {{characterStore.personalInformation.Nachname}}"
     .col-12.mb-3
       .row
-        .col-6(v-if="charData.personalInformation.Alter") Alter: {{charData.personalInformation.Alter}}
-        .col-6(v-if="charData.personalInformation.Muttersprache") Muttersprache: {{charData.personalInformation.Muttersprache}}
-        .col-12(v-if="charData.personalInformation.Aussehen") Aussehen: {{charData.personalInformation.Aussehen}}
-        .col-12(v-if="charData.personalInformation.Ausrüstungsgegenstände")
-          | Ausrüstungsgegenstände: {{charData.personalInformation.Ausrüstungsgegenstände}}
+        .col-6(v-if="characterStore.personalInformation.Alter") Alter: {{characterStore.personalInformation.Alter}}
+        .col-6(v-if="characterStore.personalInformation.Muttersprache") Muttersprache: {{characterStore.personalInformation.Muttersprache}}
+        .col-12(v-if="characterStore.personalInformation.Aussehen") Aussehen: {{characterStore.personalInformation.Aussehen}}
+        .col-12(v-if="characterStore.personalInformation.Ausrüstungsgegenstände")
+          | Ausrüstungsgegenstände: {{characterStore.personalInformation.Ausrüstungsgegenstände}}
 
     // Attribute
     .col-12.mb-5
-      h5(v-if="Object.keys(charData.attributeValues).length") Attribute:
-      ul.list-unstyled.attribute-list(v-if="charData.attributeValues")
-        li(v-for="(value, abbr) in charData.attributeValues").row
+      h5(v-if="Object.keys(characterStore.attributeValues).length") Attribute:
+      ul.list-unstyled.attribute-list(v-if="characterStore.attributeValues")
+        li(v-for="(value, abbr) in characterStore.attributeValues").row
           .col-2 {{abbr}}:
           .col-10 {{value}}
 
     // Beruf
     .col-12.mb-3
-      h5(v-if="charData.profession > -1") Beruf:
-        span(v-if="charData.professionVariant") {{charData.professionVariant}} ({{currentProfessionName}})
+      h5(v-if="characterStore.profession > -1") Beruf:
+        span(v-if="characterStore.professionVariant") {{characterStore.professionVariant}} ({{currentProfessionName}})
         span(v-else) {{currentProfessionName}}
 
     // Skills
     .col-12.mb-5
       h6 Fertigkeiten:
-      ul.skill-list.list-unstyled(v-if="charData.profession > -1")
-        li.mb-2(v-for="skill in skillMap")
+      ul.skill-list.list-unstyled(v-if="characterStore.profession > -1")
+        li.mb-2(v-for="skill in skillsStore.completeSkillMap")
           single-skill(
             :canAddSpecialisations="false"
             :canRemoveSpecialisations="false"
@@ -40,22 +40,22 @@ div
             :skillId="skill.skillId")
 
     // Verbindungen
-    .col-12.col-md-6.mb-3(v-if="charData.connections.length")
+    .col-12.col-md-6.mb-3(v-if="characterStore.connections.length")
       ul.list-unstyled
         li: h6 Verbindungen:
-        li(v-for="conn in charData.connections" v-if="conn.length > 0") {{conn}}
+        li(v-for="conn in nonZeroConnections") {{conn}}
 
     // Facetten
-    .col-12.col-md-6.mb-3(v-if="charData.facettes.length")
+    .col-12.col-md-6.mb-3(v-if="characterStore.facettes.length")
       ul.list-unstyled
         li: h6 Facetten:
-        li(v-for="facette in charData.facettes") {{facette}}
+        li(v-for="facette in characterStore.facettes") {{facette}}
 
     // Motivationen
-    .col-12.col-md-6.mb-3(v-if="charData.motivations.length")
+    .col-12.col-md-6.mb-3(v-if="characterStore.motivations.length")
       ul.list-unstyled
         li: h6 Motivationen:
-        li(v-for="motivation in charData.motivations" v-if="motivation.length > 0") {{motivation}}
+        li(v-for="motivation in nonZeroMotivations") {{motivation}}
 
   .row.mt-3.mb-5
     .col-6.offset-3.btn-group
@@ -71,8 +71,10 @@ div
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { get } from "@/store/type";
+import { mapStores } from "pinia";
+import { useSkillsStore } from "../stores/skills";
+import { useCharacterStore } from "../stores/character";
+import { useRulesystemStore } from "../stores/rulesystem";
 
 import CharacterSheetModal from "@/components/CharacterSheetModal.vue";
 import SingleSkill from "@/components/SingleSkill.vue";
@@ -89,30 +91,35 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      skillMap: get.SKILL_MAP,
-      derivedValues: get.DERIVED_VALUES,
-      charData: get.CHARACTER_DATA,
-      attributes: get.ATTRIBUTE_LIST,
-      getProfessionNameById: get.PROFESSION_NAME_BY_ID,
-      getFacetteByName: get.FACETTE_BY_NAME,
-    }),
+    ...mapStores(useSkillsStore, useCharacterStore, useRulesystemStore),
     skillList() {
       return Object.keys(this.skills).sort();
     },
     currentProfessionName() {
-      return this.getProfessionNameById(this.charData.profession);
+      return this.rulesystemStore.professionNameById(
+        this.characterStore.profession
+      );
+    },
+    nonZeroConnections() {
+      return this.characterStore.connections.filter(
+        (connection) => connection.length > 0
+      );
+    },
+    nonZeroMotivations() {
+      return this.characterStore.motivations.filter(
+        (motivation) => motivation.length > 0
+      );
     },
     currentFacettes() {
-      return this.charData.facettes.map((facette) => ({
-        [facette]: this.getFacetteByName(facette),
+      return this.characterStore.facettes.map((facette) => ({
+        [facette]: this.rulesystemStore.facetteByName(facette),
       }));
     },
     aggregatedCharacterData() {
       return {
-        skillMap: this.skillMap,
-        derivedValues: this.derivedValues,
-        characterData: this.charData,
+        skillMap: this.skillsStore.completeSkillMap,
+        derivedValues: this.characterStore.derivedValues,
+        characterData: this.characterStore.characterData,
         professionName: this.currentProfessionName,
         facettes: this.currentFacettes,
       };

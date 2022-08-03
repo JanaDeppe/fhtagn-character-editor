@@ -1,5 +1,5 @@
-import TextInPdfService from './text-in-pdf-service';
-import characterSheetData from './character-sheet-data.json';
+import TextInPdfService from "./text-in-pdf-service";
+import characterSheetData from "./character-sheet-data.json";
 
 class PrintCharacterDataService {
   constructor({ doc, text, character }) {
@@ -19,7 +19,8 @@ class PrintCharacterDataService {
         facettes: this.character.characterData.facettes,
       },
       personalInformation: this.character.characterData.personalInformation,
-      personalInformationPageTwo: this.character.characterData.personalInformation,
+      personalInformationPageTwo:
+        this.character.characterData.personalInformation,
       connections: this.character.characterData.connections,
       motivations: this.character.characterData.motivations,
       derivedValues: this.character.derivedValues,
@@ -35,34 +36,43 @@ class PrintCharacterDataService {
   addRegularTypes() {
     const { doc } = this;
 
-    Object.keys(this.characterDataSettings.types).forEach(typeKey => {
+    Object.keys(this.characterDataSettings.types).forEach((typeKey) => {
       const { items, typeSettings } = this.characterDataSettings.types[typeKey];
       const values = this.characterDataMap[typeKey];
       const isArray = Array.isArray(values);
       let iterableObject = isArray ? values : Object.keys(items);
 
       // Remove empty strings from Arrays:
-      if (isArray) iterableObject = iterableObject.filter(item => item.trim() !== '');
+      if (isArray)
+        iterableObject = iterableObject.filter((item) => item.trim() !== "");
 
       doc.switchToPage(typeSettings.page);
 
       this.printRegularTypeSet({
-        typeKey, iterableObject, values, items, isArray, typeSettings,
+        typeKey,
+        iterableObject,
+        values,
+        items,
+        isArray,
+        typeSettings,
       });
 
       // Print attributes x5
-      if (typeKey === 'attributeValues') {
+      if (typeKey === "attributeValues") {
         this.printAttributesx5({ items, values, typeSettings });
       }
     });
   }
 
   printRegularTypeSet({
-    typeKey, iterableObject, isArray, values, items, typeSettings,
+    typeKey,
+    iterableObject,
+    isArray,
+    values,
+    items,
+    typeSettings,
   }) {
-    const {
-      font, fontSize, color, lineAdjustment,
-    } = typeSettings;
+    const { font, fontSize, color, lineAdjustment } = typeSettings;
 
     iterableObject.forEach((key, index) => {
       const itemSettings = isArray ? items[typeKey] : items[key];
@@ -83,11 +93,10 @@ class PrintCharacterDataService {
   }
 
   printAttributesx5({ items, values, typeSettings }) {
-    const {
-      font, fontSize, color, lineAdjustment, distanceToTimesFive,
-    } = typeSettings;
+    const { font, fontSize, color, lineAdjustment, distanceToTimesFive } =
+      typeSettings;
 
-    Object.keys(items).forEach(key => {
+    Object.keys(items).forEach((key) => {
       this.text.printText({
         text: parseInt(values[key], 10) * 5,
         x: items[key].x + distanceToTimesFive,
@@ -102,9 +111,9 @@ class PrintCharacterDataService {
   }
 
   addSpecialTypes() {
-    Object.keys(this.characterDataSettings.special).forEach(typeKey => {
-      if (typeKey === 'professionName') this.addProfessionName();
-      if (typeKey === 'facetteDetails') this.addFacetteDetails();
+    Object.keys(this.characterDataSettings.special).forEach((typeKey) => {
+      if (typeKey === "professionName") this.addProfessionName();
+      if (typeKey === "facetteDetails") this.addFacetteDetails();
     });
   }
 
@@ -114,12 +123,16 @@ class PrintCharacterDataService {
       ? `${this.character.characterData.professionVariant} (${this.character.professionName})`
       : this.character.professionName;
 
-    const length = professionName.length >= 30 ? 'Long' : 'Short';
-    const typeSettings = this.characterDataSettings.special.professionName[`typeSettings${length}`];
-    const itemSettings = this.characterDataSettings.special.professionName.items[`professionName${length}`];
-    const {
-      fontSize, font, color, lineAdjustment, page,
-    } = typeSettings;
+    const length = professionName.length >= 30 ? "Long" : "Short";
+    const typeSettings =
+      this.characterDataSettings.special.professionName[
+        `typeSettings${length}`
+      ];
+    const itemSettings =
+      this.characterDataSettings.special.professionName.items[
+        `professionName${length}`
+      ];
+    const { fontSize, font, color, lineAdjustment, page } = typeSettings;
 
     doc.switchToPage(page);
 
@@ -139,22 +152,22 @@ class PrintCharacterDataService {
     // const { doc } = this;
     const { doc } = this;
     const { facettes: facetteDetails } = this.character;
-    const {
-      page, fontSize, font, color, lineAdjustment,
-    } = this.characterDataSettings.special.facetteDetails.typeSettings;
-    const {
-      x, line, tableIndex, settings,
-    } = this.characterDataSettings.special.facetteDetails.items.facetteDetails;
+    const { page, fontSize, font, color, lineAdjustment } =
+      this.characterDataSettings.special.facetteDetails.typeSettings;
+    const { x, line, tableIndex, settings } =
+      this.characterDataSettings.special.facetteDetails.items.facetteDetails;
     const text = `
-    ${facetteDetails.map(facette => {
-    const name = Object.keys(facette)[0];
-    const { advantage, disadvantage } = facette[name];
-    return `
+    ${facetteDetails
+      .map((facette) => {
+        const name = Object.keys(facette)[0];
+        const { advantage, disadvantage } = facette[name];
+        return `
 ${name}
 Vorteil: ${advantage}
 Nachteil: ${disadvantage}
     `;
-  }).join('')}
+      })
+      .join("")}
     `;
 
     doc.switchToPage(page);

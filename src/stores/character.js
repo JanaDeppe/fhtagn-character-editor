@@ -90,6 +90,16 @@ export const useCharacterStore = defineStore("character", {
 
       this.connections = newConnections;
     },
+    async updateConnection(index, value) {
+      const newConnections = this.connections.slice();
+      newConnections[index] = value;
+      this.connections = newConnections;
+    },
+    async updateMotivation(index, value) {
+      const newMotivations = this.motivations.slice();
+      newMotivations[index] = value;
+      this.motivations = newMotivations;
+    },
     async setProfession(professionIndex) {
       const skillsStore = useSkillsStore();
       if (this.profession > -1) {

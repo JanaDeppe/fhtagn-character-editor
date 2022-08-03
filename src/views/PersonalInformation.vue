@@ -20,40 +20,36 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { get, act } from '@/store/type';
+import { mapStores } from "pinia";
+import { useCharacterStore } from "../stores/character";
+import { useCommonStore } from "../stores/common";
 
 export default {
-  props: '',
+  props: "",
   computed: {
-    ...mapGetters({
-      personalInformation: get.PERSONAL_INFORMATION,
-    }),
+    ...mapStores(useCharacterStore, useCommonStore),
     currentPersonalInformation: {
-      get() { return this.personalInformation; },
+      get() {
+        return this.characterStore.personalInformation;
+      },
       set(newValue) {
         this.checkForError(newValue);
-        this.updatePersonalInformation(newValue);
+        this.characterStore.personalInformation = { ...newValue };
       },
     },
   },
   methods: {
-    ...mapActions({
-      updatePersonalInformation: act.UPDATE_PERSONAL_INFORMATION,
-      addWarning: act.ADD_WARNING,
-      removeWarning: act.REMOVE_WARNING,
-    }),
     checkForError(personalInfo) {
       let isComplete = true;
-      Object.values(personalInfo).forEach(element => {
-        if (element === '') {
+      Object.values(personalInfo).forEach((element) => {
+        if (element === "") {
           isComplete = false;
         }
       });
       if (isComplete) {
-        this.removeWarning('missingPersonalInformation');
+        this.commonStore.removeWarning("missingPersonalInformation");
       } else {
-        this.addWarning('missingPersonalInformation');
+        this.commonStore.addWarning("missingPersonalInformation");
       }
     },
   },

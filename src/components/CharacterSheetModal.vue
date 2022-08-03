@@ -26,7 +26,6 @@ export default {
   },
   data() {
     return {
-      publicPath: process.env.BASE_URL,
       characterSheetHtml: "",
       characterSheetServiceInitiated: false,
     };
@@ -52,11 +51,14 @@ export default {
   },
   methods: {
     createPDFDocument() {
-      this.characterSheetService.generateDocumentURL().then((url) => {
-        this.$refs.pdfDocumentViewer.src = `${url}`;
-        this.$refs.pdfLink.href = `${url}`;
-        this.$refs.pdfLink.download = this.characterSheetName;
-      });
+      console.log(
+        "This should create the PDF document, but doesn't at the moment..."
+      );
+      // this.characterSheetService.generateDocumentURL().then((url) => {
+      //   this.$refs.pdfDocumentViewer.src = `${url}`;
+      //   this.$refs.pdfLink.href = `${url}`;
+      //   this.$refs.pdfLink.download = this.characterSheetName;
+      // });
     },
   },
 };

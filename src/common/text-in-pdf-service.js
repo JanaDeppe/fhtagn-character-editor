@@ -3,11 +3,11 @@ class TextInPdfService {
     this.doc = doc;
 
     this.defaultLineIndent = 28;
-    this.labelFontColor = 'black';
-    this.labelFont = 'Liberation Sans Narrow';
-    this.headlineFont = 'Liberation Sans Narrow Bold';
-    this.valueFont = 'Courier';
-    this.customDataFontColor = '#696969';
+    this.labelFontColor = "black";
+    this.labelFont = "Liberation Sans Narrow";
+    this.headlineFont = "Liberation Sans Narrow Bold";
+    this.valueFont = "Courier";
+    this.customDataFontColor = "#696969";
 
     this.skillsSettings = {
       tableIndex: 2,
@@ -24,9 +24,7 @@ class TextInPdfService {
     this.skillColumnWidth = 137;
   }
 
-  printText({
-    text, x, line, tableIndex, settings, font, fontSize, color,
-  }) {
+  printText({ text, x, line, tableIndex, settings, font, fontSize, color }) {
     this.doc
       .font(font)
       .fontSize(fontSize)
@@ -35,17 +33,15 @@ class TextInPdfService {
         text,
         x,
         TextInPdfService.convertLineToPixel(line, tableIndex),
-        settings || {},
+        settings || {}
       );
   }
 
-  printTextList({
-    list, fontSize, font, color,
-  }) {
+  printTextList({ list, fontSize, font, color }) {
     list.forEach((headers, page) => {
       this.doc.switchToPage(page);
 
-      headers.forEach(header => {
+      headers.forEach((header) => {
         this.printText({
           text: header.text,
           x: header.x,
@@ -60,7 +56,11 @@ class TextInPdfService {
     });
   }
 
-  printSkillNameAndBaseValue({ skillname, baseValue, hasSpecialisation }, currentColumn, currentLine) {
+  printSkillNameAndBaseValue(
+    { skillname, baseValue, hasSpecialisation },
+    currentColumn,
+    currentLine
+  ) {
     const {
       tableIndex,
       fontSize,
@@ -70,11 +70,14 @@ class TextInPdfService {
       indentWithSquare,
     } = this.skillsSettings;
 
-    const hasBaseValue = skillname !== 'Traumlandwissen' && skillname !== 'Unnatürliches Wissen';
+    const hasBaseValue =
+      skillname !== "Traumlandwissen" && skillname !== "Unnatürliches Wissen";
 
     this.printText({
       text: hasBaseValue ? `${skillname} (${baseValue}%)` : `${skillname}`,
-      x: (hasSpecialisation ? this.defaultLineIndent : indentWithSquare) + currentColumn * columnWidth,
+      x:
+        (hasSpecialisation ? this.defaultLineIndent : indentWithSquare) +
+        currentColumn * columnWidth,
       line: uppermostLine + currentLine,
       tableIndex,
       settings: { width: 95 },
@@ -117,7 +120,7 @@ class TextInPdfService {
     } = this.skillsSettings;
 
     this.printText({
-      text: '□',
+      text: "□",
       x: this.defaultLineIndent + currentColumn * columnWidth,
       line: uppermostLine + currentLine - lineOffsetSquare,
       tableIndex,
@@ -128,20 +131,15 @@ class TextInPdfService {
   }
 
   printModifiedSkillValue(value, currentColumn, currentLine) {
-    const {
-      tableIndex,
-      fontSize,
-      colorValues,
-      columnWidth,
-      uppermostLine,
-    } = this.skillsSettings;
+    const { tableIndex, fontSize, colorValues, columnWidth, uppermostLine } =
+      this.skillsSettings;
 
     this.printText({
       text: `${value}%`,
       x: currentColumn * columnWidth,
       line: uppermostLine + currentLine + 0.15,
       tableIndex,
-      settings: { align: 'right', width: columnWidth + 20 },
+      settings: { align: "right", width: columnWidth + 20 },
       font: this.valueFont,
       fontSize,
       color: colorValues,
@@ -153,7 +151,7 @@ class TextInPdfService {
     const lineHeight = 20;
     const tableTopMargin = 3;
 
-    return topMargin + (line * lineHeight) + (tableTopMargin * tableIndex);
+    return topMargin + line * lineHeight + tableTopMargin * tableIndex;
   }
 }
 
