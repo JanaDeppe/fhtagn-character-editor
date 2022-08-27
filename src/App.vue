@@ -1,15 +1,15 @@
 <template lang="pug">
-.d-flex.flex-column.app-container.border.m-3
-  .flex-shrink-1.navbar.justify-content-end
-    ul.nav
-      li.nav-item
+.flex.flex-col.m-3
+  .flex.shrink.justify-end
+    ul.list-none
+      li
         router-link(to="/" class="nav-link") Zurück zum Anfang
-  .flex-grow-1
+  .grow
     router-view
 
-  .flex-shrink-1.navbar.justify-content-end
-    .row
-      a.col-auto.bug-report-link(
+  .flex.shrink.justify-end
+    .flex
+      a.block.bug-report-link(
         @click="isBugReportOpen = true")
         small
           span.bug-report-link__icon.material-icons bug_report

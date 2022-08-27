@@ -1,23 +1,23 @@
 <template lang="pug">
-.container-fluid
-  .row
-    .col-12.col-md-8
-      .row.mt-3
-        .col-6
-          router-link.btn.btn-secondary(
-            v-if="showPrevButton"
-            :to="'/' + prevStep.path") Vorheriger Schritt
-        .col-6.text-right
-          router-link.btn.btn-secondary(
-            v-if="showNextButton"
-            :to="'/' + nextStep.path") Nächster Schritt
-      router-view(v-slot="{ Component }")
-        keep-alive
-          component(:is="Component")
+.flex.gap-3.my-3
+  .basis-full.md_basis-8-12
+    router-view(v-slot="{ Component }")
+      keep-alive
+        component(:is="Component")
+    .flex.mt-3
+      .basis-1-2
+        router-link.button(
+          v-if="showPrevButton"
+          :to="'/' + prevStep.path") Vorheriger Schritt
+      .basis-1-2.text-right
+        router-link.button(
+          v-if="showNextButton"
+          :to="'/' + nextStep.path") Nächster Schritt
+    
 
-    .col-12.col-md-4.d-flex
-      .border-left.p-3.flex-grow-1
-        sidebar-summary
+  .flex.basis-full.md_basis-4-12
+    .border-l.grow
+      sidebar-summary
 
 </template>
 
