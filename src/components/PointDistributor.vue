@@ -1,15 +1,14 @@
 <template lang="pug">
-.d-flex.flex-column
-  .row: .col: h2.text-center Attribute vergeben
-  .row.text-right
-    .col-10.h4 Restliche Punkte: {{remainingPoints}}
-  .h4
-    .d-block.badge.badge-warning(v-if="error") {{errorTypes[error]}}
-  div(v-for="attribute in rulesystemStore.attributes")
-    .row.form-group
-      .col-12.col-md-4.text-right.align-self-center
+section.flex.flex-col.gap-3.mt-3
+  .basis-full
+    h2.text-center Attribute vergeben
+  .basis-full.text-right Restliche Punkte: {{remainingPoints}}
+  .basis-full
+    .block.border.text-center.border-red-600.bg-red-100.my-3.p-2(v-if="error") {{errorTypes[error]}}
+  .flex.gap-3(v-for="attribute in rulesystemStore.attributes")
+      .basis-full.md_basis-4-12.text-right.self-center
         label(:for="attribute.abbr") {{attribute.name}}
-      .col-12.col-md-8.col-lg-6
+      .basis-full.md_basis-8-12.lg_basis-6-12
         attribute-spinner(
           :input-id="attribute.abbr"
           v-model:points="currentAttributes[attribute.abbr]"

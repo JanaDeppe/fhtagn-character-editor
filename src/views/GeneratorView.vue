@@ -1,6 +1,6 @@
 <template lang="pug">
-.flex.gap-3.my-3
-  .basis-full.md_basis-8-12
+.flex.my-3
+  .basis-full.md_basis-8-12.px-3
     router-view(v-slot="{ Component }")
       keep-alive
         component(:is="Component")
@@ -16,7 +16,7 @@
     
 
   .flex.basis-full.md_basis-4-12
-    .border-l.grow
+    .border-l.px-3.grow
       sidebar-summary
 
 </template>

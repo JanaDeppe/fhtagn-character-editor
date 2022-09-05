@@ -11,6 +11,8 @@ module.exports = {
       colors: {
         rust: "#e65100",
         rustDark: "#bf360c",
+        slate: "#cfd8dc",
+        slateDark: "#78909c",
       },
       spacing: {
         "1-2": "50%",

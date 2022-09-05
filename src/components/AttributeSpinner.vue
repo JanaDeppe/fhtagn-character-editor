@@ -1,20 +1,20 @@
 <template lang="pug">
-.row.no-gutters
-  .col
-    input.form-control(
+.flex
+  .basis-auto
+    input(
       min="0"
       type="number"
       :id="inputId"
       v-model="currentPoints"
       @input="onInput"
-      v-bind:class="{'is-invalid-input': error}"
+      v-bind:class="{'border-red-600': error}"
     )
-  .flex-shrink-1.button-container
-    button.btn.btn-outline-secondary.btn-sm(@click="onIncrementalChange") -1
-    button.btn.btn-outline-secondary.btn-sm(@click="onIncrementalChange") +1
-  .flex-shrink-1.button-container
-    button.btn.btn-outline-secondary.btn-sm(@click="onIncrementalChange") -5
-    button.btn.btn-outline-secondary.btn-sm(@click="onIncrementalChange") +5
+  .flex-shrink-1.flex.flex-col.ml-1
+    button.button.text-sm.p-1(@click="onIncrementalChange") -1
+    button.button.text-sm.p-1(@click="onIncrementalChange") +1
+  .flex-shrink-1.flex.flex-col.ml-1
+    button.button.text-sm.p-1(@click="onIncrementalChange") -5
+    button.button.text-sm.p-1(@click="onIncrementalChange") +5
   .col-12.mt-1(v-if="error")
     .h5
       .d-block.badge.badge-warning {{errorTypes[error]}}

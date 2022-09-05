@@ -1,40 +1,40 @@
 <template lang="pug">
 div
-  .row.text-center(v-if="isPickerVisible")
-    .col-12.mb-3
+  .grid.grid-cols-3.auto-rows-min.gap-5.text-center(v-if="isPickerVisible")
+    .col-span-3.row-auto
       h2 Mit welcher Methode möchtest du die Attribute generieren?
-    a.col-12.d-block
-      .border.p-3.mb-3(
+    a.block.col-span-3.row-auto
+      .border.p-3(
         @click="switchGenerationMethod(1)"
-        v-bind:class="{success: distributionMethod === 1}"
+        v-bind:class="{'border-rust shadow': distributionMethod === 1}"
         )
           h3 Standard
           p Punkte können frei auf verschiedene Attribute verteilt werden.
-    a.col-12.col-md-4.d-block
+    a.block.col-span-3.md_col-span-1
       .border.p-3(
         @click="switchGenerationMethod(2)"
-        v-bind:class="{success: distributionMethod === 2}"
+        v-bind:class="{'border-rust shadow': distributionMethod === 2}"
         )
           h4 Liste
           p Attributswerte werden aus einer Liste verteilt.
-    a.col-12.col-md-4.d-block
+    a.block.col-span-3.md_col-span-1
       .border.p-3(
         @click="switchGenerationMethod(3)"
-        v-bind:class="{success: distributionMethod === 3}"
+        v-bind:class="{'border-rust shadow': distributionMethod === 3}"
         )
           h4 Würfeln
           p Attributswerte werden zuerst ausgewürfelt, dann verteilt.
-    a.col-12.col-md-4.d-block
+    a.block.col-span-3.md_col-span-1
       .border.p-3(
         @click="switchGenerationMethod(4)"
-        v-bind:class="{success: distributionMethod === 4}"
+        v-bind:class="{'border-rust shadow': distributionMethod === 4}"
         )
           h4 Automatisch
           p Attributswerte werden zufällig aus einer Liste auf die Attribute verteilt.
 
-  .row.justify-content-end.mb-3(v-if="false")
-    .cell-12
-      .btn.btn-outline-secondary(@click="isPickerVisible = true") Andere Methode auswählen
+  .flex.justify-center.mt-3(v-if="!isPickerVisible")
+    .basis-auto
+      .button(@click="isPickerVisible = true") Andere Methode auswählen
 
   // Point Distribution
   .grid-x(v-if="distributionMethod === 1" v-show="!isPickerVisible")
@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       distributableAttributeValues: [],
-      isPickerVisible: false,
+      isPickerVisible: true,
       distributionMethod: 1,
     };
   },

@@ -1,6 +1,6 @@
 <template lang="pug">
-div
-  h4.text-center Zusammenfassung<br>
+Section
+  h2.text-center Zusammenfassung<br>
     span(v-if="personalInformation.Vorname || personalInformation.Nachname") "{{personalInformation.Vorname}} {{personalInformation.Nachname}}"
   .row.mb-3
     .col-12.col-md-6(v-if="personalInformation.Muttersprache") Muttersprache: {{personalInformation.Muttersprache}}
@@ -10,11 +10,11 @@ div
       | Ausrüstung: {{personalInformation.Ausrüstungsgegenstände}}
 
   // Attribute
-  h6(v-if="Object.keys(attributeValues).length") Attribute:
-  ul.list-unstyled.mb-3.attribute-list(v-if="attributeValues")
-    li(v-for="(value, abbr) in attributeValues").row
-      .col-2 {{abbr}}:
-      .col-8 {{value}}
+  h3(v-if="Object.keys(attributeValues).length") Attribute:
+  ul.columns-3(v-if="attributeValues")
+    li(v-for="(value, abbr) in attributeValues").flex
+      .shrink.mr-1 {{abbr}}:
+      .grow {{value}}
 
   // Beruf
   h5(v-if="profession > -1") Beruf:&nbsp;
@@ -101,9 +101,5 @@ export default {
 <style scoped>
 .small-list {
   font-size: 0.875rem;
-}
-
-.attribute-list {
-  column-count: 3;
 }
 </style>
