@@ -2,10 +2,11 @@
 transition(name="modal" appear)
   .overlay(v-if="isActive")
     .modal-container
-      button(v-if="hasCloseButton" class="close material-icons" @click="close()")
-      .header
-        slot(name="header")
-      .body
+      .flex.mb-3.gap-3
+        .header.grow
+          slot(name="header")
+        button.p-1.shrink.close.material-icons(v-if="hasCloseButton" @click="close()")
+      .body.mb-3
         slot default body
       .footer
         slot(name="footer")
@@ -70,17 +71,6 @@ export default {
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
-}
-
-.header h3 {
-  margin-top: 0;
-  flex-shrink: 1;
-}
-
-.close {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
 }
 
 .body {

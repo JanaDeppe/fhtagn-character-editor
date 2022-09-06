@@ -1,8 +1,8 @@
 <template lang="pug">
-div.pl-2.skill.row.no-gutters.align-items-start.border
+div.flex
 
   //- Optional skill checkbox
-  div.col-auto.pr-2.pt-1(
+  div.pl-2.pr-2(
     v-if="conjunction.type === 'and'"
   )
     input(
@@ -11,9 +11,9 @@ div.pl-2.skill.row.no-gutters.align-items-start.border
     )
 
   //- Skill name
-  .col-auto.pr-2
-    .d-flex.align-items-center.flex-wrap(v-for="(skillId, index) in conjunction.skillIds")
-      .pr-2.flex-shrink-1(
+  .pr-2
+    .flex.items-center.flex-wrap(v-for="(skillId, index) in conjunction.skillIds")
+      .pr-2.shrink-1(
         v-if="conjunction.type === 'or' && modType === 'professional'")
         input(
           @change="handleOrProfessional(index)"
@@ -33,7 +33,7 @@ div.pl-2.skill.row.no-gutters.align-items-start.border
       single-skill(
         :class="{'is-disabled': isDisabled(index)}"
         :skillId="skillId")
-      small.conjunction-word(
+      small.w-full.uppercase(
         v-if="index !== conjunction.skillIds.length -1"
         :class="{'pl-4': conjunction.type === 'or'}") {{ conjunctionWord }}
 </template>

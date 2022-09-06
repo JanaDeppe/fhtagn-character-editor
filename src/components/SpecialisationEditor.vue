@@ -1,17 +1,17 @@
 <template lang="pug">
 div
   .btn-group.d-inline-block
-    button.btn.btn-secondary.btn-sm.add-specialisation(
+    button.leading-3.p-1(
       v-if="canAddSpecialisations"
       @click="add"
     )
       span.material-icons add
-    button.btn.btn-secondary.btn-sm(
+    button.leading-3.p-1.ml-1(
       v-if="canModifySpecialisations"
       @click="open"
     )
       span.material-icons create
-    button.btn.btn-secondary.btn-sm(
+    button.leading-3.p-1.ml-1(
       v-if="canRemoveSpecialisations"
       @click="remove"
     )
@@ -19,14 +19,15 @@ div
   transition(name="modalBox" appear)
     .overlay(v-if="isActive")
       .modal-container
-        button.material-icons.close(
-          v-if="hasCloseButton"
-          @click="close()"
-        )
-        .header
-          slot(name="header")
-            h6 Bitte bezeichne diese Fertigkeit genauer!
-        .body
+        .flex.mb-3.gap-3
+          .header.grow
+            slot(name="header")
+              h6 Bitte bezeichne diese Fertigkeit genauer!
+          button.p-1.shrink.material-icons.close(
+            v-if="hasCloseButton"
+            @click="close()"
+          )
+        .body.mb-3
           slot(name="body")
             .form-group
               label {{skillname}}:

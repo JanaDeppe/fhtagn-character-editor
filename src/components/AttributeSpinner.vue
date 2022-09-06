@@ -1,5 +1,5 @@
 <template lang="pug">
-.flex
+.flex.flex-wrap
   .basis-auto
     input(
       min="0"
@@ -15,9 +15,9 @@
   .flex-shrink-1.flex.flex-col.ml-1
     button.button.text-sm.p-1(@click="onIncrementalChange") -5
     button.button.text-sm.p-1(@click="onIncrementalChange") +5
-  .col-12.mt-1(v-if="error")
+  .basis-full.mt-1(v-if="error")
     .h5
-      .d-block.badge.badge-warning {{errorTypes[error]}}
+      .block.badge {{errorTypes[error]}}
 
 </template>
 

@@ -1,49 +1,48 @@
 <template lang="pug">
-.grid-x
-  .cell
-    h2.text-center Beruf wählen
-    ul.profession-list.list-unstyled
-      li.profession-list__profession(
-        :class="{'is-active': selectedProfession == index}"
-        v-for="(profession, index) in rulesystemStore.professions"
-        @click="setProfession(index)"
-      ) {{profession.name}}
+div
+  h2.text-center Beruf wählen
+  ul.overflow-scroll.h-48.border.p-1
+    li.profession-list__profession(
+      :class="{'is-active': selectedProfession == index}"
+      v-for="(profession, index) in rulesystemStore.professions"
+      @click="setProfession(index)"
+    ) {{profession.name}}
 
-    .p-3(v-if="selectedProfession > -1")
-      h3 {{currProf.name}}
-        small  (
-          span(v-for="(attr, index) in currProf.recommendedAttributes")
-            span(v-if="index != 0") ,&nbsp;
-            | {{attr}}
-          | )
-      ul.variant-list.list-unstyled
-        li.form-check.mb-2(v-for="variant in currProf.variants")
-          input.form-check-input(type="radio" :id="variant" v-model="selectedVariant" :value="variant" @change="updateVariant")
-          label.form-check-label(:for="variant") {{variant}}
-        li.form-check.mb-2
-          input.form-check-input(type="radio" v-model="selectedVariant" value="custom" @change="updateVariant")
-          label.form-check-label
-            input(type="text" v-model="customVariant" placeholder="Eigene Ausprägung" @input="updateVariant")
-      blockquote.blockquote.alert.alert-light.border-left {{currProf.background}}
-      div.mt-5(v-if="!characterStore.isProfessionLoading")
-        h5 Berufsfertigkeiten:
-        ul.skill-list.list-unstyled.mb-5
-          li.skill-list__item(v-for="skill in skillsStore.professionalSkills")
-            combined-skill.no-break(
-              v-if="skill.conjunctionId && skill.conjunctionId !== 'duplicate'"
-              :conjunctionId="skill.conjunctionId"
-              modType="professional"
-            )
-            single-skill.no-break.pl-2(
-              v-else-if="!skill.conjunctionId"
-              :skillId="skill.skillId"
-              :canAddSpecialisations="false"
-              :canRemoveSpecialisations="false")
-        optional-skill-list(
-          f-if="currProf"
-          :professionId="selectedProfession"
-        )
-        h5 Verbindungen: {{currProf.connections}}
+  div(v-if="selectedProfession > -1")
+    h3.mt-5.mb-2 {{currProf.name}}
+      small  (
+        span(v-for="(attr, index) in currProf.recommendedAttributes")
+          span(v-if="index != 0") ,&nbsp;
+          | {{attr}}
+        | )
+    ul.columns-2
+      li.mb-2(v-for="variant in currProf.variants")
+        input.mr-1(type="radio" :id="variant" v-model="selectedVariant" :value="variant" @change="updateVariant")
+        label(:for="variant") {{variant}}
+      li.mb-2
+        input.mr-1(type="radio" v-model="selectedVariant" value="custom" @change="updateVariant")
+        label
+          input(type="text" v-model="customVariant" placeholder="Eigene Ausprägung" @input="updateVariant")
+    blockquote.border-l-4.my-5.pl-3.italic {{currProf.background}}
+    div.mt-5(v-if="!characterStore.isProfessionLoading")
+      h5.mb-2 Berufsfertigkeiten:
+      ul.xl_columns-2
+        li(v-for="skill in skillsStore.professionalSkills")
+          combined-skill.break-inside-avoid(
+            v-if="skill.conjunctionId && skill.conjunctionId !== 'duplicate'"
+            :conjunctionId="skill.conjunctionId"
+            modType="professional"
+          )
+          single-skill.break-inside-avoid(
+            v-else-if="!skill.conjunctionId"
+            :skillId="skill.skillId"
+            :canAddSpecialisations="false"
+            :canRemoveSpecialisations="false")
+      optional-skill-list.mt-5(
+        f-if="currProf"
+        :professionId="selectedProfession"
+      )
+      h5.mt-5 Verbindungen: {{currProf.connections}}
   modal-box(
     :isVisible="isErrorOpen"
     @modal-closed="isErrorOpen = false")

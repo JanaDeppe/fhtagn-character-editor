@@ -3,6 +3,7 @@
 module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   separator: "_",
+  important: true,
   corePlugins: {
     preflight: false,
   },

@@ -1,12 +1,12 @@
 <template lang="pug">
 div
-  .row
-    .col-12: h5 Optionale Fertigkeiten:
-    .col: p Wähle zusätzlich {{rulesystemStore.availableOptionalSkillCount(professionId)}} aus folgenden Fertigkeiten.
-    .col.text-right: p Restliche, optionale Fertigkeiten: {{ remainingOptionalSkillCount }}
+  .flex.flex-wrap.mb-2
+    .basis-full: h5 Optionale Fertigkeiten:
+    p.basis-1-2 Wähle zusätzlich {{rulesystemStore.availableOptionalSkillCount(professionId)}} aus folgenden Fertigkeiten.
+    p.basis-1-2.text-right Restliche, optionale Fertigkeiten: {{ remainingOptionalSkillCount }}
   .h5(v-if="error")
     .d-block.badge.badge-warning {{errorTypes[error]}}
-  ul.skill-list.list-unstyled
+  ul.xl_columns-2
     li.no-break(
       v-for="skill in skillsStore.optionalSkills"
       :key="skill.skillId")

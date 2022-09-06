@@ -1,9 +1,9 @@
 <template lang="pug">
-div.skill.row.no-gutters.align-items-center(
+div.skill.flex(
   :class="{'is-nonexisting-specialisation': !skillId && currentSkill.hasSpecialisation}"
 )
   //- Optional skill checkbox
-  div.col-auto.pr-2(v-if="isOptionalCheckbox")
+  div.pr-2(v-if="isOptionalCheckbox")
     input(
       type="checkbox"
       v-model="selected"
@@ -11,13 +11,13 @@ div.skill.row.no-gutters.align-items-center(
     )
 
   //- Skill name
-  span.col-auto.pr-2.skill-name
+  span.pr-2
     span {{skillname || currentSkill.skillname}}
     span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisationName}}
-    small.d-block.small-line-height(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
+    small.block.leading-3(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
 
   //- Specialisation editor
-  specialisation-editor.col-auto.pr-1(
+  specialisation-editor.pr-1(
     v-if="currentSkill.hasSpecialisation && enableSpecialisationEditing"
     :skillname="currentSkill.skillname"
     :specialisation="currentSkill.specialisationName"
@@ -30,14 +30,14 @@ div.skill.row.no-gutters.align-items-center(
   )
 
   //- Calculated skill value
-  calculated-skill-value.col(
+  calculated-skill-value(
     v-if="showCalculatedValue"
     :skillId="skillId"
     :skill="currentSkill")
   span(v-else) ({{currentSkill.professionalValue || currentSkill.baseValue}}%)
 
   //- Bonus Spinner
-  bonusSkillSpinner.col-auto(
+  bonusSkillSpinner(
     v-if="showBonusSpinner"
     v-model:bonusCount="currentBonusCount")
 
