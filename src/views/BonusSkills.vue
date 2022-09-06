@@ -1,15 +1,14 @@
 <template lang="pug">
-.row
-  .col-12
+.flex.flex-wrap
+  .basis-full.mb-5
     h2.text-center Bonusfertigkeiten
     p Restliche Bonus-Fertigkeiten: {{ remainingBonusSkillCount }}
-  .col-12
-    ul.skill-list.cell
-      li.border-bottom.skill-list__item.pb-2(
+  .basis-full
+    ul.lg_columns-2
+      li.border-b.py-2(
         v-for="skill in skillsStore.completeSkillMap"
         :key="skill.skillId || skill.skillname")
         single-skill(
-          class="cell auto"
           :skillname="skill.skillname"
           :skillId="skill.skillId"
           :showBaseValue="true"
@@ -71,15 +70,6 @@ export default {
 </script>
 
 <style scoped>
-.bonus-list {
-  background: #cccccc;
-  min-height: 2rem;
-}
-
-.bonus-badge[draggable="false"] {
-  display: none;
-}
-
 .skill-list {
   list-style: none;
   padding: 0;

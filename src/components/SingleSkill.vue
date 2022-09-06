@@ -1,5 +1,5 @@
 <template lang="pug">
-div.skill.flex(
+div.flex.items-start(
   :class="{'is-nonexisting-specialisation': !skillId && currentSkill.hasSpecialisation}"
 )
   //- Optional skill checkbox
@@ -37,7 +37,7 @@ div.skill.flex(
   span(v-else) ({{currentSkill.professionalValue || currentSkill.baseValue}}%)
 
   //- Bonus Spinner
-  bonusSkillSpinner(
+  bonusSkillSpinner.grow(
     v-if="showBonusSpinner"
     v-model:bonusCount="currentBonusCount")
 

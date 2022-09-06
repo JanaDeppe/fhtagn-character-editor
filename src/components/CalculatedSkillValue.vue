@@ -1,13 +1,13 @@
 <template lang="pug">
-.row.no-gutters.justify-content-end.ml-1.mr-1.align-items-center
-  .col-auto.skill-badge
-    .badge.badge-secondary(v-if="skill.isProfessional && skill.isSelectedProfessional") Beruf
-  .col-auto.skill-badge
-    .badge.badge-primary(v-if="skill.isOptional && skill.isSelected") Optional
-  .col-auto.skill-badge
-    .badge.badge-success(v-if="skill.bonusCount") Bonus
+.flex.content-end.ml-1.mr-1.items-center
+  .skill-badge
+    .badge.bg-slate-600(v-if="skill.isProfessional && skill.isSelectedProfessional") Beruf
+  .skill-badge
+    .badge.bg-blue-600(v-if="skill.isOptional && skill.isSelected") Optional
+  .skill-badge
+    .badge.bg-green-600(v-if="skill.bonusCount") Bonus
       span(v-if="skill.bonusCount > 1") (x{{ skill.bonusCount }})
-  .col-auto.ml-2 {{ calculatedValue }}
+  .ml-2 {{ calculatedValue }}
     span(v-if="isANumber") %
 
 </template>

@@ -1,10 +1,10 @@
 <template lang="pug">
-div.container
-  button.btn.btn-outline-secondary.btn-sm(
+div.flex.ml-2.justify-end
+  button.p-2.leading-3(
     @click="onRemove"
-    :disabled="!(bonusCount.length)"
+    :disabled="!(bonusCount > 0)"
   ) -
-  button.btn.btn-outline-secondary.btn-sm(@click="onAdd") +
+  button.ml-1.p-2.leading-3(@click="onAdd") +
 </template>
 
 <script>
@@ -31,20 +31,8 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  margin-left: 3px;
-}
-
-button {
-  flex-basis: 50%;
-  margin: 0;
-  font-weight: bold;
-}
-
 button:first-child {
   border-radius: 35% 0 0 35%;
-  margin-right: 1px;
 }
 
 button:last-child {
