@@ -82,21 +82,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-@media screen and (min-width: 1024px) {
-  .skill-list {
-    column-count: 2;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .skill-list {
-    column-count: 3;
-  }
-}
-
-.no-break {
-  break-inside: avoid;
-}
-</style>

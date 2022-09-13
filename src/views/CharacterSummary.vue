@@ -1,36 +1,36 @@
 <template lang="pug">
 div
-  .row(ref="characterSummaryContainer")
-    .col-12.mb-3
+  .flex.flex-wrap(ref="characterSummaryContainer")
+    .basis-full.mb-3
       h4.text-center Zusammenfassung&nbsp;<br>
         span(v-if="characterStore.personalInformation.Vorname || characterStore.personalInformation.Nachname")
           | "{{characterStore.personalInformation.Vorname}} {{characterStore.personalInformation.Nachname}}"
-    .col-12.mb-3
-      .row
-        .col-6(v-if="characterStore.personalInformation.Alter") Alter: {{characterStore.personalInformation.Alter}}
-        .col-6(v-if="characterStore.personalInformation.Muttersprache") Muttersprache: {{characterStore.personalInformation.Muttersprache}}
-        .col-12(v-if="characterStore.personalInformation.Aussehen") Aussehen: {{characterStore.personalInformation.Aussehen}}
-        .col-12(v-if="characterStore.personalInformation.Ausrüstungsgegenstände")
+    .basis-full.mb-3
+      .flex.flex-wrap
+        .basis-1-2(v-if="characterStore.personalInformation.Alter") Alter: {{characterStore.personalInformation.Alter}}
+        .basis-1-2(v-if="characterStore.personalInformation.Muttersprache") Muttersprache: {{characterStore.personalInformation.Muttersprache}}
+        .basis-full(v-if="characterStore.personalInformation.Aussehen") Aussehen: {{characterStore.personalInformation.Aussehen}}
+        .basis-full(v-if="characterStore.personalInformation.Ausrüstungsgegenstände")
           | Ausrüstungsgegenstände: {{characterStore.personalInformation.Ausrüstungsgegenstände}}
 
     // Attribute
-    .col-12.mb-5
+    .basis-full.mb-5
       h5(v-if="Object.keys(characterStore.attributeValues).length") Attribute:
-      ul.list-unstyled.attribute-list(v-if="characterStore.attributeValues")
-        li(v-for="(value, abbr) in characterStore.attributeValues").row
-          .col-2 {{abbr}}:
-          .col-10 {{value}}
+      ul.columns-3(v-if="characterStore.attributeValues")
+        li(v-for="(value, abbr) in characterStore.attributeValues").flex
+          .basis-1-6 {{abbr}}:
+          .basis-5-6 {{value}}
 
     // Beruf
-    .col-12.mb-3
+    .basis-full.mb-3
       h5(v-if="characterStore.profession > -1") Beruf:
         span(v-if="characterStore.professionVariant") {{characterStore.professionVariant}} ({{currentProfessionName}})
         span(v-else) {{currentProfessionName}}
 
     // Skills
-    .col-12.mb-5
+    .basis-full.mb-5
       h6 Fertigkeiten:
-      ul.skill-list.list-unstyled(v-if="characterStore.profession > -1")
+      ul.columns-2(v-if="characterStore.profession > -1")
         li.mb-2(v-for="skill in skillsStore.completeSkillMap")
           single-skill(
             :canAddSpecialisations="false"
@@ -40,27 +40,27 @@ div
             :skillId="skill.skillId")
 
     // Verbindungen
-    .col-12.col-md-6.mb-3(v-if="characterStore.connections.length")
-      ul.list-unstyled
+    .basis-full.md_basis-1-2.mb-3(v-if="characterStore.connections.length")
+      ul
         li: h6 Verbindungen:
         li(v-for="conn in nonZeroConnections") {{conn}}
 
     // Facetten
-    .col-12.col-md-6.mb-3(v-if="characterStore.facettes.length")
-      ul.list-unstyled
+    .basis-full.md_basis-1-2.mb-3(v-if="characterStore.facettes.length")
+      ul
         li: h6 Facetten:
         li(v-for="facette in characterStore.facettes") {{facette}}
 
     // Motivationen
-    .col-12.col-md-6.mb-3(v-if="characterStore.motivations.length")
-      ul.list-unstyled
+    .basis-full.md_basis-1-2.mb-3(v-if="characterStore.motivations.length")
+      ul
         li: h6 Motivationen:
         li(v-for="motivation in nonZeroMotivations") {{motivation}}
 
-  .row.mt-3.mb-5
-    .col-6.offset-3.btn-group
-      button.btn.btn-success(@click="openCharacterSheet") Charakterbogen erstellen
-      router-link.btn.btn-outline-success(:to="{ name: 'start-generation' }") Zurück zum Anfang
+  .flex.justify-center.mt-3.mb-5
+    .basis-1-2.flex.gap-3
+      button.button(@click="openCharacterSheet") Charakterbogen erstellen
+      router-link.button(:to="{ name: 'start-generation' }") Zurück zum Anfang
 
   character-sheet-modal(
     v-if="isCharacterSheetOpen"
@@ -132,15 +132,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.attribute-list {
-  column-count: 3;
-}
-
-@media screen and (min-width: 768px) {
-  .skill-list {
-    column-count: 2;
-  }
-}
-</style>

@@ -101,9 +101,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.small-list {
-  font-size: 0.875rem;
-}
-</style>

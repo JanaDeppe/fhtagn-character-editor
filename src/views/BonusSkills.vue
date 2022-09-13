@@ -68,22 +68,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.skill-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-@media screen and (min-width: 1024px) {
-  .skill-list {
-    column-count: 2;
-    column-gap: 1rem;
-  }
-}
-
-.skill-list__item {
-  break-inside: avoid;
-}
-</style>

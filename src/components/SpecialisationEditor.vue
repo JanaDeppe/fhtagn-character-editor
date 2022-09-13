@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  .btn-group.d-inline-block
+  .inline-block
     button.leading-3.p-1(
       v-if="canAddSpecialisations"
       @click="add"
@@ -23,18 +23,17 @@ div
           .header.grow
             slot(name="header")
               h6 Bitte bezeichne diese Fertigkeit genauer!
-          button.p-1.shrink.material-icons.close(
+          button.text-xs.p-1.shrink.material-icons.close(
             v-if="hasCloseButton"
             @click="close()"
           )
         .body.mb-3
           slot(name="body")
-            .form-group
-              label {{skillname}}:
-              input.form-control(type="text" v-model="specialisationName")
+            label.pr-3 {{skillname}}:
+            input(type="text" v-model="specialisationName")
         .footer
           slot(name="footer")
-            button.default-button.btn.btn-secondary(@click="close") OK
+            button.button(@click="close") OK
 
 </template>
 <script>
@@ -90,13 +89,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.material-icons {
-  font-size: 0.875rem;
-  vertical-align: -2px;
-}
-
-.btn.btn-secondary:not(:last-child) {
-  margin-right: 2px;
-}
-</style>

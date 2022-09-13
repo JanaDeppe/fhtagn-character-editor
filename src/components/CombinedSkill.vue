@@ -31,7 +31,7 @@ div.flex
           type="checkbox")
 
       single-skill(
-        :class="{'is-disabled': isDisabled(index)}"
+        :class="{'opacity-50': isDisabled(index)}"
         :skillId="skillId")
       small.w-full.uppercase(
         v-if="index !== conjunction.skillIds.length -1"
@@ -109,14 +109,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.conjunction-word {
-  text-transform: uppercase;
-  width: 100%;
-}
-
-.is-disabled {
-  opacity: 0.5;
-}
-</style>

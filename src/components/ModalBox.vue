@@ -10,7 +10,7 @@ transition(name="modal" appear)
         slot default body
       .footer
         slot(name="footer")
-          button.default-button.btn.btn-secondary(@click="close()") OK
+          button.default-button.button(@click="close()") OK
 </template>
 <script>
 export default {

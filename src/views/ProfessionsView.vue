@@ -1,9 +1,9 @@
 <template lang="pug">
 div
-  h2.text-center Beruf wählen
+  h2.mb-5.text-center Beruf wählen
   ul.overflow-scroll.h-48.border.p-1
-    li.profession-list__profession(
-      :class="{'is-active': selectedProfession == index}"
+    li.px-1.cursor-pointer.hover_bg-slate(
+      :class="{'bg-slate': selectedProfession == index}"
       v-for="(profession, index) in rulesystemStore.professions"
       @click="setProfession(index)"
     ) {{profession.name}}

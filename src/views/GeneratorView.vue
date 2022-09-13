@@ -26,13 +26,11 @@ import { mapStores } from "pinia";
 import { useCommonStore } from "@/stores/common";
 import { useCharacterStore } from "@/stores/character";
 
-import Prompts from "@/components/Prompts.vue";
 import SidebarSummary from "@/components/SidebarSummary.vue";
 
 export default {
   components: {
     SidebarSummary,
-    Prompts,
   },
   props: "",
   data() {

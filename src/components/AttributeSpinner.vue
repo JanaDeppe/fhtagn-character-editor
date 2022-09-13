@@ -1,7 +1,7 @@
 <template lang="pug">
 .flex.flex-wrap
   .basis-auto
-    input(
+    input.border.h-full(
       min="0"
       type="number"
       :id="inputId"
@@ -9,12 +9,12 @@
       @input="onInput"
       v-bind:class="{'border-red-600': error}"
     )
-  .flex-shrink-1.flex.flex-col.ml-1
-    button.button.text-sm.p-1(@click="onIncrementalChange") -1
-    button.button.text-sm.p-1(@click="onIncrementalChange") +1
-  .flex-shrink-1.flex.flex-col.ml-1
-    button.button.text-sm.p-1(@click="onIncrementalChange") -5
-    button.button.text-sm.p-1(@click="onIncrementalChange") +5
+  .flex-shrink-1.flex.flex-col.ml-2
+    button.rounded-t-xl.button.text-sm.p-1.mb-1(@click="onIncrementalChange") -1
+    button.rounded-b-xl.button.text-sm.p-1(@click="onIncrementalChange") +1
+  .flex-shrink-1.flex.flex-col.ml-2
+    button.rounded-t-xl.button.text-sm.p-1.mb-1(@click="onIncrementalChange") -5
+    button.rounded-b-xl.button.text-sm.p-1(@click="onIncrementalChange") +5
   .basis-full.mt-1(v-if="error")
     .h5
       .block.badge {{errorTypes[error]}}
@@ -82,35 +82,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-input {
-  height: 100%;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-  margin-left: 3px;
-}
-
-button {
-  flex-basis: 50%;
-  margin: 0;
-  font-weight: bold;
-}
-
-button:first-child {
-  border-radius: 35% 35% 0 0;
-  margin-bottom: 1px;
-}
-
-button:last-child {
-  border-radius: 0 0 35% 35%;
-  margin-top: 1px;
-}
-
-.label {
-  margin-top: 3px;
-}
-</style>

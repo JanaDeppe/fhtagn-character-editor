@@ -91,9 +91,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.field-container {
-  margin: 0.3rem 0;
-}
-</style>

@@ -2,11 +2,12 @@
 transition(name="modalBox" appear)
   .overlay
     .modal-container
-      button(v-if="hasCloseButton" class="close material-icons" @click="close()")
-      .header Charakterbogen
-      .body
+      .flex.mb-3.gap-3
+        .header.grow: h6 Charakterbogen
+        button(v-if="hasCloseButton" class="close material-icons" @click="close()")
+      .body.mb-3
         .text-center.my-3
-          a.btn.btn-primary(ref="pdfLink") "{{characterSheetName}}" herunterladen
+          a.button(ref="pdfLink") "{{characterSheetName}}" herunterladen
         iframe.pdf-document-viewer(ref="pdfDocumentViewer")
       .footer
 
