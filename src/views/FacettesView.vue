@@ -1,16 +1,17 @@
 <template lang="pug">
-.row
-  .col-12
-    h2.text-center Facetten
+.flex.flex-wrap
+  .basis-full
+    h2 Facetten
     p Füge, wenn du möchtest, deinem Charakter Facetten hinzu!
-  .col-12(v-for="(facette, name) in rulesystemStore.facettes").callout
-    .row.mb-3
-      .col-auto
+  .basis-full(v-for="(facette, name) in rulesystemStore.facettes").callout
+    .flex.my-3
+      .mr-5
         input(
           type="checkbox"
           v-model="selectedFacettes"
-          :value="name")
-      .col
+          :value="name"
+          :id="name")
+      label.block.grow(:for="name")
         h4 {{name}}
         p {{facette.description}}
         p

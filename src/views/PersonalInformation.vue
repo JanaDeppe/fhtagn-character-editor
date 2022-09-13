@@ -1,20 +1,18 @@
 <template lang="pug">
-.row
-  .col-12
-    h2.text-center Persönliche Informationen
+.flex.flex-wrap
+  .basis-full
+    h2 Persönliche Informationen
     p Zu guter Letzt, gebe einige persönliche Daten zu deinem Charakter an!
-  .col-12
-    .row
-      .col-12.col-md-6.mb-3(v-for="(data, key) in currentPersonalInformation")
-        .form-group
-          label {{key}}
-          textarea.form-control(
-            v-if="key === 'Notizen'"
-            v-model="currentPersonalInformation[key]"
-            rows="5")
-          input.form-control(
-            v-else
-            type="text"
+  .basis-full.grid.grid-cols-2.gap-3.mt-3
+      div(v-for="(data, key) in currentPersonalInformation")
+        label {{key}}
+        textarea.w-full(
+          v-if="key === 'Notizen'"
+          v-model="currentPersonalInformation[key]"
+          rows="5")
+        input.w-full(
+          v-else
+          type="text"
             v-model="currentPersonalInformation[key]")
 
 </template>

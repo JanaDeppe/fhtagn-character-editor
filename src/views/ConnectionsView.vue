@@ -1,15 +1,14 @@
 <template lang="pug">
-.row
-  .col-12
-    h2.text-center Verbindungen
+.flex.flex-wrap
+  .basis-full
+    h2 Verbindungen
     p Schreibe deine Verbindungen und eine kurze Beschreibung dazu!
-  .col-12(v-for="(connection, index) in characterStore.connections")
-    .form-group
-      label Verbindung \#{{index+1}}
-      input.form-control(
-        type="text"
-        placeholder="Name der Verbindung"
-        @change="handleConnectionsChange($event, index)")
+  .basis-full.md_basis-7-12.my-3(v-for="(connection, index) in characterStore.connections")
+    label.block Verbindung \#{{index+1}}
+    input.w-full(
+      type="text"
+      placeholder="Name der Verbindung"
+      @change="handleConnectionsChange($event, index)")
 </template>
 
 <script>
@@ -28,10 +27,7 @@ export default {
   methods: {
     handleConnectionsChange(e, index) {
       this.characterStore
-        .updateConnection({
-          index,
-          value: e.currentTarget.value,
-        })
+        .updateConnection(index, e.currentTarget.value)
         .then(() => this.checkForError());
     },
     checkForError() {
