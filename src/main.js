@@ -1,20 +1,21 @@
 // CSS
-import './app.scss';
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
+import "material-design-icons-iconfont/dist/material-design-icons.css";
+import "./common/woltlab.css";
+import "./common/style.css";
 
-import Vue from 'vue';
-import Notifications from 'vue-notification';
+// Libraries
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import Notifications from "@kyvg/vue3-notification";
 
-import App from './App.vue';
-import router from './router/index';
-import store from './store';
+// Components
+import App from "./App.vue";
+import router from "@/router";
 
-Vue.use(Notifications);
+const app = createApp(App);
 
-Vue.config.productionTip = false;
+app.use(createPinia());
+app.use(router);
+app.use(Notifications);
 
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app');
+app.mount("#app");

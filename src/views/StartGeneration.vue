@@ -1,9 +1,9 @@
 <template lang="pug">
-.row.align-items-stretch
-  .col-12.mb-3.order-lg-0
-    h1.text-center Erstelle einen neuen <br>FHTAGN Charakter!
-  .col-12.text-center.mb-3.mb-lg-0.mt-lg-3.order-lg-2
-    button.btn.btn-success(@click="createNewCharacter") Neuen Charakter starten
+.flex.flex-wrap.items-stretch
+  .basis-full.mb-3.lg_order-0
+    h1.text-center Erstelle einen neuen FHTAGN Charakter!
+  .basis-full.text-center.mb-3.lg_mb-0.lg_mt-3.lg_order-2
+    button.button(@click="createNewCharacter") Neuen Charakter starten
   -
     var steps = [
       "Attribute verteilen",
@@ -15,29 +15,30 @@
     ];
     var i = 0;
 
-  while i < steps.length
-    .col-12.col-md-6.col-lg-4.order-lg-1.d-flex: .alert.alert-secondary.text-center.col
-      .h4
-        .badge.badge-secondary.mb-3= i+1
-        br
-        = ' ' + steps[i++]
+  .basis-full.grid.gap-3.grid-cols-3.grid-rows-2.lg_order-1
+    while i < steps.length
+      .border.p-5.text-center
+        .h4
+          .badge.mb-3= i+1
+          br
+          = ' ' + steps[i++]
 
 
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { act } from '@/store/type';
+import { mapStores } from "pinia";
+import { useCharacterStore } from "../stores/character";
 
 export default {
-  props: '',
+  props: "",
+  computed: {
+    ...mapStores(useCharacterStore),
+  },
   methods: {
-    ...mapActions({
-      dispatchCreateNewCharacter: act.CREATE_NEW_CHARACTER,
-    }),
     createNewCharacter() {
-      this.dispatchCreateNewCharacter();
-      this.$router.push({ name: 'attributes' });
+      this.characterStore.createNewCharacter();
+      this.$router.push({ name: "attributes" });
     },
   },
 };

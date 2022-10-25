@@ -1,31 +1,31 @@
 <template lang="pug">
-div
-  h4.text-center Zusammenfassung<br>
+section.text-sm
+  h2.text-center Zusammenfassung<br>
     span(v-if="personalInformation.Vorname || personalInformation.Nachname") "{{personalInformation.Vorname}} {{personalInformation.Nachname}}"
-  .row.mb-3
-    .col-12.col-md-6(v-if="personalInformation.Muttersprache") Muttersprache: {{personalInformation.Muttersprache}}
-    .col-12.col-md-6(v-if="personalInformation.Alter") Alter: {{personalInformation.Alter}}
-    .col-12(v-if="personalInformation.Aussehen") Aussehen: {{personalInformation.Aussehen}}
-    .col-12(v-if="personalInformation.Ausrüstungsgegenstände")
+  .flex.flex-wrap.mb-3
+    .mt-3.basis-full.md_basis-1-2(v-if="personalInformation.Muttersprache") Muttersprache: {{personalInformation.Muttersprache}}
+    .mt-3.basis-full.md_basis-1-2(v-if="personalInformation.Alter") Alter: {{personalInformation.Alter}}
+    .mt-3.basis-full(v-if="personalInformation.Aussehen") Aussehen: {{personalInformation.Aussehen}}
+    .mt-3.basis-full(v-if="personalInformation.Ausrüstungsgegenstände")
       | Ausrüstung: {{personalInformation.Ausrüstungsgegenstände}}
 
   // Attribute
-  h6(v-if="Object.keys(attributeValues).length") Attribute:
-  ul.list-unstyled.mb-3.attribute-list(v-if="attributeValues")
-    li(v-for="(value, abbr) in attributeValues").row
-      .col-2 {{abbr}}:
-      .col-8 {{value}}
+  h3.mt-3(v-if="Object.keys(attributeValues).length") Attribute:
+  ul.columns-3(v-if="attributeValues")
+    li(v-for="(value, abbr) in attributeValues").flex
+      .shrink.mr-1 {{abbr}}:
+      .grow {{value}}
 
   // Beruf
-  h5(v-if="profession > -1") Beruf:&nbsp;
+  h5.mt-3(v-if="profession > -1") Beruf:&nbsp;
     span(v-if="professionVariant") {{professionVariant}} ({{professionName}})
     span(v-else) {{professionName}}
 
   // Skills
-  ul.list-unstyled.small-list(v-if="!isProfessionLoading")
+  ul.mt-3(v-if="!characterStore.isProfessionLoading")
     li: h6 Fertigkeiten:
-    li(v-for="skill in modifiedSkills")
-      skill.mb-1(
+    li(v-for="skill in skillsStore.modifiedSkills")
+      single-skill.mb-1(
         :canAddSpecialisations="false"
         :canRemoveSpecialisations="false"
         :showCalculatedValue="true"
@@ -33,70 +33,71 @@ div
 
   // Verbindungen
   div(v-if="isArrayPopulated(connections)")
-    h6.mb-0 Verbindungen:
-    ul.small-list.list-unstyled.mb-3
-      li(v-for="conn in connections" v-if="conn.length > 0") {{conn}}
+    h6.mt-3.mb-0 Verbindungen:
+    ul
+      li(v-for="conn in connections") {{conn}}
 
   // Facetten
   div(v-if="facettes.length > 0")
-    h6.mb-0 Facetten:
-    ul.small-list.list-unstyled
+    h6.mt-3.mb-0 Facetten:
+    ul
       li(v-for="facette in facettes") {{facette}}
 
   // Motivationen
   div(v-if="isArrayPopulated(motivations)")
-    h6.mb-0 Motivationen:
-    ul.small-list.list-unstyled
-      li(v-for="motivation in motivations" v-if="motivation.length > 0") {{motivation}}
+    h6.mt-3.mb-0 Motivationen:
+    ul
+      li(v-for="motivation in motivations") {{motivation}}
 
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { get } from '@/store/type';
-
-import Skill from '@/components/Skill.vue';
+import { mapStores } from "pinia";
+import { useCharacterStore } from "../stores/character";
+import { useSkillsStore } from "../stores/skills";
+import { useRulesystemStore } from "../stores/rulesystem";
+import SingleSkill from "@/components/SingleSkill.vue";
 
 export default {
   props: {},
   components: {
-    Skill,
+    SingleSkill,
   },
   computed: {
-    ...mapGetters({
-      attributes: get.ATTRIBUTE_LIST,
-      modifiedSkills: get.MODIFIED_SKILLS,
-      characterData: get.CHARACTER_DATA,
-      professionNameById: get.PROFESSION_NAME_BY_ID,
-      isProfessionLoading: get.IS_PROFESSION_LOADING,
-    }),
+    ...mapStores(useCharacterStore, useSkillsStore, useRulesystemStore),
     attributeValues() {
-      return this.characterData.attributeValues;
+      return this.characterStore.characterData.attributeValues;
     },
-    connections() { return this.characterData.connections; },
-    facettes() { return this.characterData.facettes; },
-    motivations() { return this.characterData.motivations; },
-    personalInformation() { return this.characterData.personalInformation; },
-    profession() { return this.characterData.profession; },
-    professionVariant() { return this.characterData.professionVariant; },
-    professionName() { return this.professionNameById(this.profession); },
+    connections() {
+      return this.characterStore.characterData.connections.filter(
+        (conn) => conn.length > 0
+      );
+    },
+    facettes() {
+      return this.characterStore.characterData.facettes;
+    },
+    motivations() {
+      return this.characterStore.characterData.motivations.filter(
+        (motiv) => motiv.length > 0
+      );
+    },
+    personalInformation() {
+      return this.characterStore.characterData.personalInformation;
+    },
+    profession() {
+      return this.characterStore.characterData.profession;
+    },
+    professionVariant() {
+      return this.characterStore.characterData.professionVariant;
+    },
+    professionName() {
+      return this.rulesystemStore.professionNameById(this.profession);
+    },
   },
   methods: {
     isArrayPopulated(array) {
-      return !!(array.find(item => item.trim().length > 0));
+      return !!array.find((item) => item.trim().length > 0);
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-
-.small-list {
-  font-size: .875rem;
-}
-
-.attribute-list {
-    column-count: 3;
-}
-
-</style>

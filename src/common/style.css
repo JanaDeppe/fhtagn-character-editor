@@ -1,0 +1,10 @@
+@tailwind base;
+
+*, ::before, ::after {
+  border-width: 0 !important;
+  border-style: solid !important;
+  border-color: #e5e7eb !important;
+}
+
+@tailwind components;
+@tailwind utilities;

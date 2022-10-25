@@ -1,20 +1,23 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import { createRouter, createWebHashHistory } from "vue-router";
 
-import config from '@/router/router.config';
-import store from '@/store';
+import routes from "@/router/routes";
+import { useCharacterStore } from "../stores/character";
 
-Vue.use(Router);
-
-const router = new Router(config);
+const router = new createRouter({
+  history: createWebHashHistory(),
+  routes,
+});
 
 router.beforeEach((to, from, next) => {
-  const hasNoAttributes = !store.getters.isCharacterStarted;
-  const toRouteIndex = config.routes[0].children.findIndex(route => to.name === route.name);
+  const characterStore = useCharacterStore();
+  const hasNoAttributes = !characterStore.isCharacterStarted;
+  const toRouteIndex = routes[0].children.findIndex(
+    (route) => to.name === route.name
+  );
   const isRestrictedRoute = toRouteIndex > 1;
 
   if (hasNoAttributes && isRestrictedRoute) {
-    next('/');
+    next("/");
   } else next();
 });
 

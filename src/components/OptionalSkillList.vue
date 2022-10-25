@@ -1,21 +1,21 @@
 <template lang="pug">
 div
-  .row
-    .col-12: h5 Optionale Fertigkeiten:
-    .col: p Wähle zusätzlich {{getAvailableOptionalSkillCount(professionId)}} aus folgenden Fertigkeiten.
-    .col.text-right: p Restliche, optionale Fertigkeiten: {{ remainingOptionalSkillCount }}
+  .flex.flex-wrap.mb-2
+    .basis-full: h5 Optionale Fertigkeiten:
+    p.basis-1-2 Wähle zusätzlich {{rulesystemStore.availableOptionalSkillCount(professionId)}} aus folgenden Fertigkeiten.
+    p.basis-1-2.text-right Restliche, optionale Fertigkeiten: {{ remainingOptionalSkillCount }}
   .h5(v-if="error")
     .d-block.badge.badge-warning {{errorTypes[error]}}
-  ul.skill-list.list-unstyled
+  ul.xl_columns-2
     li.no-break(
-      v-for="skill in optionalSkills"
+      v-for="skill in skillsStore.optionalSkills"
       :key="skill.skillId")
       combined-skill(
         v-if="skill.conjunctionId && skill.conjunctionId !== 'duplicate'"
         :conjunctionId="skill.conjunctionId"
         modType="optional"
       )
-      skill.pl-2(
+      single-skill.pl-2(
         v-else-if="!skill.conjunctionId"
         :skillId="skill.skillId"
         :isOptionalCheckbox="true"
@@ -24,16 +24,17 @@ div
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { get, act } from '@/store/type';
+import { mapStores } from "pinia";
+import { useRulesystemStore } from "../stores/rulesystem";
+import { useSkillsStore } from "../stores/skills";
+import { useCommonStore } from "../stores/common";
 
-import Skill from '@/components/Skill.vue';
-import CombinedSkill from '@/components/CombinedSkill.vue';
-
+import SingleSkill from "@/components/SingleSkill.vue";
+import CombinedSkill from "@/components/CombinedSkill.vue";
 
 export default {
   components: {
-    Skill,
+    SingleSkill,
     CombinedSkill,
   },
   props: {
@@ -43,60 +44,41 @@ export default {
     },
   },
   model: {
-    event: 'skills-updated',
+    event: "skills-updated",
   },
   data() {
     return {
       error: false,
       errorTypes: {
-        tooHigh: 'Du hast mehr optionale Fertigkeiten ausgewählt als dieser Beruf zur Verfügung hat.',
+        tooHigh:
+          "Du hast mehr optionale Fertigkeiten ausgewählt als dieser Beruf zur Verfügung hat.",
       },
     };
   },
   computed: {
-    ...mapGetters({
-      optionalSkills: get.OPTIONAL_SKILLS,
-      optionalSkillCount: get.OPTIONAL_SKILL_COUNT,
-      getAvailableOptionalSkillCount: get.AVAILABLE_OPTIONAL_SKILL_COUNT,
-    }),
-    remainingOptionalSkillCount() { return this.getAvailableOptionalSkillCount(this.professionId) - this.optionalSkillCount; },
+    ...mapStores(useCommonStore, useRulesystemStore, useSkillsStore),
+    remainingOptionalSkillCount() {
+      return (
+        this.rulesystemStore.availableOptionalSkillCount(this.professionId) -
+        this.skillsStore.optionalSkillCount
+      );
+    },
   },
   created() {
     this.checkForError();
   },
   methods: {
-    ...mapActions({
-      addWarning: act.ADD_WARNING,
-      removeWarning: act.REMOVE_WARNING,
-    }),
     checkForError() {
       if (this.remainingOptionalSkillCount < 0) {
-        this.removeWarning('optionalSkillsRemaining');
-        this.error = 'tooHigh';
+        this.commonStore.removeWarning("optionalSkillsRemaining");
+        this.error = "tooHigh";
       } else if (this.remainingOptionalSkillCount > 0) {
-        this.addWarning('optionalSkillsRemaining');
+        this.commonStore.addWarning("optionalSkillsRemaining");
       } else {
-        this.removeWarning('optionalSkillsRemaining');
+        this.commonStore.removeWarning("optionalSkillsRemaining");
         this.error = false;
       }
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../common/settings";
-
-.skill-list {
-  @include media-breakpoint-up(lg) {
-    column-count: 2;
-  }
-  @include media-breakpoint-up(xl) {
-    colummn-count: 3;
-  }
-}
-
-.no-break {
-  break-inside: avoid;
-}
-</style>

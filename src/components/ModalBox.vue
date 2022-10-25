@@ -2,14 +2,15 @@
 transition(name="modal" appear)
   .overlay(v-if="isActive")
     .modal-container
-      button(v-if="hasCloseButton" class="close material-icons" @click="close()")
-      .header
-        slot(name="header")
-      .body
+      .flex.mb-3.gap-3
+        .header.grow
+          slot(name="header")
+        button.p-1.shrink.close.material-icons(v-if="hasCloseButton" @click="close()")
+      .body.mb-3
         slot default body
       .footer
         slot(name="footer")
-          button.default-button(class="btn btn-secondary" @click="close()") OK
+          button.default-button.button(@click="close()") OK
 </template>
 <script>
 export default {
@@ -34,17 +35,17 @@ export default {
   methods: {
     open() {
       this.isActive = true;
-      this.$emit('modal-opened');
+      this.$emit("modal-opened");
     },
     close() {
       this.isActive = false;
-      this.$emit('modal-closed');
+      this.$emit("modal-closed");
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style>
 .overlay {
   position: fixed;
   z-index: 9998;
@@ -52,8 +53,8 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  transition: opacity .3s ease;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,19 +69,8 @@ export default {
   flex-direction: column;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
-}
-
-.header h3 {
-  margin-top: 0;
-  flex-shrink: 1;
-}
-
-.close {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
 }
 
 .body {

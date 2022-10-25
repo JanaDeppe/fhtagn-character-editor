@@ -1,23 +1,23 @@
 <template lang="pug">
-transition(name="modal" appear)
+transition(name="modalBox" appear)
   .overlay
     .modal-container
-      button(v-if="hasCloseButton" class="close material-icons" @click="close()")
-      .header Charakterbogen
-      .body
+      .flex.mb-3.gap-3
+        .header.grow: h6 Charakterbogen
+        button(v-if="hasCloseButton" class="close material-icons" @click="close()")
+      .body.mb-3
         .text-center.my-3
-          a.btn.btn-primary(ref="pdfLink") "{{characterSheetName}}" herunterladen
+          a.button(href="") "{{characterSheetName}}" herunterladen
         iframe.pdf-document-viewer(ref="pdfDocumentViewer")
       .footer
 
 </template>
 
 <script>
-import CharacterSheetService from '@/common/character-sheet-service';
-import Modal from '@/components/Modal.vue';
+import ModalBox from "@/components/ModalBox.vue";
 
 export default {
-  extends: Modal,
+  extends: ModalBox,
   props: {
     characterData: {
       default: () => {},
@@ -26,47 +26,37 @@ export default {
   },
   data() {
     return {
-      publicPath: process.env.BASE_URL,
-      characterSheetHtml: '',
+      characterSheetHtml: "",
       characterSheetServiceInitiated: false,
     };
   },
   computed: {
-    characterSheetService() {
-      return new CharacterSheetService(this.characterData);
-    },
     characterSheetName() {
-      const { Vorname, Nachname } = this.characterData.characterData.personalInformation;
+      const { Vorname, Nachname } =
+        this.characterData.characterData.personalInformation;
       if (Vorname || Nachname) {
         return `Fhtagn${`-${Vorname}`}${`-${Nachname}`}.pdf`;
       }
-      return 'Fhtagn-Character.pdf';
+      return "Fhtagn-Character.pdf";
     },
   },
   mounted() {
     const self = this;
-    self.characterSheetService.init()
-      .then(() => {
-        self.createPDFDocument();
-      });
+    self.characterSheetService.init().then(() => {
+      self.createPDFDocument();
+    });
   },
   methods: {
     createPDFDocument() {
-      this.characterSheetService
-        .generateDocumentURL()
-        .then(url => {
-          this.$refs.pdfDocumentViewer.src = `${url}`;
-          this.$refs.pdfLink.href = `${url}`;
-          this.$refs.pdfLink.download = this.characterSheetName;
-        });
+      console.log(
+        "This should create the PDF document, but doesn't at the moment..."
+      );
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../common/settings";
-
+<style scoped>
 .modal-container {
   width: 95%;
   height: 95%;
@@ -81,5 +71,4 @@ export default {
   width: 100%;
   height: 100%;
 }
-
 </style>

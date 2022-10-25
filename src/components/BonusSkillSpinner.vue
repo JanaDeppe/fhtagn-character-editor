@@ -1,61 +1,31 @@
 <template lang="pug">
-  div.container
-    button.btn.btn-outline-secondary.btn-sm(
-      @click="onRemove"
-      :disabled="!(bonusCount)"
-    ) -
-    button.btn.btn-outline-secondary.btn-sm(@click="onAdd") +
+div.flex.ml-2.justify-end
+  button.rounded-l-xl.p-2.leading-3(
+    @click="onRemove"
+    :disabled="!(bonusCount > 0)"
+  ) -
+  button.rounded-r-xl.ml-1.p-2.leading-3(@click="onAdd") +
 </template>
 
 <script>
 export default {
-  components: {
-  },
   props: {
-    value: {
-      required: false,
-      type: Array,
-      default: null,
-    },
     bonusCount: {
       type: Number,
       default: 0,
     },
   },
+  emits: ["update:bonusCount"],
   data() {
     return {};
   },
   methods: {
     onAdd() {
-      this.$emit('input', 'add');
+      this.$emit("update:bonusCount", "add");
     },
     onRemove() {
-      this.$emit('input', 'remove');
+      this.$emit("update:bonusCount", "remove");
     },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../common/settings";
-
-.container {
-  display: flex;
-  margin-left: 3px;
-}
-
-button {
-  flex-basis: 50%;
-  margin: 0;
-  font-weight: bold;
-}
-
-button:first-child {
-  border-radius: 35% 0 0 35%;
-  margin-right: 1px;
-}
-
-button:last-child {
-  border-radius: 0 35% 35% 0;
-}
-</style>
