@@ -8,6 +8,14 @@
     router-view
 
   .flex.shrink.justify-end
+    .locale-changer.pr-3
+      select(v-model="$i18n.locale")
+        option(
+          v-for="name, locale in locales"
+          :key="`locale-${locale}`" 
+          :value="locale"
+        ) {{ name }}
+
     .flex
       a.block.bug-report-link(
         @click="isBugReportOpen = true")
@@ -37,6 +45,10 @@ export default {
   },
   data() {
     return {
+      locales: {
+        de: "Deutsch",
+        en: "English",
+      },
       isBugReportOpen: false,
     };
   },

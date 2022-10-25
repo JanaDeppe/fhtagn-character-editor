@@ -1,9 +1,9 @@
 <template lang="pug">
 .flex.flex-wrap.items-stretch
   .basis-full.mb-3.lg_order-0
-    h1.text-center Erstelle einen neuen FHTAGN Charakter!
+    h1.text-center {{ $t("startGeneration.createANewCharacter") }}
   .basis-full.text-center.mb-3.lg_mb-0.lg_mt-3.lg_order-2
-    button.button(@click="createNewCharacter") Neuen Charakter starten
+    button.button(@click="createNewCharacter") {{ $t("startGeneration.startANewCharacter") }}
   -
     var steps = [
       "Attribute verteilen",
