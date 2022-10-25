@@ -32,8 +32,8 @@ export const useCommonStore = defineStore("common", {
       },
       missingConnections: {
         type: "warning",
-        title: "Fehlende Verbindung",
-        text: "Du hast nicht alle Verbindungen ausgefüllt.",
+        title: "Fehlende Bindung",
+        text: "Du hast nicht alle Bindungen ausgefüllt.",
       },
       missingMotivations: {
         type: "warning",

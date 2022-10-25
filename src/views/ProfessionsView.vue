@@ -42,7 +42,7 @@ div
         f-if="currProf"
         :professionId="selectedProfession"
       )
-      h5.mt-5 Verbindungen: {{currProf.connections}}
+      h5.mt-5 Bindungen: {{currProf.connections}}
   modal-box(
     :isVisible="isErrorOpen"
     @modal-closed="isErrorOpen = false")

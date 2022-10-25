@@ -31,9 +31,9 @@ section.text-sm
         :showCalculatedValue="true"
         :skillId="skill.skillId")
 
-  // Verbindungen
+  // Bindungen
   div(v-if="isArrayPopulated(connections)")
-    h6.mt-3.mb-0 Verbindungen:
+    h6.mt-3.mb-0 Bindungen:
     ul
       li(v-for="conn in connections") {{conn}}
 

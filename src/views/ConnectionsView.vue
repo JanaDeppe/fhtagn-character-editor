@@ -1,13 +1,13 @@
 <template lang="pug">
 .flex.flex-wrap
   .basis-full
-    h2 Verbindungen
-    p Schreibe deine Verbindungen und eine kurze Beschreibung dazu!
+    h2 Bindungen
+    p Schreibe deine Bindungen und eine kurze Beschreibung dazu!
   .basis-full.md_basis-7-12.my-3(v-for="(connection, index) in characterStore.connections")
-    label.block Verbindung \#{{index+1}}
+    label.block Bindung \#{{index+1}}
     input.w-full(
       type="text"
-      placeholder="Name der Verbindung"
+      placeholder="Name der Bindung"
       @change="handleConnectionsChange($event, index)")
 </template>
 

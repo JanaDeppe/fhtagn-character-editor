@@ -9,7 +9,7 @@
       "Attribute verteilen",
       "Beruf wählen",
       "Fähigkeiten aussuchen",
-      "Verbindungen erstellen",
+      "Bindungen erstellen",
       "Motivationen schreiben",
       "Namen geben"
     ];

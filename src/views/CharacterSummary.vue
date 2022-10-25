@@ -39,10 +39,10 @@ div
             :skillname="skill.skillname"
             :skillId="skill.skillId")
 
-    // Verbindungen
+    // Bindungen
     .basis-full.md_basis-1-2.mb-3(v-if="characterStore.connections.length")
       ul
-        li: h6 Verbindungen:
+        li: h6 Bindungen:
         li(v-for="conn in nonZeroConnections") {{conn}}
 
     // Facetten
