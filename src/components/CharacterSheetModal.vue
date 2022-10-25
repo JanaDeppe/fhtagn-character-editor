@@ -7,14 +7,13 @@ transition(name="modalBox" appear)
         button(v-if="hasCloseButton" class="close material-icons" @click="close()")
       .body.mb-3
         .text-center.my-3
-          a.button(ref="pdfLink") "{{characterSheetName}}" herunterladen
+          a.button(href="") "{{characterSheetName}}" herunterladen
         iframe.pdf-document-viewer(ref="pdfDocumentViewer")
       .footer
 
 </template>
 
 <script>
-import CharacterSheetService from "@/common/character-sheet-service";
 import ModalBox from "@/components/ModalBox.vue";
 
 export default {
@@ -32,9 +31,6 @@ export default {
     };
   },
   computed: {
-    characterSheetService() {
-      return new CharacterSheetService(this.characterData);
-    },
     characterSheetName() {
       const { Vorname, Nachname } =
         this.characterData.characterData.personalInformation;
@@ -55,11 +51,6 @@ export default {
       console.log(
         "This should create the PDF document, but doesn't at the moment..."
       );
-      // this.characterSheetService.generateDocumentURL().then((url) => {
-      //   this.$refs.pdfDocumentViewer.src = `${url}`;
-      //   this.$refs.pdfLink.href = `${url}`;
-      //   this.$refs.pdfLink.download = this.characterSheetName;
-      // });
     },
   },
 };
