@@ -2,39 +2,39 @@
 div
   .grid.grid-cols-3.auto-rows-min.gap-5.text-center(v-if="isPickerVisible")
     .col-span-3.row-auto
-      h2 Mit welcher Methode möchtest du die Attribute generieren?
+      h2 {{ $t("views.attributes.question") }}
     a.block.col-span-3.row-auto
       .border.p-3(
         @click="switchGenerationMethod(1)"
         v-bind:class="{'border-rust shadow': distributionMethod === 1}"
         )
-          h3 Standard
-          p Punkte können frei auf verschiedene Attribute verteilt werden.
+          h3 {{ $t("views.attributes.standard.title") }}
+          p {{ $t("views.attributes.standard.description") }}
     a.block.col-span-3.md_col-span-1
       .border.p-3(
         @click="switchGenerationMethod(2)"
         v-bind:class="{'border-rust shadow': distributionMethod === 2}"
         )
-          h4 Liste
-          p Attributswerte werden aus einer Liste verteilt.
+          h4 {{ $t("views.attributes.list.title") }} 
+          p {{ $t("views.attributes.list.description") }}
     a.block.col-span-3.md_col-span-1
       .border.p-3(
         @click="switchGenerationMethod(3)"
         v-bind:class="{'border-rust shadow': distributionMethod === 3}"
         )
-          h4 Würfeln
-          p Attributswerte werden zuerst ausgewürfelt, dann verteilt.
+          h4 {{ $t("views.attributes.dice.title") }}
+          p {{ $t("views.attributes.dice.description") }}
     a.block.col-span-3.md_col-span-1
       .border.p-3(
         @click="switchGenerationMethod(4)"
         v-bind:class="{'border-rust shadow': distributionMethod === 4}"
         )
-          h4 Automatisch
-          p Attributswerte werden zufällig aus einer Liste auf die Attribute verteilt.
+          h4 {{ $t("views.attributes.automated.title") }}
+          p {{ $t("views.attributes.automated.description") }}
 
   .flex.justify-center.mt-3(v-if="!isPickerVisible")
     .basis-auto
-      .button(@click="isPickerVisible = true") Andere Methode auswählen
+      .button(@click="isPickerVisible = true") {{ $t("views.attributes.chooseDifferentMethod") }}
 
   // Point Distribution
   .grid-x(v-if="distributionMethod === 1" v-show="!isPickerVisible")

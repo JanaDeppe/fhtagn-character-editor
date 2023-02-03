@@ -1,13 +1,13 @@
 <template lang="pug">
 section.flex.flex-col.gap-3.mt-3
   .basis-full
-    h2.text-center Attribute vergeben
-  .basis-full.text-right Restliche Punkte: {{remainingPoints}}
+    h2.text-center {{ $t("views.attributes.standard.distributeAttributes")}}
+  .basis-full.text-right {{ $t("views.attributes.standard.remainingPoints") }}: {{remainingPoints}}
   .basis-full
     .block.border.text-center.border-red-600.bg-red-100.my-3.p-2(v-if="error") {{errorTypes[error]}}
   .flex.gap-3(v-for="attribute in rulesystemStore.attributes")
       .basis-full.md_basis-4-12.text-right.self-center
-        label(:for="attribute.abbr") {{attribute.name}}
+        label(:for="attribute.abbr") {{ $t(`rulesystem.attributes.name.${attribute.name}`)}}
       .basis-full.md_basis-8-12.lg_basis-6-12
         attribute-spinner(
           :input-id="attribute.abbr"

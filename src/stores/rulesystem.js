@@ -4,28 +4,28 @@ export const useRulesystemStore = defineStore("rulesystem", {
   state: () => ({
     attributes: [
       {
-        name: "Stärke",
-        abbr: "ST",
+        name: "strength",
+        abbr: "str",
       },
       {
-        name: "Konstitution",
-        abbr: "KO",
+        name: "constitution",
+        abbr: "con",
       },
       {
-        name: "Geschicklichkeit",
-        abbr: "GE",
+        name: "dexterity",
+        abbr: "dex",
       },
       {
-        name: "Intelligenz",
-        abbr: "IN",
+        name: "intelligence",
+        abbr: "int",
       },
       {
-        name: "Entschlossenheit",
-        abbr: "EN",
+        name: "determination",
+        abbr: "det",
       },
       {
-        name: "Charisma",
-        abbr: "CH",
+        name: "charisma",
+        abbr: "cha",
       },
     ],
     professions: [

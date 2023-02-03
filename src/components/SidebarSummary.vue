@@ -13,7 +13,7 @@ section.text-sm
   h3.mt-3(v-if="Object.keys(attributeValues).length") Attribute:
   ul.columns-3(v-if="attributeValues")
     li(v-for="(value, abbr) in attributeValues").flex
-      .shrink.mr-1 {{abbr}}:
+      .shrink.mr-1 {{ $t(`rulesystem.attributes.abbr.${abbr}`) }}:
       .grow {{value}}
 
   // Beruf

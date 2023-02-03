@@ -6,22 +6,13 @@ import "@/common/style.css";
 // Libraries
 import { createApp } from "vue";
 import { createPinia } from "pinia";
-import { createI18n } from "vue-i18n";
 
 import Notifications from "@kyvg/vue3-notification";
 
 // Components
 import App from "./App.vue";
 import router from "@/router";
-
-import translationsEn from "./common/translations.en";
-import translationsDe from "./common/translations.de";
-
-const i18n = createI18n({
-  locale: "en",
-  fallbackLocale: "de",
-  messages: { en: translationsEn, de: translationsDe },
-});
+import i18n from "@/i18n";
 
 const app = createApp(App);
 

@@ -8,11 +8,11 @@
       .basis-1-2
         router-link.button(
           v-if="showPrevButton"
-          :to="'/' + prevStep.path") Vorheriger Schritt
+          :to="'/' + prevStep.path") {{ $t("views.generator.prevStep") }}
       .basis-1-2.text-right
         router-link.button(
           v-if="showNextButton"
-          :to="'/' + nextStep.path") Nächster Schritt
+          :to="'/' + nextStep.path") {{ $t("views.generator.nextStep") }}
     
 
   .flex.basis-full.md_basis-4-12
