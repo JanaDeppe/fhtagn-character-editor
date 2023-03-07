@@ -1,31 +1,31 @@
 <template lang="pug">
 div
-  h2.mb-5.text-center Beruf wählen
+  h2.mb-5.text-center {{ $t("views.professions.chooseProfession") }}
   ul.overflow-scroll.h-48.border.p-1
     li.px-1.cursor-pointer.hover_bg-slate(
       :class="{'bg-slate': selectedProfession == index}"
       v-for="(profession, index) in rulesystemStore.professions"
       @click="setProfession(index)"
-    ) {{profession.name}}
+    ) {{ $t(`rulesystem.professions.${profession.name}.name`)}}
 
   div(v-if="selectedProfession > -1")
-    h3.mt-5.mb-2 {{currProf.name}}
+    h3.mt-5.mb-2 {{ $t(`rulesystem.professions.${currProf.name}.name`) }}
       small  (
         span(v-for="(attr, index) in currProf.recommendedAttributes")
           span(v-if="index != 0") ,&nbsp;
-          | {{attr}}
+          | {{ $t(`rulesystem.attributes.abbr.${attr}`)}}
         | )
     ul.columns-2
       li.mb-2(v-for="variant in currProf.variants")
         input.mr-1(type="radio" :id="variant" v-model="selectedVariant" :value="variant" @change="updateVariant")
-        label(:for="variant") {{variant}}
+        label(:for="variant") {{ $t(`rulesystem.professions.${currProf.name}.variants.${variant}`) }}
       li.mb-2
         input.mr-1(type="radio" v-model="selectedVariant" value="custom" @change="updateVariant")
         label
-          input(type="text" v-model="customVariant" placeholder="Eigene Ausprägung" @input="updateVariant")
+          input(type="text" v-model="customVariant" :placeholder="$t('views.professions.customVariant')" @input="updateVariant")
     blockquote.border-l-4.my-5.pl-3.italic {{currProf.background}}
     div.mt-5(v-if="!characterStore.isProfessionLoading")
-      h5.mb-2 Berufsfertigkeiten:
+      h5.mb-2 {{ $t("views.professions.professionalSkills") }}:
       ul.xl_columns-2
         li(v-for="skill in skillsStore.professionalSkills")
           combined-skill.break-inside-avoid(
@@ -42,12 +42,12 @@ div
         f-if="currProf"
         :professionId="selectedProfession"
       )
-      h5.mt-5 Bindungen: {{currProf.connections}}
+      h5.mt-5 {{ $t("common.connections") }}: {{currProf.connections}}
   modal-box(
     :isVisible="isErrorOpen"
     @modal-closed="isErrorOpen = false")
-    h3(slot="header") Fehlende Auswahl
-    p Bitte wähle einen Beruf, bevor du weitermachst!
+    h3(slot="header") {{ $t("views.professions.errors.missingProfession.title") }}
+    p {{ $t("views.professions.errors.missingProfession.message") }}
 
 </template>
 

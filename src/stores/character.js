@@ -53,7 +53,7 @@ export const useCharacterStore = defineStore("character", {
         breakingPoint,
       };
     },
-    isCharacterStarted: (state) => Number.isInteger(state.attributeValues.ST),
+    isCharacterStarted: (state) => Number.isInteger(state.attributeValues.str),
   },
   actions: {
     toggleProfessionLoading() {
