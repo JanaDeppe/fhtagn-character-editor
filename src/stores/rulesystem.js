@@ -66,12 +66,12 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "investigator",
         variants: [
-          "Privatdetektivin",
-          "Versicherungsdetektivin",
-          "Umweltermittlerin",
-          "Geisterjägerin",
-          "Hobbyermittlerin",
-          "Polizeiberaterin",
+          "privateInvestigator",
+          "insuranceInvestigator",
+          "environmentalInvestigator",
+          "ghostHunter",
+          "amateurInvestigator",
+          "policeAdvisor",
         ],
         recommendedAttributes: ["int", "cha"],
         skills: {
@@ -125,15 +125,15 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "driver",
         variants: [
-          "Paketbotin",
-          "Pizzabotin",
-          "Fernfahrerin",
-          "Taxifahrerin",
-          "Fluchtwagenfahrerin",
-          "Chauffeurin",
-          "Rettungswagenfahrerin",
-          "Safari-Fahrerin",
-          "Werttransportfahrerin",
+          "packageDriver",
+          "pizzaDeliveryDriver",
+          "truckDriver",
+          "cabDriver",
+          "getawayDriver",
+          "chauffeur",
+          "ambulanceDriver",
+          "safariDriver",
+          "cashInTransitDriver",
         ],
         recommendedAttributes: ["dex", "det"],
         skills: {
@@ -174,15 +174,15 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "businessman",
         variants: [
-          "Maklerin",
-          "Unternehmensberaterin",
-          "Buchprüferin",
-          "Antiquarin",
-          "Antiquitätenhändlerin",
-          "arthändlerin",
-          "Waffenhändlerin",
-          "Schwarzmarkthändlerin",
-          "fahrende Händlerin",
+          "realtor",
+          "businessAdvisor",
+          "accountant",
+          "antiquarian",
+          "antiqueDealer",
+          "artDealer",
+          "armsDealer",
+          "blackMarketDealer",
+          "travelingMerchant",
         ],
         recommendedAttributes: ["det", "cha"],
         skills: {
@@ -217,13 +217,13 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "lawEnforcementOfficer",
         variants: [
-          "Rangerin in einem Nationalpark",
-          "Streifenpolizistin",
-          "Kriminalkomissarin",
-          "Verdeckte Ermittlerin",
-          "Grenzschützerin",
-          "Beamtin der Küstenwache",
-          "Militärpolizistin",
+          "nationalParkRanger",
+          "patrolOfficer",
+          "detective",
+          "undercoverCop",
+          "borderPatrolOfficer",
+          "coastGuard",
+          "militaryPoliceOfficer",
         ],
         recommendedAttributes: ["dex", "int", "cha"],
         skills: {
@@ -266,7 +266,21 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "faithRepresentative",
         recommendedAttributes: ["det", "cha"],
-        variants: [],
+        variants: [
+          "priest",
+          "exorcist",
+          "religiousScholar",
+          "missionary",
+          "nunMonk",
+          "inquisitor",
+          "shaman",
+          "cultLeader",
+          "occultist",
+          "hermit",
+          "religiousLeader",
+          "fanatic",
+          "mystic",
+        ],
         skills: {
           fixed: {
             bureaucracy: 40,
@@ -295,12 +309,12 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "journalist",
         variants: [
-          "Reporterin",
-          "Bloggerin",
-          "Vloggerin",
-          "Fotojournalistin",
-          "Enthüllungsjournalistin",
-          "Kriegsberichterstatterin",
+          "reporter",
+          "blogger",
+          "vlogger",
+          "photojournalist",
+          "investigativeJournalist",
+          "warCorrespondent",
         ],
         recommendedAttributes: ["int", "cha"],
         skills: {
@@ -338,7 +352,14 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "lawyer",
         recommendedAttributes: ["int", "cha"],
-        variants: [],
+        variants: [
+          "lawyer",
+          "judge",
+          "prosecutor",
+          "legalAdvisor",
+          "judicialOfficer",
+          "jurist",
+        ],
         skills: {
           fixed: {
             bureaucracy: 50,
@@ -370,12 +391,11 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "fighter",
         variants: [
-          "Kommandosoldation",
-          "Soldatin",
-          "Söldnerin",
-          "Ritterin",
-          "Revolverheldin",
-          "Widerstandskämpferin",
+          "soldier",
+          "mercenary",
+          "knight",
+          "gunslinger",
+          "resistanceFighter",
         ],
         recommendedAttributes: ["str", "dex", "con", "det"],
         skills: {
@@ -416,15 +436,15 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "criminal",
         variants: [
-          "Einbrecherin",
-          "Fälscherin",
-          "Drogendealerin",
-          "Schmugglerin",
-          "Bankräuberin",
-          "Betrügerin",
-          "Gang-Mitglied",
-          "Straßenräuberin",
-          "Piratin",
+          "burglar",
+          "counterfeiter",
+          "drugDealer",
+          "smuggler",
+          "bankRobber",
+          "conMan",
+          "gangMember",
+          "mugger",
+          "pirate",
         ],
         recommendedAttributes: ["dex", "det", "cha"],
         skills: {
@@ -503,11 +523,11 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "culturalScientist",
         variants: [
-          "Archäologin",
-          "Anthropologin",
-          "Historikerin",
-          "religionswissenschaftlerin",
-          "Hobbyforscherin",
+          "archaeologist",
+          "anthropologist",
+          "historian",
+          "religiousScholar",
+          "amateurResearcher",
         ],
         recommendedAttributes: ["int", "det"],
         skills: {
@@ -561,7 +581,14 @@ export const useRulesystemStore = defineStore("rulesystem", {
       },
       {
         name: "artist",
-        variants: ["Bildhauerin", "Malerin", "Schriftstellerin", "Musikerin"],
+        variants: [
+          "sculptor",
+          "painter",
+          "writer",
+          "musician",
+          "actor",
+          "singer",
+        ],
         recommendedAttributes: ["int", "cha"],
         skills: {
           fixed: {
@@ -601,15 +628,15 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "physician",
         variants: [
-          "Virologin",
-          "Sanitäterin",
-          "Krankenschwester",
-          "Psychiaterin",
-          "Gerichtsmedizinerin",
-          "Apothekerin",
-          "Tierärztin",
-          "Notärztin",
-          "Chirurgin",
+          "virologist",
+          "paramedic",
+          "nurse",
+          "psychiatrist",
+          "coroner",
+          "pharmacist",
+          "veterinarian",
+          "erDoctor",
+          "surgeon",
         ],
         recommendedAttributes: ["dex", "nt", "det"],
         skills: {
@@ -641,7 +668,7 @@ export const useRulesystemStore = defineStore("rulesystem", {
       },
       {
         name: "idler",
-        variants: ["Adlige", "Flapperin", "Kind reicher Eltern", "Prominente"],
+        variants: ["aristocrat", "flapper", "heir", "socialite"],
         recommendedAttributes: ["dex", "cha"],
         skills: {
           fixed: {
@@ -703,12 +730,12 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "scientist",
         variants: [
-          "Biologin",
-          "Chemikerin",
-          "Physikerin",
-          "Geologin",
-          "Astronomin",
-          "Feldforscherin",
+          "astronomer",
+          "biologist",
+          "chemist",
+          "fieldResearcher",
+          "geologist",
+          "physicist",
         ],
         recommendedAttributes: ["int", "det"],
         skills: {
@@ -751,12 +778,13 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "homelessPerson",
         variants: [
-          "gebrochene Veteranin",
-          "Straßenpredigerin",
-          "Bettlerin",
-          "Drogensüchtige",
-          "Aussteigerin",
-          "Tunnelbewohnerin",
+          "tramp",
+          "brokenVeteran",
+          "streetPreacher",
+          "beggar",
+          "drugAddict",
+          "dropout",
+          "tunnelDweller",
         ],
         recommendedAttributes: ["con", "det"],
         skills: {
@@ -802,7 +830,15 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "educator",
         recommendedAttributes: ["det", "cha"],
-        variants: [],
+        variants: [
+          "teacher",
+          "educator",
+          "governess",
+          "socialWorker",
+          "developmentWorker",
+          "streetWorker",
+          "probationOfficer",
+        ],
         skills: {
           fixed: {
             bureaucracy: 30,
@@ -847,7 +883,13 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "psychologist",
         recommendedAttributes: ["int", "det", "cha"],
-        variants: [],
+        variants: [
+          "policePsychologist",
+          "profiler",
+          "businessAdvisor",
+          "humanResourceConsultant",
+          "headhunter",
+        ],
         skills: {
           fixed: {
             anthropology: 40,
@@ -879,13 +921,13 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "technician",
         variants: [
-          "Bauingenieurin",
-          "Architektin",
-          "Hackerin",
-          "crafterin",
-          "Überwachungsspezialistin",
-          "Sprengmeisterin",
-          "Pionierin",
+          "civilEngineer",
+          "architect",
+          "hacker",
+          "artisan",
+          "surveillanceExpert",
+          "demolitionExpert",
+          "pioneer",
         ],
         recommendedAttributes: ["dex", "int"],
         skills: {
@@ -946,12 +988,12 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "survivalExpert",
         variants: [
-          "Extremsportlerin",
-          "Entdeckerin",
-          "Feldforscherin",
-          "Wildhüterin",
-          "Jägerin",
-          "Einsiedlerin",
+          "extremeAthlete",
+          "explorer",
+          "fieldResearcher",
+          "gamekeeper",
+          "hunter",
+          "hermit",
         ],
         recommendedAttributes: ["con", "det"],
         skills: {
@@ -987,11 +1029,11 @@ export const useRulesystemStore = defineStore("rulesystem", {
       {
         name: "watchman",
         variants: [
-          "Stadtwächterin",
-          "Tempelwächterin",
-          "Leibwächterin",
-          "Wachschutz",
-          "Flughafensicherheit",
+          "watchman",
+          "templeKeeper",
+          "bodyquard",
+          "securityGuard",
+          "airportSecurity",
         ],
         recommendedAttributes: ["str", "det"],
         skills: {
