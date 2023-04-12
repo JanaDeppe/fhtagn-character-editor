@@ -42,7 +42,7 @@ div
         f-if="currProf"
         :professionId="selectedProfession"
       )
-      h5.mt-5 {{ $t("common.connections") }}: {{currProf.connections}}
+      h5.mt-5 {{ $t("common.terms.connections") }}: {{currProf.connections}}
   modal-box(
     :isVisible="isErrorOpen"
     @modal-closed="isErrorOpen = false")

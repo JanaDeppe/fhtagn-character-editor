@@ -1089,7 +1089,7 @@ export const useRulesystemStore = defineStore("rulesystem", {
         value: 10,
         type: "sozial",
       },
-      firstaid: {
+      firstAid: {
         value: 10,
         type: "körperlich",
       },

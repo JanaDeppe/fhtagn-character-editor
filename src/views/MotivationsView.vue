@@ -1,14 +1,14 @@
 <template lang="pug">
 .flex.flex-wrap
   .basis-full
-    h2 Motivationen
-    p Schreibe auf, was deinen Charakter antreibt.
+    h2 {{ $tc("common.terms.motivations", 2) }}
+    p {{ $t("views.motivations.writeMotivations") }}
 
   .basis-full.md_basis-7-12.my-3(v-for="(motivation, index) in characterStore.motivations")
-    label.block Motivation \#{{index+1}}
+    label.block {{ $tc("common.terms.motivations", 1) }} \#{{index+1}}
     input.w-full(
       type="text"
-      placeholder="Beschreibung der Motivation"
+      :placeholder="$t('views.motivations.descriptionOfMotivation')"
       @change="handleMotivationsChange($event, index)")
 
 </template>

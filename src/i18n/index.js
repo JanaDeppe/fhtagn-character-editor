@@ -5,7 +5,7 @@ import translationsDe from "@/i18n/translations.de";
 
 const i18n = createI18n({
   locale: "en",
-  fallbackLocale: "de",
+  // fallbackLocale: "de",
   messages: { en: translationsEn, de: translationsDe },
 });
 

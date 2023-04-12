@@ -25,6 +25,7 @@
 import { mapStores } from "pinia";
 import { useCommonStore } from "@/stores/common";
 import { useCharacterStore } from "@/stores/character";
+import i18n from "@/i18n";
 
 import SidebarSummary from "@/components/SidebarSummary.vue";
 
@@ -81,12 +82,11 @@ export default {
 
     if (this.commonStore.currentWarnings.length) {
       this.commonStore.currentWarnings.forEach((item) => {
-        const currentWarningData = this.commonStore.warningDataByKey(item);
         this.$notify({
           group: "default",
           type: "warn",
-          title: currentWarningData.title,
-          text: currentWarningData.text,
+          title: i18n.global.t(`common.warnings.${item}.title`),
+          text: i18n.global.t(`common.warnings.${item}.text`),
         });
       });
       this.commonStore.flushWarnings();

@@ -3,7 +3,7 @@
   .flex.shrink.justify-end
     ul.list-none
       li
-        router-link(to="/" class="nav-link") Zurück zum Anfang
+        router-link(to="/" class="nav-link") {{ $t("common.backToStart") }}
   .grow
     router-view
 
@@ -17,7 +17,7 @@
         ) {{ name }}
 
     .flex
-      a.block.bug-report-link(
+      //- a.block.bug-report-link(
         @click="isBugReportOpen = true")
         small
           span.bug-report-link__icon.material-icons bug_report

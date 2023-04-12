@@ -1,6 +1,54 @@
 export default {
   common: {
-    connections: "Bindungen",
+    terms: {
+      profession: "Beruf",
+      optional: "Optional",
+      bonus: "Bonus",
+      nativeLanguage: "Muttersprache",
+      age: "Alter",
+      appearance: "Aussehen",
+      equipment: "Ausrüstung",
+      attributes: "Attribute",
+      skills: "Fertigkeiten",
+      connections: "Bindung | Bindungen",
+      facettes: "Facetten",
+      motivations: "Motivation | Motivationen",
+    },
+    backToStart: "Zurück zum Anfang",
+    warnings: {
+      attributePointsRemaining: {
+        title: "Restliche Attributspunkte",
+        text: "Du hast noch übrige Attributspunkte zu vergeben.",
+      },
+      optionalSkillsRemaining: {
+        title: "Restliche Fertigkeiten",
+        text: "Du kannst noch weitere Berufsfertigkeiten auswählen.",
+      },
+      missingCustomVariant: {
+        title: "Keine Ausprägung ausgedacht",
+        text: "Du hast eine eigene Ausprägung ausgewählt, aber das Feld dafür leer gelassen.",
+      },
+      missingVariant: {
+        title: "Keine Ausprägung ausgewählt",
+        text: "Du hast keine Ausprägung für deinen Beruf ausgewählt.",
+      },
+      bonusSkillsRemaining: {
+        title: "Restliche Bonusfertigkeiten",
+        text: "Du hast noch übrige Bonusfertigkeiten zu vergeben.",
+      },
+      missingConnections: {
+        title: "Fehlende Bindung",
+        text: "Du hast nicht alle Bindungen ausgefüllt.",
+      },
+      missingMotivations: {
+        title: "Fehlende Motivationen",
+        text: "Du hast nicht alle Motivationen ausgefüllt.",
+      },
+      missingPersonalInformation: {
+        title: "Fehlende persönliche Informationen",
+        text: "Du hast nicht alle persönlichen Informationen ausgefüllt.",
+      },
+    },
   },
   views: {
     startGeneration: {
@@ -49,6 +97,9 @@ export default {
       customVariant: "Eigene Ausprägung",
       professionalSkills: "Berufsfertigkeiten",
       optionalSkills: "Optionale Fertigkeiten",
+      chooseAdditionally:
+        "Wähle zusätzlich {amount} aus folgenden Fertigkeiten.",
+      remainingOptionalSkills: "Restliche, optionale Fertigkeiten",
       errors: {
         missingProfession: {
           title: "Fehlende Auswahl",
@@ -56,12 +107,28 @@ export default {
         },
       },
     },
+    bonusSkills: {
+      bonusSkillsTitle: "Bonusfertigkeiten wählen",
+      remainingBonusSkills: "Restliche Bonus-Fertigkeiten",
+    },
+    connections: {
+      writeConnections:
+        "Schreibe deine Bindungen und eine kurze Beschreibung dazu!",
+      nameOfConnection: "Name der Bindung",
+    },
+    motivations: {
+      writeMotivations: "Schreibe auf, was deinen Charakter antreibt.",
+      descriptionOfMotivation: "Beschreibung der Motivation",
+    },
   },
   components: {
     skills: {
       baseValue: "Basiswert",
       pleaseSpecifySkillSpecialisation:
         "Bitte bezeichne diese Fertigkeit genauer!",
+    },
+    sidebarSummary: {
+      title: "Zusammenfassung",
     },
   },
   rulesystem: {
