@@ -2,7 +2,7 @@
 div
   .flex.flex-wrap(ref="characterSummaryContainer")
     .basis-full.mb-3
-      h4.text-center Zusammenfassung&nbsp;<br>
+      h4.text-center {{ $t("views.summary.headline") }}&nbsp;<br>
         span(v-if="characterStore.personalInformation.Vorname || characterStore.personalInformation.Nachname")
           | "{{characterStore.personalInformation.Vorname}} {{characterStore.personalInformation.Nachname}}"
     .basis-full.mb-3
@@ -11,11 +11,11 @@ div
         .basis-1-2(v-if="characterStore.personalInformation.Muttersprache") Muttersprache: {{characterStore.personalInformation.Muttersprache}}
         .basis-full(v-if="characterStore.personalInformation.Aussehen") Aussehen: {{characterStore.personalInformation.Aussehen}}
         .basis-full(v-if="characterStore.personalInformation.Ausrüstungsgegenstände")
-          | Ausrüstungsgegenstände: {{characterStore.personalInformation.Ausrüstungsgegenstände}}
+          | {{ $t("views.summary.equipmentItems") }}: {{characterStore.personalInformation.Ausrüstungsgegenstände}}
 
     // Attribute
     .basis-full.mb-5
-      h5(v-if="Object.keys(characterStore.attributeValues).length") Attribute:
+      h5(v-if="Object.keys(characterStore.attributeValues).length") {{ $t("common.terms.attributes") }}:
       ul.columns-3(v-if="characterStore.attributeValues")
         li(v-for="(value, abbr) in characterStore.attributeValues").flex
           .basis-1-6 {{abbr}}:
@@ -23,13 +23,13 @@ div
 
     // Beruf
     .basis-full.mb-3
-      h5(v-if="characterStore.profession > -1") Beruf:
+      h5(v-if="characterStore.profession > -1") {{ $t("common.terms.profession") }}:
         span(v-if="characterStore.professionVariant") {{characterStore.professionVariant}} ({{currentProfessionName}})
         span(v-else) {{currentProfessionName}}
 
     // Skills
     .basis-full.mb-5
-      h6 Fertigkeiten:
+      h6 {{ $t("common.terms.skills") }}:
       ul.columns-2(v-if="characterStore.profession > -1")
         li.mb-2(v-for="skill in skillsStore.completeSkillMap")
           single-skill(
@@ -42,25 +42,25 @@ div
     // Bindungen
     .basis-full.md_basis-1-2.mb-3(v-if="characterStore.connections.length")
       ul
-        li: h6 Bindungen:
+        li: h6 {{ $tc("common.terms.commections", 2) }}:
         li(v-for="conn in nonZeroConnections") {{conn}}
 
     // Facetten
     .basis-full.md_basis-1-2.mb-3(v-if="characterStore.facettes.length")
       ul
-        li: h6 Facetten:
+        li: h6 {{ $tc("common.terms.facettes", 2) }}:
         li(v-for="facette in characterStore.facettes") {{facette}}
 
     // Motivationen
     .basis-full.md_basis-1-2.mb-3(v-if="characterStore.motivations.length")
       ul
-        li: h6 Motivationen:
+        li: h6 {{ $tc("common.terms.motivations", 2) }}:
         li(v-for="motivation in nonZeroMotivations") {{motivation}}
 
   .flex.justify-center.mt-3.mb-5
     .basis-1-2.flex.gap-3
-      button.button(@click="openCharacterSheet") Charakterbogen erstellen
-      router-link.button(:to="{ name: 'start-generation' }") Zurück zum Anfang
+      button.button(@click="openCharacterSheet") {{ $t("views.summary.createCharactersheet") }}
+      router-link.button(:to="{ name: 'start-generation' }") {{ $t("views.generator.backToStart") }}
 
   character-sheet-modal(
     v-if="isCharacterSheetOpen"

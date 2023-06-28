@@ -13,7 +13,6 @@ export default {
       disadvantage: "Nachteil",
       personalInformation: "Persönliche Informationen",
     },
-    backToStart: "Zurück zum Anfang",
     warnings: {
       attributePointsRemaining: {
         title: "Restliche Attributspunkte",
@@ -65,6 +64,7 @@ export default {
     generator: {
       prevStep: "Vorheriger Schritt",
       nextStep: "Nächster Schritt",
+      backToStart: "Zurück zum Anfang",
     },
     attributes: {
       question: "Mit welcher Methode möchtest du die Attribute generieren?",
@@ -125,6 +125,11 @@ export default {
     personalInformation: {
       addPersonalInfo:
         "Zu guter Letzt, gebe einige persönliche Daten zu deinem Charakter an!",
+    },
+    summary: {
+      headline: "Zusammenfassung",
+      equipmentItems: "Austrüstungsgegenstände",
+      createCharactersheet: "Charakterbogen erstellen",
     },
   },
   components: {

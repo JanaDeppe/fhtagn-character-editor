@@ -3,7 +3,7 @@
   .flex.shrink.justify-end
     ul.list-none
       li
-        router-link(to="/" class="nav-link") {{ $t("common.backToStart") }}
+        router-link(to="/" class="nav-link") {{ $t("views.generator.backToStart") }}
   .grow
     router-view
 
