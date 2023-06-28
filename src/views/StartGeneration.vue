@@ -12,7 +12,7 @@
       .h4
         .badge.mb-3= i+1 
         br
-        span {{ step }}
+        span {{ $t(step) }}
 
 
 </template>
@@ -20,7 +20,6 @@
 <script>
 import { mapStores } from "pinia";
 import { useCharacterStore } from "../stores/character";
-import i18n from "@/i18n";
 
 export default {
   props: "",
@@ -30,12 +29,12 @@ export default {
   data() {
     return {
       steps: [
-        i18n.global.t("views.startGeneration.steps.distributeAttributes"),
-        i18n.global.t("views.startGeneration.steps.chooseProfession"),
-        i18n.global.t("views.startGeneration.steps.pickSkills"),
-        i18n.global.t("views.startGeneration.steps.createConnections"),
-        i18n.global.t("views.startGeneration.steps.writeMotivations"),
-        i18n.global.t("views.startGeneration.steps.giveName"),
+        "views.startGeneration.steps.distributeAttributes",
+        "views.startGeneration.steps.chooseProfession",
+        "views.startGeneration.steps.pickSkills",
+        "views.startGeneration.steps.createConnections",
+        "views.startGeneration.steps.writeMotivations",
+        "views.startGeneration.steps.giveName",
       ],
     };
   },

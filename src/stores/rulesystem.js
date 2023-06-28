@@ -1245,84 +1245,19 @@ export const useRulesystemStore = defineStore("rulesystem", {
         type: "körperlich",
       },
     },
-    facettes: {
-      Reichtum: {
-        description:
-          "Dein Charakter ist sehr wohlhabend und Geld spielt in seinem Alltag eine untergeordnete Rolle, denn er verfügst über ausreichend davon. Beispiele: Unternehmensinhaberin. Reiche Erbin.",
-        advantage:
-          "Alle Ausgaben deines Charakters werden als eine Ausgabenkategorie niedriger behandelt als üblich. ",
-        disadvantage: "Streiche eine Bindung.",
-      },
-      "Armut / Schulden": {
-        description:
-          "Du bist arm wie eine Kirchenmaus, vielleicht hast du auch hohe Schulden. Aber Geld alleine macht bekanntlich nicht glücklich. Wenigstens hast du solide Bindungen!",
-        advantage: "Dein Charakter erhält eine zusätzliche Bindung.",
-        disadvantage:
-          "Alle Ausgaben deines Charakters werden als eine Ausgabenkategorie höher behandelt als üblich.",
-      },
-      Status: {
-        description:
-          "Dein Charakter ist innerhalb bestimmter Kreise berühmt oder anerkannt. Die Leute erkennen ihn, wenn sie ihm begegnen und haben eine hohe Meinung von ihm. Für ihn selbst hat diese Anerkennung großen persönlichen Wert. Vielleicht sind sie dem Charakter aber auch einfach unterstellt, weil er einen höheren Rang oder Stand besitzt. Beispiele: Eine Musikerin und ihre Fans. Eine Professorin und die Wissenschaftscommunity. Eine Adelige und ihre Untertan. Eine Offizierin und ihre Untergebenen.",
-        advantage:
-          "+20% auf soziale Proben gegenüber Bewunderern und Personen mit niedrigerem Status.",
-        disadvantage:
-          "-20% auf soziale Proben, um unerkannt zu bleiben. Der Charakter muss immer damit rechnen, dass er einen Bewunderer oder Untergebenen trifft und erkannt wird.",
-      },
-      Gewalterfahrungen: {
-        description:
-          "Dein Charakter hat über einen längeren Zeitraum Erfahrungen mit extremer Gewalt oder den Konsequenzen davon gemacht. Sei es, dass er sie selbst ausgeübt hat, Opfer geworden ist oder berufsmäßig damit zu tun hat. Beispiele: Eine Kriminalkommissarin. Eine Soldatin.",
-        advantage: "Dein Charakter ist abgehärtet gegen Gewalt.",
-        disadvantage: "Dein Charakter verliert 1W6 CH.",
-      },
-      Hilflosigkeitserfahrung: {
-        description:
-          "Dein Charakter war über einen längeren Zeitraum in Gefangenschaft oder Isolation. Beispiele: Eine unschuldig verurteilte Inhaftierte. Eine verschollen geglaubte Seglerin.",
-        advantage: "Dein Charakter ist abgehärtet gegen Hilflosigkeit.",
-        disadvantage:
-          "Dein Charakter verliert 1W6 EN (ohne Einfluss auf die Start-STA).",
-      },
-      Erkenntnis: {
-        description:
-          "Dein Charakter weiß, dass das Unnatürliche real ist, weil er ihm bereits begegnet ist. Wichtig: Damit ist keine Okkultistin gemeint. Dein Charakter muss nicht bloß davon überzeugt sein, dass das Übernatürliche existiert, sondern er muss es wissen.",
-        advantage: "Erhöhe das unnatürliche Wissen deines Charakters um 10%.",
-        disadvantage:
-          "Dein Charakter verliert 5 STA mit allen damit verbundenen Konsequenzen.",
-      },
-      "Verlusterfahrung / Hingabe": {
-        description:
-          "Dein Charakter hat einen Verlust erlitten. Vielleicht hat er zu viel gearbeitet und eine Beziehung ging dadurch zu Bruch. Vielleicht hat er auch jemanden durch einen Schicksalsschlag verloren. Alternativ könnte dein Charakter eine Bindung auch verloren haben, weil er sich zu sehr einer Sache verschrieben hat. Dabei könnte es sich um einen Beruf, einen Glauben, einen Sport, eine Wissenschaft, ein Hobby oder auch um die Suche nach der Wahrheit handeln.",
-        advantage: "Dein Charakter erhält 50 Fertigkeitspunkte.",
-        disadvantage: "Streiche eine Bindung.",
-      },
-      Krisenerfahrung: {
-        description:
-          "Dein Charakter hat einfach schon zu viele schlimme Dinge erlebt. Die durchlebten Krisen haben den Charakter erfahrener gemacht, aber auch gezeichnet.",
-        advantage: "Dein Charakter erhält 20 Fertigkeitspunkte.",
-        disadvantage:
-          "Dein Charakter verliert 10 STA mit allen damit verbundenen Konsequenzen.",
-      },
-      Handicap: {
-        description:
-          "Dein Charakter hat ein dauerhaftes Problem und musste lernen, damit umzugehen.",
-        advantage: "Dein Charakter erhält 20 Fertigkeitspunkte.",
-        disadvantage:
-          "Dein Charakter beginnt mit einem dauerhaften Problem. Sprich die Details mit deiner Spielleiterin ab. Beispiele: psychische Störung, Verstümmelung, schwere Krankheit, unangenehmen Verpflichtung, Ärger mit den falschen Leuten, offener Haftbefehl, Erzfeind, sozialen Benachteiligung, unnatürliches Problem…",
-      },
-      Zweisprachigkeit: {
-        description:
-          "Dein Charakter ist in einem mehrsprachigen Elternhaus aufgewachsen oder hat sehr lange im Ausland gelebt.",
-        advantage:
-          "Dein Charakter beherrscht eine zweite Sprache wie seine Muttersprache.",
-        disadvantage: "Dein Charakter erhält 20 Fertigkeitspunkte weniger.",
-      },
-      Glück: {
-        description:
-          "Dein Charakter hat mehr Glück als Verstand. Vielleicht ist er noch sehr jung oder er hat sich sein ganzes Leben auf sein Glück verlassen und deshalb nicht viel zu Stande gebracht.",
-        advantage:
-          "Bei Glücksproben erhält dein Charakter einen Bonus von +20%.",
-        disadvantage: "Dein Charakter erhält 100 Fertigkeitspunkte weniger.",
-      },
-    },
+    facettes: [
+      "wealth",
+      "poverty",
+      "status",
+      "experienceWithViolence",
+      "experienceWithHelplessness",
+      "insight",
+      "experienceWithLoss",
+      "experienceWithCrisis",
+      "limitation",
+      "bilingual",
+      "luck",
+    ],
     availableMotivations: 5,
   }),
   getters: {

@@ -1,25 +1,25 @@
 <template lang="pug">
 .flex.flex-wrap
   .basis-full
-    h2 Facetten
-    p Füge, wenn du möchtest, deinem Charakter Facetten hinzu!
-  .basis-full(v-for="(facette, name) in rulesystemStore.facettes").callout
+    h2 {{ $tc("common.terms.facettes", 2) }}
+    p {{ $t("views.facettes.addFacettes") }}
+  .basis-full(v-for="facetteKey in rulesystemStore.facettes").callout
     .flex.my-3
       .mr-5
         input(
           type="checkbox"
           v-model="selectedFacettes"
-          :value="name"
-          :id="name")
+          :value="$t(`rulesystem.facettes.${facetteKey}.name`)"
+          :id="$t(`rulesystem.facettes.${facetteKey}.name`)")
       label.block.grow(:for="name")
-        h4 {{name}}
-        p {{facette.description}}
+        h4 {{$t(`rulesystem.facettes.${facetteKey}.name`)}}
+        p {{$t(`rulesystem.facettes.${facetteKey}.description`)}}
         p
-          strong Vorteil:
-          |  {{facette.advantage}}
+          strong {{ $t("common.terms.advantage") }}:
+          |  {{$t(`rulesystem.facettes.${facetteKey}.advantage`)}}
         p
-          strong Nachteil:
-          |  {{facette.disadvantage}}
+          strong {{ $t("common.terms.disadvantage") }}:
+          |  {{$t(`rulesystem.facettes.${facetteKey}.disadvantage`)}}
 </template>
 
 <script>

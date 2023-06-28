@@ -1,13 +1,13 @@
 <template lang="pug">
 .flex.flex-wrap
   .basis-full
-    h2 Persönliche Informationen
-    p Zu guter Letzt, gebe einige persönliche Daten zu deinem Charakter an!
+    h2 {{ $t("common.terms.personalInformation") }}
+    p {{ $t("views.personalInformation.addPersonalInfo") }}
   .basis-full.grid.grid-cols-2.gap-3.mt-3
       div(v-for="(data, key) in currentPersonalInformation")
-        label {{key}}
+        label {{$t(`rulesystem.personalInformation.${key}`)}}
         textarea.w-full(
-          v-if="key === 'Notizen'"
+          v-if="key === 'notes'"
           v-model="currentPersonalInformation[key]"
           rows="5")
         input.w-full(
