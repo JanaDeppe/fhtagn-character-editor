@@ -18,7 +18,7 @@ section.text-sm
 
   // Beruf
   h5.mt-3(v-if="profession > -1") {{ $t("common.terms.profession") }}:&nbsp;
-    span(v-if="professionVariant") {{professionVariant}} ({{professionName}})
+    span(v-if="professionVariant") {{ $t(`rulesystem.professions.${professionName}.variants.${professionVariant}`) }} ({{ $t(`rulesystem.professions.${professionName}.name`) }})
     span(v-else) {{professionName}}
 
   // Skills

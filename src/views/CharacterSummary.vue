@@ -18,14 +18,15 @@ div
       h5(v-if="Object.keys(characterStore.attributeValues).length") {{ $t("common.terms.attributes") }}:
       ul.columns-3(v-if="characterStore.attributeValues")
         li(v-for="(value, abbr) in characterStore.attributeValues").flex
-          .basis-1-6 {{abbr}}:
+          .basis-1-6 {{ $t(`rulesystem.attributes.abbr.${abbr}`) }}:
           .basis-5-6 {{value}}
 
     // Beruf
     .basis-full.mb-3
       h5(v-if="characterStore.profession > -1") {{ $t("common.terms.profession") }}:
-        span(v-if="characterStore.professionVariant") {{characterStore.professionVariant}} ({{currentProfessionName}})
+        span(v-if="characterStore.professionVariant") &nbsp;{{ $t(`rulesystem.professions.${currentProfessionName}.variants.${characterStore.professionVariant}`) }} ({{ $t(`rulesystem.professions.${currentProfessionName}.name`) }})
         span(v-else) {{currentProfessionName}}
+
 
     // Skills
     .basis-full.mb-5
@@ -42,7 +43,7 @@ div
     // Bindungen
     .basis-full.md_basis-1-2.mb-3(v-if="characterStore.connections.length")
       ul
-        li: h6 {{ $tc("common.terms.commections", 2) }}:
+        li: h6 {{ $tc("common.terms.connections", 2) }}:
         li(v-for="conn in nonZeroConnections") {{conn}}
 
     // Facetten
