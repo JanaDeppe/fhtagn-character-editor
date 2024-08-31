@@ -3,11 +3,11 @@ transition(name="modalBox" appear)
   .overlay
     .modal-container
       .flex.mb-3.gap-3
-        .header.grow: h6 Charakterbogen
+        .header.grow: h6 {{ $t("views.summary.characterSheet") }}
         button(v-if="hasCloseButton" class="close material-icons" @click="close()")
       .body.mb-3
         .text-center.my-3
-          a.button(href="") "{{characterSheetName}}" herunterladen
+          a.button(href="") {{ $t("views.summary.downloadCharactersheet", { name: this.characterSheetName}) }}
         iframe.pdf-document-viewer(ref="pdfDocumentViewer")
       .footer
 

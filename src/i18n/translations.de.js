@@ -130,6 +130,8 @@ export default {
       headline: "Zusammenfassung",
       equipmentItems: "Austrüstungsgegenstände",
       createCharactersheet: "Charakterbogen erstellen",
+      characterSheet: "Charakterbogen",
+      downloadCharactersheet: "\"{name}\" herunterladen"
     },
   },
   components: {
