@@ -32,25 +32,23 @@ export default {
   },
   computed: {
     characterSheetName() {
-      const { Vorname, Nachname } =
+      const { firstName, lastName } =
         this.characterData.characterData.personalInformation;
-      if (Vorname || Nachname) {
-        return `Fhtagn${`-${Vorname}`}${`-${Nachname}`}.pdf`;
+      if (firstName || lastName) {
+        return `Fhtagn${`-${firstName}`}${`-${lastName}`}.pdf`;
       }
       return "Fhtagn-Character.pdf";
     },
   },
   mounted() {
     const self = this;
-    self.characterSheetService.init().then(() => {
-      self.createPDFDocument();
-    });
+    console.log(JSON.stringify(this.characterData))
+    // self.characterSheetService.init().then(() => {
+    //   self.createPDFDocument();
+    // });
   },
   methods: {
     createPDFDocument() {
-      console.log(
-        "This should create the PDF document, but doesn't at the moment..."
-      );
     },
   },
 };
