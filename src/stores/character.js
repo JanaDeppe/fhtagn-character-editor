@@ -9,13 +9,13 @@ export const useCharacterStore = defineStore("character", {
     facettes: [],
     motivations: [],
     personalInformation: {
-      Vorname: "",
-      Nachname: "",
-      Muttersprache: "",
-      Alter: "",
-      Aussehen: "",
-      Ausrüstungsgegenstände: "",
-      Notizen: "",
+      firstName: "",
+      lastName: "",
+      nativeLanguage: "",
+      age: "",
+      appearance: "",
+      equipment: "",
+      notes: "",
     },
     professionId: -1,
     professionVariant: "",
@@ -53,7 +53,7 @@ export const useCharacterStore = defineStore("character", {
         breakingPoint,
       };
     },
-    isCharacterStarted: (state) => Number.isInteger(state.attributeValues.ST),
+    isCharacterStarted: (state) => Number.isInteger(state.attributeValues.str),
   },
   actions: {
     toggleProfessionLoading() {

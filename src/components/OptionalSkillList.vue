@@ -1,9 +1,9 @@
 <template lang="pug">
 div
   .flex.flex-wrap.mb-2
-    .basis-full: h5 Optionale Fertigkeiten:
-    p.basis-1-2 Wähle zusätzlich {{rulesystemStore.availableOptionalSkillCount(professionId)}} aus folgenden Fertigkeiten.
-    p.basis-1-2.text-right Restliche, optionale Fertigkeiten: {{ remainingOptionalSkillCount }}
+    .basis-full: h5 {{ $t("views.professions.optionalSkills") }}:
+    p.basis-1-2 {{ $t("views.professions.chooseAdditionally", { amount: rulesystemStore.availableOptionalSkillCount(professionId) }) }}
+    p.basis-1-2.text-right {{ $t("views.professions.remainingOptionalSkills") }}: {{ remainingOptionalSkillCount }}
   .h5(v-if="error")
     .d-block.badge.badge-warning {{errorTypes[error]}}
   ul.xl_columns-2

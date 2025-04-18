@@ -12,9 +12,9 @@ div.flex.items-start(
 
   //- Skill name
   span.skill-name.pr-2
-    span {{skillname || currentSkill.skillname}}
+    span {{ $t(`rulesystem.skills.${skillname || currentSkill.skillname}`) }}
     span(v-if="currentSkill.hasSpecialisation") : {{currentSkill.specialisationName}}
-    small.block.leading-3(v-if="showBaseValue") &nbsp;(Basiswert: {{currentSkill.baseValue}})
+    small.block.leading-3(v-if="showBaseValue") &nbsp;({{ $t("components.skills.baseValue") }}: {{currentSkill.baseValue}})
 
   //- Specialisation editor
   specialisation-editor.pr-1.add-specialisation(

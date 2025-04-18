@@ -1,8 +1,8 @@
 <template lang="pug">
 .flex.flex-wrap
   .basis-full.mb-5
-    h2.text-center Bonusfertigkeiten
-    p Restliche Bonus-Fertigkeiten: {{ remainingBonusSkillCount }}
+    h2.text-center {{ $t("views.bonusSkills.bonusSkillsTitle") }}
+    p {{ $t("views.bonusSkills.remainingBonusSkills") }}: {{ remainingBonusSkillCount }}
   .basis-full
     ul.lg_columns-2
       li.border-b.py-2(

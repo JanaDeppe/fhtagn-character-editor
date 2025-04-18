@@ -3,11 +3,11 @@ transition(name="modalBox" appear)
   .overlay
     .modal-container
       .flex.mb-3.gap-3
-        .header.grow: h6 Charakterbogen
+        .header.grow: h6 {{ $t("views.summary.characterSheet") }}
         button(v-if="hasCloseButton" class="close material-icons" @click="close()")
       .body.mb-3
         .text-center.my-3
-          a.button(href="") "{{characterSheetName}}" herunterladen
+          a.button(ref="pdfLink") {{ $t("views.summary.downloadCharactersheet", { name: this.characterSheetName}) }}
         iframe.pdf-document-viewer(ref="pdfDocumentViewer")
       .footer
 
@@ -32,25 +32,49 @@ export default {
   },
   computed: {
     characterSheetName() {
-      const { Vorname, Nachname } =
+      const { firstName, lastName } =
         this.characterData.characterData.personalInformation;
-      if (Vorname || Nachname) {
-        return `Fhtagn${`-${Vorname}`}${`-${Nachname}`}.pdf`;
+      if (firstName || lastName) {
+        return `Fhtagn${`-${firstName}`}${`-${lastName}`}.pdf`;
       }
       return "Fhtagn-Character.pdf";
     },
   },
   mounted() {
-    const self = this;
-    self.characterSheetService.init().then(() => {
-      self.createPDFDocument();
-    });
+    console.log(JSON.stringify(this.characterData))
+    this.fetchPDFDocument();
   },
   methods: {
-    createPDFDocument() {
-      console.log(
-        "This should create the PDF document, but doesn't at the moment..."
-      );
+    fetchPDFDocument() {
+      const apiUrl = 'http://localhost:8000/pdf-character-sheet';
+      const data = this.characterData;
+
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+
+      fetch(apiUrl, requestOptions)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.text();
+        })
+        .then(data => {
+          const base64Pdf = "data:application/pdf;base64," + data;
+          this.$refs.pdfDocumentViewer.src = `${base64Pdf}`;
+          this.$refs.pdfLink.href = `${base64Pdf}`;
+          this.$refs.pdfLink.download = this.characterSheetName;
+        })
+        .catch(error => {
+          console.error
+
+      ('Error:', error);
+        });
     },
   },
 };

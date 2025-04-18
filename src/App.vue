@@ -3,13 +3,21 @@
   .flex.shrink.justify-end
     ul.list-none
       li
-        router-link(to="/" class="nav-link") Zurück zum Anfang
+        router-link(to="/" class="nav-link") {{ $t("views.generator.backToStart") }}
   .grow
     router-view
 
   .flex.shrink.justify-end
+    .locale-changer.pr-3
+      select(v-model="$i18n.locale")
+        option(
+          v-for="name, locale in locales"
+          :key="`locale-${locale}`" 
+          :value="locale"
+        ) {{ name }}
+
     .flex
-      a.block.bug-report-link(
+      //- a.block.bug-report-link(
         @click="isBugReportOpen = true")
         small
           span.bug-report-link__icon.material-icons bug_report
@@ -37,6 +45,10 @@ export default {
   },
   data() {
     return {
+      locales: {
+        de: "Deutsch",
+        en: "English",
+      },
       isBugReportOpen: false,
     };
   },

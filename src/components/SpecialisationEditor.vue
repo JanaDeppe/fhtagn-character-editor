@@ -22,14 +22,14 @@ div
         .flex.mb-3.gap-3
           .header.grow
             slot(name="header")
-              h6 Bitte bezeichne diese Fertigkeit genauer!
+              h6 {{ $t("components.skills.pleaseSpecifySkillSpecialisation") }}
           button.text-xs.p-1.shrink.material-icons.close(
             v-if="hasCloseButton"
             @click="close()"
           )
         .body.mb-3
           slot(name="body")
-            label.pr-3 {{skillname}}:
+            label.pr-3 {{ $t(`rulesystem.skills.${skillname}`) }}:
             input(type="text" v-model="specialisationName")
         .footer
           slot(name="footer")

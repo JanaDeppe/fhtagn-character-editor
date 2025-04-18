@@ -8,11 +8,11 @@
       .basis-1-2
         router-link.button(
           v-if="showPrevButton"
-          :to="'/' + prevStep.path") Vorheriger Schritt
+          :to="'/' + prevStep.path") {{ $t("views.generator.prevStep") }}
       .basis-1-2.text-right
         router-link.button(
           v-if="showNextButton"
-          :to="'/' + nextStep.path") Nächster Schritt
+          :to="'/' + nextStep.path") {{ $t("views.generator.nextStep") }}
     
 
   .flex.basis-full.md_basis-4-12
@@ -25,6 +25,7 @@
 import { mapStores } from "pinia";
 import { useCommonStore } from "@/stores/common";
 import { useCharacterStore } from "@/stores/character";
+import i18n from "@/i18n";
 
 import SidebarSummary from "@/components/SidebarSummary.vue";
 
@@ -81,12 +82,11 @@ export default {
 
     if (this.commonStore.currentWarnings.length) {
       this.commonStore.currentWarnings.forEach((item) => {
-        const currentWarningData = this.commonStore.warningDataByKey(item);
         this.$notify({
           group: "default",
           type: "warn",
-          title: currentWarningData.title,
-          text: currentWarningData.text,
+          title: i18n.global.t(`common.warnings.${item}.title`),
+          text: i18n.global.t(`common.warnings.${item}.text`),
         });
       });
       this.commonStore.flushWarnings();
