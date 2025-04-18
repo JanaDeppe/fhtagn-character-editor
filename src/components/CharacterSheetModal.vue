@@ -7,7 +7,7 @@ transition(name="modalBox" appear)
         button(v-if="hasCloseButton" class="close material-icons" @click="close()")
       .body.mb-3
         .text-center.my-3
-          a.button(href="") {{ $t("views.summary.downloadCharactersheet", { name: this.characterSheetName}) }}
+          a.button(ref="pdfLink") {{ $t("views.summary.downloadCharactersheet", { name: this.characterSheetName}) }}
         iframe.pdf-document-viewer(ref="pdfDocumentViewer")
       .footer
 
@@ -41,14 +41,40 @@ export default {
     },
   },
   mounted() {
-    const self = this;
     console.log(JSON.stringify(this.characterData))
-    // self.characterSheetService.init().then(() => {
-    //   self.createPDFDocument();
-    // });
+    this.fetchPDFDocument();
   },
   methods: {
-    createPDFDocument() {
+    fetchPDFDocument() {
+      const apiUrl = 'http://localhost:8000/pdf-character-sheet';
+      const data = this.characterData;
+
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+
+      fetch(apiUrl, requestOptions)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.text();
+        })
+        .then(data => {
+          const base64Pdf = "data:application/pdf;base64," + data;
+          this.$refs.pdfDocumentViewer.src = `${base64Pdf}`;
+          this.$refs.pdfLink.href = `${base64Pdf}`;
+          this.$refs.pdfLink.download = this.characterSheetName;
+        })
+        .catch(error => {
+          console.error
+
+      ('Error:', error);
+        });
     },
   },
 };
